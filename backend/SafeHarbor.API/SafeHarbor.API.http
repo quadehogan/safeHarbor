@@ -1,0 +1,6 @@
+@SafeHarbor.API_HostAddress = http://localhost:5046
+
+GET {{SafeHarbor.API_HostAddress}}/swagger/v1/swagger.json
+Accept: application/json
+
+###

@@ -1,0 +1,7 @@
+# Repository-wide ignores live in the root `.gitignore` (parent directory).
+# This file remains so common frontend tools that look here still find the usual entries.
+
+node_modules
+dist
+dist-ssr
+*.local

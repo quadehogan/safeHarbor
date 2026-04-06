@@ -1,17 +1,17 @@
-# Lighthouse Sanctuary — System Architecture
+# SafeHarbor — System Architecture
 
 ## Overview
 
-Lighthouse Sanctuary is a full-stack web application with a decoupled backend and frontend. The backend is a RESTful API built with ASP.NET Core on .NET 10, and the frontend is a React application built with Vite and TypeScript. The two communicate exclusively over HTTP using JSON. This mirrors the structure established in the Water Project, updated to .NET 10 and extended to support multiple data domains, role-based access, and security requirements appropriate for sensitive case management data involving minors.
+SafeHarbor is a full-stack web application with a decoupled backend and frontend. The backend is a RESTful API built with ASP.NET Core on .NET 10, and the frontend is a React application built with Vite and TypeScript. The two communicate exclusively over HTTP using JSON. This mirrors the structure established in the Water Project, updated to .NET 10 and extended to support multiple data domains, role-based access, and security requirements appropriate for sensitive case management data involving minors.
 
 ---
 
 ## Project Structure
 
 ```
-LighthouseSanctuary/
+SafeHarbor/
 ├── backend/
-│   └── LighthouseSanctuary.API/
+│   └── SafeHarbor.API/
 │       ├── Controllers/
 │       ├── Data/
 │       ├── Models/
@@ -19,7 +19,7 @@ LighthouseSanctuary/
 │       ├── appsettings.json
 │       ├── appsettings.Development.json
 │       ├── Program.cs
-│       └── LighthouseSanctuary.API.csproj
+│       └── SafeHarbor.API.csproj
 └── frontend/
     ├── public/
     ├── src/
@@ -100,12 +100,12 @@ Stores non-secret configuration. The database connection string references an en
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "LighthouseConnection": "Host=localhost;Database=lighthouse;Username=...;Password=..."
+    "SafeHarborConnection": "Host=localhost;Database=safeharbor;Username=...;Password=..."
   },
   "Jwt": {
     "Key": "...",
-    "Issuer": "LighthouseSanctuary",
-    "Audience": "LighthouseSanctuary"
+    "Issuer": "SafeHarbor",
+    "Audience": "SafeHarbor"
   }
 }
 ```
@@ -114,10 +114,10 @@ Stores non-secret configuration. The database connection string references an en
 
 The `Data/` folder holds the EF Core `DbContext` and all entity model classes.
 
-**`LighthouseDbContext.cs`** inherits from `DbContext` and exposes a `DbSet<T>` for each entity. Each entity corresponds to one of the CSV data domains.
+**`SafeHarborDbContext.cs`** inherits from `DbContext` and exposes a `DbSet<T>` for each entity. Each entity corresponds to one of the CSV data domains.
 
 ```
-LighthouseDbContext
+SafeHarborDbContext
 ├── DbSet<Resident>
 ├── DbSet<Safehouse>
 ├── DbSet<InterventionPlan>
@@ -179,7 +179,7 @@ builder.Services.AddCors(options => options.AddPolicy(
 
 ### Authentication and Authorization
 
-Unlike the Water Project (which had no auth), Lighthouse requires role-based access control due to the sensitivity of resident data. ASP.NET Core Identity manages users and roles. JWT tokens are issued on login via `AuthController` and validated on subsequent requests.
+Unlike the Water Project (which had no auth), SafeHarbor requires role-based access control due to the sensitivity of resident data. ASP.NET Core Identity manages users and roles. JWT tokens are issued on login via `AuthController` and validated on subsequent requests.
 
 Roles:
 - `Admin` — full access to all data and settings
@@ -382,7 +382,7 @@ Given that this system stores records for minors who are abuse survivors, the fo
 
 **Backend**
 ```bash
-cd backend/LighthouseSanctuary.API
+cd backend/SafeHarbor.API
 dotnet restore
 dotnet ef database update
 dotnet run

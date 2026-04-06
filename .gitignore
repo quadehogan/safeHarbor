@@ -1,0 +1,57 @@
+# --- .NET / ASP.NET Core ---
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.rsuser
+*.csproj.user
+*.csproj.user.*
+.vs/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+TestResults/
+*.VisualState.xml
+*.pubxml.user
+
+# --- Node / package managers ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Frontend (Vite) ---
+dist/
+dist-ssr/
+*.local
+
+# --- Environment & secrets ---
+.env
+.env.local
+.env.*.local
+
+# --- Testing & coverage ---
+coverage/
+*.lcov
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- IDE ---
+.idea/
+*.sln.iml
+
+# --- TypeScript ---
+*.tsbuildinfo
+
+# --- Misc ---
+*.log
+*.tgz
