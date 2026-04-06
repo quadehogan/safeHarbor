@@ -40,6 +40,25 @@ All colors come from shadcn CSS variables. Never hardcode hex values.
 | Critical / Unfavorable / Closed | `bg-red-100 text-red-800` |
 | Inactive / On Hold | `bg-slate-100 text-slate-600` |
 
+### Dark section overrides
+
+Several sections use `bg-slate-950` backgrounds (hero, CTA, footer, nav). shadcn component defaults assume a light `bg-background` surface, so override these styles when placing components on dark sections:
+
+| Component | Override classes |
+|---|---|
+| Outline button | `bg-transparent text-slate-300 border-slate-600 hover:bg-slate-800 hover:text-white` |
+| Outline badge | `text-slate-300 border-slate-600` |
+| Body text | `text-slate-300` (not `text-foreground`) |
+| Headings | `text-white` (explicit, not inherited) |
+| Muted text | `text-slate-400` (not `text-muted-foreground`) |
+| Links | `text-slate-300 hover:text-white` |
+| Dividers / separators | `bg-slate-800` (not `border`) |
+
+**Rules:**
+- Never rely on shadcn's default light-mode text colors inside `bg-slate-950` sections
+- Always explicitly set text color on dark sections -- inherited `text-foreground` will be invisible
+- Test all interactive states (hover, focus) against the dark background
+
 ---
 
 ## Typography
@@ -438,3 +457,4 @@ import { Users, Heart, AlertTriangle, Home, FileText, BarChart2, LogOut } from "
 | Use lucide-react for all icons | Mix icon libraries or use emoji |
 | Use Tailwind spacing scale consistently | Use arbitrary values like `p-[13px]` |
 | Wrap admin pages in the standard sidebar layout | Create custom layouts per page |
+| Override text/border colors on `bg-slate-950` sections | Rely on default shadcn colors on dark backgrounds |
