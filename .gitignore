@@ -2,6 +2,7 @@
 [Bb]in/
 [Oo]bj/
 [Oo]ut/
+publish/
 [Ll]og/
 [Ll]ogs/
 *.user
@@ -11,13 +12,16 @@
 *.rsuser
 *.csproj.user
 *.csproj.user.*
+*.pubxml.user
 .vs/
 project.lock.json
 project.fragment.lock.json
 artifacts/
 TestResults/
 *.VisualState.xml
-*.pubxml.user
+msbuild.binlog
+*.binlog
+*.DotSettings.user
 
 # --- Node / package managers ---
 node_modules/
@@ -26,24 +30,33 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.pnpm-store/
 
-# --- Frontend (Vite) ---
+# --- Frontend (Vite / React) ---
 dist/
 dist-ssr/
+.vite/
+.eslintcache
 *.local
 
 # --- Environment & secrets ---
 .env
 .env.local
 .env.*.local
+!.env.example
 
 # --- Testing & coverage ---
 coverage/
 *.lcov
+.nyc_output/
 
 # --- OS ---
 .DS_Store
+.AppleDouble
+.LSOverride
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
 # --- IDE ---
 .idea/
@@ -52,6 +65,14 @@ Thumbs.db
 # --- TypeScript ---
 *.tsbuildinfo
 
+# --- Patches / backups ---
+*.orig
+*.rej
+*.bak
+*~
+
 # --- Misc ---
 *.log
 *.tgz
+tmp/
+temp/

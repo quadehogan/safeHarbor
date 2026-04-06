@@ -1,7 +1,8 @@
-# Repository-wide ignores live in the root `.gitignore` (parent directory).
-# This file remains so common frontend tools that look here still find the usual entries.
+# Root `.gitignore` applies repo-wide. Entries below help tools that only read this folder.
 
 node_modules
 dist
 dist-ssr
+.vite
+.eslintcache
 *.local
