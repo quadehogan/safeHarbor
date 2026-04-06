@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e446fb4d-566e-4442-86cf-ec72b36b2e52/resourceGroups/appsvc_windows_westus2/providers/Microsoft.Web/sites/safeHarbor-backend",
+    "appService.deploySubpath": "backend/SafeHarbor.API/publish"
+}
