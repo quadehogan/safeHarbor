@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
@@ -31,6 +32,63 @@ const howWeHelp = [
   },
 ]
 
+/* ---------- Anonymized resident stories ---------- */
+const stories = [
+  {
+    label: 'Resident A',
+    text: 'Arrived at age 14 after being rescued from a trafficking situation. Through counseling and our Bridge Program, she is now completing secondary education and preparing for vocational training.',
+    status: 'Education In Progress',
+  },
+  {
+    label: 'Resident B',
+    text: 'Entered care through a government referral at age 12. After two years of holistic support, she was successfully reunified with her family and continues to receive follow-up visits.',
+    status: 'Reintegration Completed',
+  },
+  {
+    label: 'Resident C',
+    text: 'Came to SafeHarbor at age 15 with critical health needs. With access to regular medical checkups, nutrition support, and counseling, her risk level has improved from Critical to Low.',
+    status: 'Health Improving',
+  },
+]
+
+/* ---------- Scroll fade-in hook ---------- */
+function useFadeIn() {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('opacity-100', 'translate-y-0')
+          el.classList.remove('opacity-0', 'translate-y-6')
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.15 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return ref
+}
+
+/* ---------- Reusable fade-in wrapper ---------- */
+function FadeIn({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const ref = useFadeIn()
+  return (
+    <div
+      ref={ref}
+      className={`opacity-0 translate-y-6 transition-all duration-700 ease-out ${className}`}
+    >
+      {children}
+    </div>
+  )
+}
+
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -39,14 +97,12 @@ export default function HomePage() {
       <main className="flex-1">
         {/* ===== HERO (photo background) ===== */}
         <section className="relative min-h-[520px] sm:min-h-[600px] flex items-center">
-          {/* Background image */}
           <img
             src={heroImg}
-            alt=""
+            alt="Children smiling together at a community center"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-black/55" />
 
           <div className="relative mx-auto max-w-7xl px-6 lg:px-8 py-20 sm:py-28">
             <div className="max-w-xl">
@@ -73,7 +129,7 @@ export default function HomePage() {
 
         {/* ===== MISSION STATEMENT ===== */}
         <section className="bg-white">
-          <div className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
+          <FadeIn className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
             <h2 className="text-xl sm:text-2xl font-semibold text-foreground leading-snug">
               We walk alongside survivors on their journey from crisis to a
@@ -86,7 +142,7 @@ export default function HomePage() {
               care, education, and family reintegration -- we help each girl
               rebuild her life on her own terms.
             </p>
-          </div>
+          </FadeIn>
         </section>
 
         {/* ===== HOW WE HELP (photo cards) ===== */}
@@ -97,33 +153,35 @@ export default function HomePage() {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {howWeHelp.map((card) => (
-                <div
+              {howWeHelp.map((card, i) => (
+                <FadeIn
                   key={card.title}
-                  className="rounded-xl overflow-hidden bg-card shadow-sm hover:shadow-md transition-shadow border border-border"
+                  className={`${i === 1 ? 'delay-100' : i === 2 ? 'delay-200' : ''}`}
                 >
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="h-48 w-full object-cover"
-                  />
-                  <div className="p-5">
-                    <h3 className="text-base font-semibold text-card-foreground">
-                      {card.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                      {card.description}
-                    </p>
+                  <div className="rounded-xl overflow-hidden bg-card shadow-sm hover:shadow-md transition-shadow border border-border h-full">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="h-48 w-full object-cover"
+                    />
+                    <div className="p-5">
+                      <h3 className="text-base font-semibold text-card-foreground">
+                        {card.title}
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                        {card.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </FadeIn>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ===== IMPACT NUMBERS (human, flowing) ===== */}
+        {/* ===== IMPACT NUMBERS ===== */}
         <section className="bg-white">
-          <div className="mx-auto max-w-4xl px-6 lg:px-8 py-16 sm:py-20">
+          <FadeIn className="mx-auto max-w-4xl px-6 lg:px-8 py-16 sm:py-20">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
               <div>
                 <p className="text-4xl font-bold text-primary">9</p>
@@ -144,12 +202,49 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
+          </FadeIn>
+        </section>
+
+        {/* ===== RESIDENT STORIES (anonymized) ===== */}
+        <section className="bg-muted/30">
+          <div className="mx-auto max-w-5xl px-6 lg:px-8 py-16 sm:py-20">
+            <FadeIn>
+              <h2 className="text-xl font-semibold text-foreground text-center mb-3">
+                Their Stories, In Their Own Time
+              </h2>
+              <p className="text-sm text-muted-foreground text-center max-w-xl mx-auto mb-10">
+                Every girl's journey is different. Here are a few of the lives
+                being transformed through SafeHarbor's care. Names are withheld
+                to protect their privacy.
+              </p>
+            </FadeIn>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {stories.map((story, i) => (
+                <FadeIn
+                  key={story.label}
+                  className={`${i === 1 ? 'delay-100' : i === 2 ? 'delay-200' : ''}`}
+                >
+                  <div className="rounded-xl bg-card border border-border p-6 h-full flex flex-col">
+                    <span className="inline-block text-xs font-medium text-primary bg-primary/10 rounded-full px-3 py-1 w-fit mb-3">
+                      {story.status}
+                    </span>
+                    <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                      {story.text}
+                    </p>
+                    <p className="mt-4 text-xs font-medium text-foreground/60">
+                      -- {story.label}
+                    </p>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ===== CTA ===== */}
         <section className="bg-primary/10">
-          <div className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
+          <FadeIn className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <h2 className="text-2xl font-semibold tracking-tight text-foreground">
               You can be part of their story
             </h2>
@@ -173,7 +268,7 @@ export default function HomePage() {
                 Learn More
               </Link>
             </div>
-          </div>
+          </FadeIn>
         </section>
       </main>
 
