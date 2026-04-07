@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
+import { CookieConsent } from '@/components/CookieConsent'
 
 import HomePage from '@/pages/HomePage'
 import AboutPage from '@/pages/AboutPage'
@@ -99,6 +100,9 @@ export default function App() {
           }
         />
       </Routes>
+
+      {/* Global overlays */}
+      <CookieConsent />
     </BrowserRouter>
   )
 }

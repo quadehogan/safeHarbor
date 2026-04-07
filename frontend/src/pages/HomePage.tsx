@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Heart, Globe, Users } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 
@@ -199,6 +199,35 @@ export default function HomePage() {
                 <p className="text-4xl font-bold text-primary">180+</p>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                   personalized care plans guiding each girl's recovery
+                </p>
+              </div>
+            </div>
+          </FadeIn>
+        </section>
+
+        {/* ===== SOCIAL PROOF / DONOR TRUST ===== */}
+        <section className="bg-primary/5 border-y border-primary/10">
+          <FadeIn className="mx-auto max-w-5xl px-6 lg:px-8 py-12 sm:py-14">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+              <div className="flex flex-col items-center gap-2">
+                <Heart className="h-5 w-5 text-primary" />
+                <p className="text-2xl font-bold text-foreground">420+</p>
+                <p className="text-sm text-muted-foreground">
+                  contributions from donors worldwide
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Globe className="h-5 w-5 text-primary" />
+                <p className="text-2xl font-bold text-foreground">4</p>
+                <p className="text-sm text-muted-foreground">
+                  countries supporting our mission
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Users className="h-5 w-5 text-primary" />
+                <p className="text-2xl font-bold text-foreground">60+</p>
+                <p className="text-sm text-muted-foreground">
+                  active supporters and volunteers
                 </p>
               </div>
             </div>
