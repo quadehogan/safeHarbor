@@ -29,13 +29,15 @@ export function CookieConsent() {
     }
   }, [])
 
-  function accept() {
-    setCookie(COOKIE_NAME, 'accepted')
+  // "Accept All" — allows preference cookies (theme) + essential (auth)
+  function acceptAll() {
+    setCookie(COOKIE_NAME, 'all')
     setVisible(false)
   }
 
-  function decline() {
-    setCookie(COOKIE_NAME, 'declined')
+  // "Only Necessary" — allows essential cookies (auth/session) only, no preference cookies
+  function necessaryOnly() {
+    setCookie(COOKIE_NAME, 'necessary')
     setVisible(false)
   }
 
@@ -49,8 +51,9 @@ export function CookieConsent() {
 
           <div className="flex-1 space-y-3">
             <p className="text-sm text-foreground leading-relaxed">
-              We use cookies to remember your preferences and improve your
-              experience. No personal data is shared with third parties.{' '}
+              We use cookies to keep you logged in and remember your
+              preferences. Essential cookies are always active for
+              authentication. Preference cookies (like dark mode) are optional.{' '}
               <Link
                 to="/privacy"
                 className="underline underline-offset-2 text-primary hover:text-primary/80"
@@ -60,17 +63,17 @@ export function CookieConsent() {
             </p>
 
             <div className="flex flex-wrap gap-2">
-              <Button size="sm" onClick={accept}>
-                Accept Cookies
+              <Button size="sm" onClick={acceptAll}>
+                Accept All
               </Button>
-              <Button size="sm" variant="outline" onClick={decline}>
-                Decline
+              <Button size="sm" variant="outline" onClick={necessaryOnly}>
+                Only Necessary
               </Button>
             </div>
           </div>
 
           <button
-            onClick={decline}
+            onClick={necessaryOnly}
             className="text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Dismiss cookie banner"
           >

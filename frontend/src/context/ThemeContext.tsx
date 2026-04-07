@@ -9,9 +9,10 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 
-// Cookie name — browser-accessible (not httponly) so React reads it directly.
-// This satisfies the IS 414 requirement: "browser-accessible cookie for user setting consumed by React"
-const COOKIE_NAME = 'safeharbor_theme'
+// Cookie names — browser-accessible (not httponly) so React reads them directly.
+// Theme cookie satisfies IS 414: "browser-accessible cookie for user setting consumed by React"
+const THEME_COOKIE = 'safeharbor_theme'
+const CONSENT_COOKIE = 'safeharbor_consent'
 
 // Read a cookie by name
 function getCookie(name: string): string | null {
@@ -25,14 +26,27 @@ function setCookie(name: string, value: string) {
   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`
 }
 
+// Delete a cookie by setting it expired
+function deleteCookie(name: string) {
+  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`
+}
+
+// Check if the user accepted ALL cookies (including preferences like theme)
+function hasPreferenceConsent(): boolean {
+  return getCookie(CONSENT_COOKIE) === 'all'
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Initialize from cookie, default to light
+  // Initialize from cookie only if consent was accepted, otherwise default to light
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = getCookie(COOKIE_NAME)
-    return saved === 'dark' ? 'dark' : 'light'
+    if (hasPreferenceConsent()) {
+      const saved = getCookie(THEME_COOKIE)
+      return saved === 'dark' ? 'dark' : 'light'
+    }
+    return 'light'
   })
 
-  // Apply .dark class to <html> and persist to cookie whenever theme changes
+  // Apply .dark class to <html> and persist to cookie only if consent accepted
   useEffect(() => {
     const root = document.documentElement
     if (theme === 'dark') {
@@ -40,7 +54,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } else {
       root.classList.remove('dark')
     }
-    setCookie(COOKIE_NAME, theme)
+
+    // Only write the theme cookie if the user accepted cookies
+    if (hasPreferenceConsent()) {
+      setCookie(THEME_COOKIE, theme)
+    } else {
+      // If consent was declined or not yet given, remove any existing theme cookie
+      deleteCookie(THEME_COOKIE)
+    }
+  }, [theme])
+
+  // Listen for consent changes so the theme cookie is saved after accepting
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (hasPreferenceConsent() && !getCookie(THEME_COOKIE)) {
+        setCookie(THEME_COOKIE, theme)
+      }
+    }, 1000)
+    return () => clearInterval(interval)
   }, [theme])
 
   function toggleTheme() {
