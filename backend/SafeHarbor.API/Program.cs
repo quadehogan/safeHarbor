@@ -98,6 +98,22 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Content-Security-Policy header (IS 414 requirement — must be HTTP header, not meta tag)
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("Content-Security-Policy",
+        "default-src 'self'; " +
+        "script-src 'self'; " +
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+        "font-src 'self' https://fonts.gstatic.com; " +
+        "img-src 'self' data: https://cdn.jsdelivr.net; " +
+        "connect-src 'self' https://safeharbor-backend-edbtdsavdke0fubp.westus2-01.azurewebsites.net; " +
+        "frame-ancestors 'none'; " +
+        "form-action 'self';");
+    await next();
+});
+
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
