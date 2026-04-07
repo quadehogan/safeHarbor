@@ -6,6 +6,7 @@ import HomePage from '@/pages/HomePage'
 import AboutPage from '@/pages/AboutPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { ImpactPage } from '@/pages/ImpactPage'
+import { ContactPage } from '@/pages/ContactPage'
 
 // Donor
 import { DonationsPage } from '@/pages/DonationsPage'
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/impact" element={<ImpactPage />} />
+        <Route path="/contact" element={<ContactPage />} />
 
         {/* Donor */}
         <Route

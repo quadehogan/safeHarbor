@@ -46,12 +46,12 @@ export default function AboutPage() {
 
       <main className="flex-1">
         {/* ===== HERO BANNER ===== */}
-        <section className="bg-slate-950">
+        <section className="bg-muted/60 dark:bg-slate-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-24 text-center">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
               About SafeHarbor
             </h1>
-            <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               A safe place for every survivor to heal, grow, and build a future
               on her own terms.
             </p>
