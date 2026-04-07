@@ -8,16 +8,19 @@ import {
   DollarSign,
   MapPin,
   GraduationCap,
-  HeartPulse,
+  BookOpen,
   Users,
   TrendingUp,
-  RefreshCw,
-  BookOpen,
   ShieldCheck,
   Sparkles,
 } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+
+import shelterImg from '@/assets/photos/shelter.jpg'
+import educationImg from '@/assets/photos/education.jpg'
+import communityImg from '@/assets/photos/community.jpg'
+import healthImg from '@/assets/photos/health.jpg'
 
 /* ------------------------------------------------------------------ */
 /*  Scroll fade-in (matches HomePage pattern)                         */
@@ -65,7 +68,7 @@ const heroStats = [
   { icon: Heart, value: '180+', label: 'Girls Rescued' },
   { icon: Home, value: '9', label: 'Safe Homes' },
   { icon: Handshake, value: '12', label: 'Active Partners' },
-  { icon: DollarSign, value: '$420K+', label: 'Total Donations' },
+  { icon: DollarSign, value: '$420K+', label: 'Total Raised' },
 ]
 
 const locations = [
@@ -84,18 +87,35 @@ const reintegrationStats = [
   { value: '15', label: 'Living Independently', icon: Sparkles },
 ]
 
-const educationHealthStats = [
+const educationStats = [
   { value: '85%', label: 'School Enrollment Rate', icon: BookOpen },
   { value: '78%', label: 'Avg. Education Progress', icon: GraduationCap },
-  { value: '90%', label: 'Health Checkup Completion', icon: HeartPulse },
-  { value: '+18 pts', label: 'Avg. Health Score Improvement', icon: TrendingUp },
+  { value: '92%', label: 'Attendance Rate', icon: Users },
+  { value: '34', label: 'Vocational Graduates', icon: TrendingUp },
 ]
 
-const donorStats = [
-  { value: '$420K+', label: 'Total Donations Received', icon: DollarSign },
-  { value: '238', label: 'Unique Donors', icon: Users },
-  { value: '18', label: 'Recurring Donors', icon: RefreshCw },
-  { value: '12', label: 'Partner Organizations', icon: Handshake },
+const stories = [
+  {
+    label: 'Resident A',
+    age: '16',
+    text: 'She arrived frightened and unsure of everything. Today, two years later, she is one of the top students in her class and dreams of becoming a nurse. She says the safe home gave her something she never had before — a routine, people who cared, and the quiet belief that she could be more.',
+    status: 'Education In Progress',
+    image: educationImg,
+  },
+  {
+    label: 'Resident B',
+    age: '14',
+    text: 'After being reunified with her grandmother last year, she continues to visit the safe home on weekends for tutoring. Her social worker says she lights up the room. She recently told a new resident, "It gets better. I promise."',
+    status: 'Reintegration Complete',
+    image: communityImg,
+  },
+  {
+    label: 'Resident C',
+    age: '15',
+    text: 'When she first came to SafeHarbor, she wouldn\'t speak to anyone for weeks. Through patient counseling and art therapy, she slowly began to open up. Now she leads a small peer support group and helps younger girls feel welcome.',
+    status: 'Healing In Progress',
+    image: healthImg,
+  },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -108,26 +128,36 @@ export function ImpactPage() {
 
       <main className="flex-1">
         {/* ===== HERO ===== */}
-        <section className="bg-slate-950">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20 text-center">
+        <section className="relative min-h-[480px] sm:min-h-[540px] flex items-center">
+          <img
+            src={shelterImg}
+            alt="SafeHarbor shelter in the Philippines"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/60" />
+
+          <div className="relative mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20 w-full">
             <FadeIn>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
-                Our Impact
-              </h1>
-              <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                Real numbers behind the lives we're changing. Every metric
-                represents a girl given safety, education, and hope for her future.
-              </p>
+              <div className="max-w-2xl">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-snug">
+                  The lives behind the numbers
+                </h1>
+                <p className="mt-4 text-base sm:text-lg text-white/85 leading-relaxed">
+                  Every number on this page is a girl who found safety when she
+                  needed it most. Here's a look at the impact your support makes
+                  possible.
+                </p>
+              </div>
             </FadeIn>
 
             {/* Hero stat cards */}
-            <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               {heroStats.map((stat, i) => (
                 <FadeIn key={stat.label} className={i > 0 ? `delay-${i * 100}` : ''}>
-                  <div className="rounded-xl bg-slate-900 border border-slate-800 p-6 text-center">
-                    <stat.icon className="h-6 w-6 text-primary mx-auto mb-3" />
-                    <p className="text-3xl sm:text-4xl font-bold text-white">{stat.value}</p>
-                    <p className="mt-1 text-sm text-slate-400">{stat.label}</p>
+                  <div className="rounded-xl bg-black/40 backdrop-blur-sm border border-white/10 p-5 text-center">
+                    <stat.icon className="h-5 w-5 text-primary mx-auto mb-2" />
+                    <p className="text-2xl sm:text-3xl font-bold text-white">{stat.value}</p>
+                    <p className="mt-1 text-xs sm:text-sm text-white/70">{stat.label}</p>
                   </div>
                 </FadeIn>
               ))}
@@ -141,11 +171,11 @@ export function ImpactPage() {
             <FadeIn className="text-center mb-12">
               <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
               <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
-                Where We Operate
+                Where We Are
               </h2>
               <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                SafeHarbor runs 9 safe homes across 6 regions of the Philippines,
-                providing shelter and care where the need is greatest.
+                Across 6 regions of the Philippines, SafeHarbor operates safe homes
+                where girls can begin to heal, learn, and grow at their own pace.
               </p>
             </FadeIn>
 
@@ -182,39 +212,42 @@ export function ImpactPage() {
           </div>
         </section>
 
-        {/* ===== RESCUE & REINTEGRATION ===== */}
+        {/* ===== RESCUE & REINTEGRATION (image + stats) ===== */}
         <section className="bg-muted/40">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <FadeIn>
-                <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary lg:mx-0" />
+                <div className="rounded-xl overflow-hidden shadow-md">
+                  <img
+                    src={communityImg}
+                    alt="Girls supported through SafeHarbor's reintegration program"
+                    className="w-full h-72 sm:h-80 object-cover"
+                  />
+                </div>
+              </FadeIn>
+
+              <FadeIn className="delay-100">
+                <div className="h-1 w-12 rounded-full bg-primary mb-6" />
                 <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
                   Rescue & Reintegration
                 </h2>
                 <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  Every girl who enters SafeHarbor's care receives an
-                  individualized reintegration plan. Our team of social workers,
-                  counselors, and educators work together to guide each girl from
-                  crisis toward a confident, independent future — whether that
-                  means family reunification, independent living, or continued
-                  supported care.
+                  Every girl in our care has her own story and her own timeline.
+                  Some are working toward reunification with family. Others are
+                  building the skills to live on their own. What they share is a
+                  community that believes in them — and a plan built around their
+                  strengths.
                 </p>
-                <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  With a 72% successful reintegration rate, SafeHarbor is
-                  demonstrating that holistic, long-term care changes lives.
-                </p>
-              </FadeIn>
 
-              <FadeIn className="delay-100">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="mt-8 grid grid-cols-2 gap-3">
                   {reintegrationStats.map((stat) => (
                     <div
                       key={stat.label}
-                      className="rounded-xl bg-card border border-border p-5 text-center"
+                      className="rounded-xl bg-card border border-border p-4 text-center"
                     >
-                      <stat.icon className="h-5 w-5 text-primary mx-auto mb-2" />
-                      <p className="text-2xl sm:text-3xl font-bold text-primary">{stat.value}</p>
-                      <p className="mt-1 text-xs text-muted-foreground">{stat.label}</p>
+                      <stat.icon className="h-4 w-4 text-primary mx-auto mb-1.5" />
+                      <p className="text-2xl font-bold text-primary">{stat.value}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{stat.label}</p>
                     </div>
                   ))}
                 </div>
@@ -223,121 +256,116 @@ export function ImpactPage() {
           </div>
         </section>
 
-        {/* ===== EDUCATION & HEALTH ===== */}
+        {/* ===== EDUCATION (stats + image) ===== */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
-            <FadeIn className="text-center mb-12">
-              <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
-              <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
-                Education & Health Outcomes
-              </h2>
-              <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Healing goes beyond shelter. We invest in every girl's education
-                and health so she can build a future on a strong foundation.
-              </p>
-            </FadeIn>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {educationHealthStats.map((stat, i) => (
-                <FadeIn key={stat.label} className={i > 0 ? `delay-${i * 75}` : ''}>
-                  <div className="rounded-xl border border-border bg-card p-6 text-center hover:shadow-md transition-shadow">
-                    <div className="mx-auto mb-3 rounded-lg bg-primary/10 w-10 h-10 flex items-center justify-center">
-                      <stat.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <p className="text-3xl font-bold text-primary">{stat.value}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ===== DONOR & PARTNERSHIP IMPACT ===== */}
-        <section className="bg-muted/40">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
-            <FadeIn className="text-center mb-12">
-              <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
-              <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
-                Donor & Partnership Impact
-              </h2>
-              <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                None of this would be possible without the generosity of our donors
-                and the collaboration of our partner organizations.
-              </p>
-            </FadeIn>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {donorStats.map((stat, i) => (
-                <FadeIn key={stat.label} className={i > 0 ? `delay-${i * 75}` : ''}>
-                  <div className="rounded-xl border border-border bg-card p-6 text-center hover:shadow-md transition-shadow">
-                    <div className="mx-auto mb-3 rounded-lg bg-primary/10 w-10 h-10 flex items-center justify-center">
-                      <stat.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <p className="text-3xl font-bold text-primary">{stat.value}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ===== ML INSIGHTS PLACEHOLDER ===== */}
-        <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
-            <FadeIn className="text-center mb-12">
-              <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
-              <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
-                Predictive Insights
-              </h2>
-              <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Using machine learning, we're building smarter tools to improve
-                outcomes for every girl in our care.
-              </p>
-            </FadeIn>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* ML Pipeline Placeholder 1 */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <FadeIn>
-                <div className="rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 p-8 text-center">
-                  <div className="mx-auto mb-4 rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center">
-                    <TrendingUp className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground">
-                    Reintegration Success Predictor
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-sm mx-auto">
-                    A predictive model that identifies key factors contributing to
-                    successful reintegration, helping social workers prioritize
-                    interventions and allocate resources more effectively.
-                  </p>
-                  <span className="inline-block mt-4 text-xs font-medium text-primary bg-primary/10 rounded-full px-3 py-1">
-                    Coming Soon
-                  </span>
+                <div className="h-1 w-12 rounded-full bg-primary mb-6" />
+                <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
+                  Education That Opens Doors
+                </h2>
+                <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+                  For many of our girls, SafeHarbor is the first place they've
+                  been able to attend school consistently. From literacy catch-up
+                  programs to vocational training, every education plan is
+                  personalized — because every girl's starting point is different.
+                </p>
+
+                <div className="mt-8 grid grid-cols-2 gap-3">
+                  {educationStats.map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="rounded-xl bg-muted/60 border border-border p-4 text-center"
+                    >
+                      <stat.icon className="h-4 w-4 text-primary mx-auto mb-1.5" />
+                      <p className="text-2xl font-bold text-primary">{stat.value}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{stat.label}</p>
+                    </div>
+                  ))}
                 </div>
               </FadeIn>
 
-              {/* ML Pipeline Placeholder 2 */}
               <FadeIn className="delay-100">
-                <div className="rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 p-8 text-center">
-                  <div className="mx-auto mb-4 rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center">
-                    <Sparkles className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground">
-                    Donor Retention Forecast
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-sm mx-auto">
-                    An ML-driven model that forecasts donor engagement trends and
-                    identifies at-risk supporters, enabling proactive outreach to
-                    sustain long-term funding for our programs.
-                  </p>
-                  <span className="inline-block mt-4 text-xs font-medium text-primary bg-primary/10 rounded-full px-3 py-1">
-                    Coming Soon
-                  </span>
+                <div className="rounded-xl overflow-hidden shadow-md">
+                  <img
+                    src={educationImg}
+                    alt="Girl studying at a SafeHarbor education program"
+                    className="w-full h-72 sm:h-80 object-cover"
+                  />
                 </div>
               </FadeIn>
             </div>
+          </div>
+        </section>
+
+        {/* ===== STORIES ===== */}
+        <section className="bg-muted/30">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
+            <FadeIn className="text-center mb-12">
+              <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
+              <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
+                In Their Own Words
+              </h2>
+              <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+                Names and details have been changed to protect privacy. But these
+                are real stories from real girls whose lives are being
+                transformed.
+              </p>
+            </FadeIn>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {stories.map((story, i) => (
+                <FadeIn
+                  key={story.label}
+                  className={i > 0 ? `delay-${i * 100}` : ''}
+                >
+                  <div className="rounded-xl bg-card border border-border overflow-hidden h-full flex flex-col">
+                    <img
+                      src={story.image}
+                      alt={story.label}
+                      className="h-44 w-full object-cover"
+                    />
+                    <div className="p-5 flex flex-col flex-1">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="inline-block text-xs font-medium text-primary bg-primary/10 rounded-full px-3 py-1">
+                          {story.status}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          Age {story.age}
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                        "{story.text}"
+                      </p>
+                      <p className="mt-4 text-xs font-medium text-foreground/50">
+                        — {story.label}
+                      </p>
+                    </div>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== FULL-WIDTH IMAGE BREAK ===== */}
+        <section className="relative h-64 sm:h-80">
+          <img
+            src={healthImg}
+            alt="Girls at a SafeHarbor community gathering"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative h-full flex items-center justify-center">
+            <FadeIn className="text-center px-6">
+              <p className="text-xl sm:text-2xl font-semibold text-white max-w-2xl leading-relaxed">
+                "It gets better. I promise."
+              </p>
+              <p className="mt-2 text-sm text-white/70">
+                — A SafeHarbor resident to a newly arrived girl
+              </p>
+            </FadeIn>
           </div>
         </section>
 
@@ -345,12 +373,12 @@ export function ImpactPage() {
         <section className="bg-primary/10">
           <FadeIn className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-              Help us reach even more girls
+              You can be part of their story
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              Every contribution — big or small — helps provide a safe home, an
-              education, and a path to independence for a young girl in the
-              Philippines.
+              Whether through giving, volunteering, or simply spreading the
+              word — your support helps a young girl find safety, hope, and a
+              future she can call her own.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link
