@@ -31,8 +31,12 @@ public class AuthController : ControllerBase
         if (!result.Succeeded)
             return BadRequest(result.Errors);
 
+        // First registered user is Admin; donors self-register with role "DonorPortal";
+        // staff accounts must be created by an Admin.
         var userCount = _userManager.Users.Count();
-        var roleName = userCount <= 1 ? "Admin" : "SocialWorker";
+        var roleName = userCount <= 1 ? "Admin"
+            : request.Role == "DonorPortal" ? "DonorPortal"
+            : "SocialWorker";
         await _userManager.AddToRoleAsync(user, roleName);
 
         var roles = await _userManager.GetRolesAsync(user);

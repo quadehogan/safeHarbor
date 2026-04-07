@@ -22,8 +22,12 @@ builder.Services.AddDbContext<SafeHarborDbContext>(options =>
 builder.Services
     .AddIdentity<IdentityUser, IdentityRole>(options =>
     {
-        options.Password.RequireDigit = true;
-        options.Password.RequiredLength = 8;
+            options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 12;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequiredUniqueChars = 6;
     })
     .AddEntityFrameworkStores<SafeHarborDbContext>()
     .AddDefaultTokenProviders();
@@ -78,7 +82,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddCors(options => options.AddPolicy(
     "AllowFrontend",
     policy => policy
-        .WithOrigins("http://localhost:3002", "https://localhost:3002")
+        .WithOrigins(
+            "http://localhost:3002",
+            "https://localhost:3002",
+            "https://icy-sky-01a399a1e.2.azurestaticapps.net")
         .AllowAnyHeader()
         .AllowAnyMethod()));
 
