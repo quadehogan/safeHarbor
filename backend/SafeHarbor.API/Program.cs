@@ -147,6 +147,33 @@ using (var scope = app.Services.CreateScope())
             if (!await roleManager.RoleExistsAsync(role))
                 await roleManager.CreateAsync(new IdentityRole(role));
         }
+
+        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+        var seedAccounts = new (string Email, string Password, string Role)[]
+        {
+            ("admin@safeharbor.com", "AdminPassword1!", "Admin"),
+            ("worker@safeharbor.com", "WorkerPassword1!", "SocialWorker"),
+            ("donor@safeharbor.com", "DonorPassword1!", "DonorPortal"),
+        };
+        foreach (var (email, password, role) in seedAccounts)
+        {
+            if (await userManager.FindByEmailAsync(email) is not null)
+                continue;
+
+            var user = new IdentityUser { UserName = email, Email = email, EmailConfirmed = true };
+            var createResult = await userManager.CreateAsync(user, password);
+            if (!createResult.Succeeded)
+            {
+                var log = services.GetRequiredService<ILogger<Program>>();
+                log.LogWarning(
+                    "Failed to seed user {Email}: {Errors}",
+                    email,
+                    string.Join("; ", createResult.Errors.Select(e => e.Description)));
+                continue;
+            }
+
+            await userManager.AddToRoleAsync(user, role);
+        }
     }
     catch (Exception ex)
     {
