@@ -52,6 +52,10 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtAudience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
     };
+}).AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Google:ClientId"] ?? "";
+    options.ClientSecret = builder.Configuration["Google:ClientSecret"] ?? "";
 });
 
 builder.Services.AddAuthorization();

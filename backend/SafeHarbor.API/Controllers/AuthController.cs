@@ -2,6 +2,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using SafeHarbor.API.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +61,49 @@ public class AuthController : ControllerBase
         var roles = await _userManager.GetRolesAsync(user);
         var token = CreateJwtToken(user, roles);
         return Ok(new AuthResponse { Token = token, Email = user.Email ?? "", Roles = roles });
+    }
+
+    // Google OAuth: redirect user to Google's login page
+    [AllowAnonymous]
+    [HttpGet("google-login")]
+    public IActionResult GoogleLogin()
+    {
+        var redirectUrl = Url.Action(nameof(GoogleCallback), "Auth");
+        var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
+        return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+    }
+
+    // Google OAuth: handle the callback after Google authenticates the user
+    [AllowAnonymous]
+    [HttpGet("google-callback")]
+    public async Task<IActionResult> GoogleCallback()
+    {
+        var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+        if (!result.Succeeded)
+            return Unauthorized();
+
+        var email = result.Principal?.FindFirstValue(ClaimTypes.Email);
+        if (string.IsNullOrEmpty(email))
+            return BadRequest("Google account has no email.");
+
+        // Find or create the user in our Identity system
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            user = new IdentityUser { UserName = email, Email = email, EmailConfirmed = true };
+            var createResult = await _userManager.CreateAsync(user);
+            if (!createResult.Succeeded)
+                return BadRequest(createResult.Errors);
+            // Google-authenticated users get DonorPortal role by default
+            await _userManager.AddToRoleAsync(user, "DonorPortal");
+        }
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var token = CreateJwtToken(user, roles);
+
+        // Redirect to frontend with the JWT token
+        var frontendUrl = _configuration["FrontendUrl"] ?? "https://icy-sky-01a399a1e.2.azurestaticapps.net";
+        return Redirect($"{frontendUrl}/login?token={token}&email={Uri.EscapeDataString(email)}&roles={Uri.EscapeDataString(string.Join(",", roles))}");
     }
 
     private string CreateJwtToken(IdentityUser user, IList<string> roles)
