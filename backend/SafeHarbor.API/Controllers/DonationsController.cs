@@ -7,7 +7,7 @@ namespace SafeHarbor.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-// [Authorize(Roles = "Admin,SocialWorker")]
+[Authorize]
 public class DonationsController : ControllerBase
 {
     private readonly SafeHarborDbContext _db;
@@ -15,6 +15,7 @@ public class DonationsController : ControllerBase
     public DonationsController(SafeHarborDbContext db) => _db = db;
 
     [HttpGet]
+    [Authorize(Roles = "Admin,SocialWorker,DonorPortal")]
     public async Task<ActionResult<IEnumerable<Donation>>> Get(
         [FromQuery] string? type,
         [FromQuery] string? campaign,
@@ -39,6 +40,7 @@ public class DonationsController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin,SocialWorker,DonorPortal")]
     public async Task<ActionResult<Donation>> Get(int id, CancellationToken ct)
     {
         var donation = await _db.Donations
@@ -53,7 +55,7 @@ public class DonationsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<ActionResult<Donation>> Post(Donation donation, CancellationToken ct)
     {
         _db.Donations.Add(donation);
@@ -62,7 +64,7 @@ public class DonationsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<IActionResult> Put(int id, Donation donation, CancellationToken ct)
     {
         if (id != donation.DonationId) return BadRequest();
@@ -76,7 +78,7 @@ public class DonationsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<IActionResult> Delete(int id, CancellationToken ct)
     {
         var donation = await _db.Donations.FindAsync([id], ct);

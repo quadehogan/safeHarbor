@@ -68,6 +68,10 @@ public class AuthController : ControllerBase
     [HttpGet("google-login")]
     public IActionResult GoogleLogin()
     {
+        if (string.IsNullOrWhiteSpace(_configuration["Google:ClientId"]) ||
+            string.IsNullOrWhiteSpace(_configuration["Google:ClientSecret"]))
+            return BadRequest("Google sign-in is not configured.");
+
         var redirectUrl = Url.Action(nameof(GoogleCallback), "Auth");
         var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
         return Challenge(properties, GoogleDefaults.AuthenticationScheme);
@@ -78,6 +82,10 @@ public class AuthController : ControllerBase
     [HttpGet("google-callback")]
     public async Task<IActionResult> GoogleCallback()
     {
+        if (string.IsNullOrWhiteSpace(_configuration["Google:ClientId"]) ||
+            string.IsNullOrWhiteSpace(_configuration["Google:ClientSecret"]))
+            return BadRequest("Google sign-in is not configured.");
+
         var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
         if (!result.Succeeded)
             return Unauthorized();

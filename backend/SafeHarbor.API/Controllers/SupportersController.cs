@@ -7,7 +7,7 @@ namespace SafeHarbor.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-// [Authorize(Roles = "Admin,SocialWorker")]
+[Authorize(Roles = "Admin,SocialWorker")]
 public class SupportersController : ControllerBase
 {
     private readonly SafeHarborDbContext _db;
@@ -44,7 +44,6 @@ public class SupportersController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Supporter>> Post(Supporter supporter, CancellationToken ct)
     {
         supporter.CreatedAt = DateTime.UtcNow;
@@ -54,7 +53,6 @@ public class SupportersController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Put(int id, Supporter supporter, CancellationToken ct)
     {
         if (id != supporter.SupporterId) return BadRequest();
@@ -68,7 +66,6 @@ public class SupportersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id, CancellationToken ct)
     {
         var supporter = await _db.Supporters.FindAsync([id], ct);

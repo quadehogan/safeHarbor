@@ -147,17 +147,9 @@ export function RegisterPage() {
               )}
             </div>
 
-            <div className="space-y-1">
-              <Label htmlFor="reg-role">Role</Label>
-              <select
-                id="reg-role"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                defaultValue="DonorPortal"
-                aria-label="Role"
-              >
-                <option value="DonorPortal">DonorPortal</option>
-              </select>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              You will be registered as a <strong>Donor</strong>.
+            </p>
 
             {error && (
               <p className="text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded px-3 py-2">
