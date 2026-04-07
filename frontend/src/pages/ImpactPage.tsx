@@ -166,7 +166,7 @@ export function ImpactPage() {
         </section>
 
         {/* ===== WHERE WE OPERATE ===== */}
-        <section className="bg-white">
+        <section className="bg-background">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
             <FadeIn className="text-center mb-12">
               <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
@@ -257,7 +257,7 @@ export function ImpactPage() {
         </section>
 
         {/* ===== EDUCATION (stats + image) ===== */}
-        <section className="bg-white">
+        <section className="bg-background">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <FadeIn>

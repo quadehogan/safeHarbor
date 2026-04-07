@@ -59,7 +59,7 @@ export default function AboutPage() {
         </section>
 
         {/* ===== OUR STORY ===== */}
-        <section className="bg-white">
+        <section className="bg-background">
           <div className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
             <h2 className="text-xl sm:text-2xl font-semibold text-foreground leading-snug">
@@ -131,7 +131,7 @@ export default function AboutPage() {
         </section>
 
         {/* ===== IMPACT NUMBERS ===== */}
-        <section className="bg-white">
+        <section className="bg-background">
           <div className="mx-auto max-w-5xl px-6 lg:px-8 py-16 sm:py-20">
             <h2 className="text-xl font-semibold text-foreground text-center mb-10">
               Our Impact

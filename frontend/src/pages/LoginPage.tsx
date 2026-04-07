@@ -52,11 +52,11 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center space-y-1">
-          <CardTitle className="text-2xl font-bold text-gray-900">Sign in</CardTitle>
-          <p className="text-sm text-gray-500">Safe Harbor staff and donor portal</p>
+          <CardTitle className="text-2xl font-bold text-foreground">Sign in</CardTitle>
+          <p className="text-sm text-muted-foreground">Safe Harbor staff and donor portal</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -86,7 +86,7 @@ export function LoginPage() {
             </div>
 
             {error && (
-              <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
+              <p className="text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded px-3 py-2">
                 {error}
               </p>
             )}
@@ -96,8 +96,8 @@ export function LoginPage() {
             </Button>
           </form>
 
-          <p className="mt-4 text-center text-sm text-gray-500">
-            <Link to="/" className="underline hover:text-gray-700">
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            <Link to="/" className="underline hover:text-foreground">
               Return to home page
             </Link>
           </p>

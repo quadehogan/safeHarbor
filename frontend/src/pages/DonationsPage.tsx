@@ -119,8 +119,8 @@ function supporterName(s: Supporter): string {
 function StatusBadge({ status }: { status: string }) {
   const cls =
     status === 'Active'
-      ? 'bg-emerald-100 text-emerald-800'
-      : 'bg-slate-100 text-slate-600'
+      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400'
+      : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
   return <Badge className={cls}>{status}</Badge>
 }
 
@@ -899,8 +899,8 @@ export function DonationsPage() {
                               <Badge
                                 className={
                                   d.isRecurring
-                                    ? 'bg-violet-100 text-violet-800'
-                                    : 'bg-slate-100 text-slate-600'
+                                    ? 'bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-400'
+                                    : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
                                 }
                               >
                                 {d.isRecurring ? 'Yes' : 'No'}

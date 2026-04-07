@@ -128,7 +128,7 @@ export default function HomePage() {
         </section>
 
         {/* ===== MISSION STATEMENT ===== */}
-        <section className="bg-white">
+        <section className="bg-background">
           <FadeIn className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
             <h2 className="text-xl sm:text-2xl font-semibold text-foreground leading-snug">
@@ -180,7 +180,7 @@ export default function HomePage() {
         </section>
 
         {/* ===== IMPACT NUMBERS ===== */}
-        <section className="bg-white">
+        <section className="bg-background">
           <FadeIn className="mx-auto max-w-4xl px-6 lg:px-8 py-16 sm:py-20">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
               <div>

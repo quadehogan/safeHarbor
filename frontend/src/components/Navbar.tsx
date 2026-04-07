@@ -17,13 +17,13 @@ export function Navbar() {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <nav className="bg-slate-950 sticky top-0 z-50">
+    <nav className="bg-white dark:bg-slate-950 border-b border-border dark:border-slate-800 sticky top-0 z-50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <Anchor className="h-6 w-6 text-primary" />
-            <span className="text-lg font-semibold text-white tracking-tight">
+            <span className="text-lg font-semibold text-foreground tracking-tight">
               SafeHarbor
             </span>
           </Link>
@@ -37,8 +37,8 @@ export function Navbar() {
                 className={cn(
                   'px-3 py-2 text-sm font-medium rounded-md transition-colors',
                   location.pathname === link.to
-                    ? 'text-white bg-slate-800'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/50',
+                    ? 'text-foreground bg-muted dark:bg-slate-800'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-slate-800/50',
                 )}
               >
                 {link.label}
@@ -50,7 +50,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="rounded-md p-2 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+              className="rounded-md p-2 text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-slate-800 transition-colors"
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -66,7 +66,7 @@ export function Navbar() {
           {/* Mobile menu button */}
           <button
             type="button"
-            className="md:hidden rounded-md p-2 text-slate-300 hover:text-white hover:bg-slate-800"
+            className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-slate-800"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? (
@@ -80,7 +80,7 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-slate-800">
+        <div className="md:hidden border-t border-border dark:border-slate-800">
           <div className="px-4 py-3 space-y-1">
             {publicLinks.map((link) => (
               <Link
@@ -90,8 +90,8 @@ export function Navbar() {
                 className={cn(
                   'block px-3 py-2 text-sm font-medium rounded-md',
                   location.pathname === link.to
-                    ? 'text-white bg-slate-800'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/50',
+                    ? 'text-foreground bg-muted dark:bg-slate-800'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-slate-800/50',
                 )}
               >
                 {link.label}
@@ -99,7 +99,7 @@ export function Navbar() {
             ))}
             <button
               onClick={toggleTheme}
-              className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-md"
+              className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-slate-800/50 rounded-md"
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
