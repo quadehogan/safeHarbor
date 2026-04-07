@@ -8,7 +8,7 @@ export interface Donation {
   isRecurring: boolean
   campaignName: string | null
   channelSource: string | null
-  currencyCode: string
+  currencyCode: string | null
   amount: number | null
   estimatedValue: number | null
   impactUnit: string | null
@@ -32,8 +32,11 @@ export interface DonationAllocation {
 export interface InKindDonationItem {
   inKindDonationItemId: number
   donationId: number
-  itemDescription: string | null
+  itemName: string | null
+  itemCategory: string | null
   quantity: number
+  unitOfMeasure: string | null
   estimatedUnitValue: number | null
-  category: string | null
+  intendedUse: string | null
+  receivedCondition: string | null
 }

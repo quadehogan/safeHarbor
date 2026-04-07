@@ -1,8 +1,10 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using SafeHarbor.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
@@ -12,7 +14,10 @@ var connectionString = builder.Configuration.GetConnectionString("SafeHarborConn
     ?? throw new InvalidOperationException("Connection string 'SafeHarborConnection' not found.");
 
 builder.Services.AddDbContext<SafeHarborDbContext>(options =>
-    options.UseNpgsql(connectionString));
+{
+    options.UseNpgsql(connectionString);
+    options.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
+});
 
 builder.Services
     .AddIdentity<IdentityUser, IdentityRole>(options =>
@@ -47,7 +52,11 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

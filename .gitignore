@@ -45,6 +45,9 @@ dist-ssr/
 .env.*.local
 !.env.example
 
+# Local-only API settings (copy from appsettings.Development.json.example)
+backend/SafeHarbor.API/appsettings.Development.json
+
 # --- Testing & coverage ---
 coverage/
 *.lcov

@@ -7,7 +7,7 @@ namespace SafeHarbor.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Admin,SocialWorker")]
+// [Authorize(Roles = "Admin,SocialWorker")]
 public class DonationsController : ControllerBase
 {
     private readonly SafeHarborDbContext _db;

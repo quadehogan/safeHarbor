@@ -20,7 +20,11 @@ dotnet run --launch-profile http
 
 The API listens at **http://localhost:5046**. Swagger UI is available in Development at **http://localhost:5046/swagger**.
 
-Update `appsettings.Development.json` (or set the `ConnectionStrings__SafeHarborConnection` environment variable) so the PostgreSQL host, database name, user, and password match your machine. After the database is reachable, apply migrations:
+Copy `backend/SafeHarbor.API/appsettings.Development.json.example` to `appsettings.Development.json` and set `YOUR_DB_PASSWORD` (and other values) from Supabase **Project Settings → Database**. `appsettings.Development.json` is gitignored so secrets are not committed.
+
+If you use Supabase with an **existing** schema that matches the `InitialCreate` migration, run `backend/SafeHarbor.API/Scripts/mark-initial-migration-applied.sql` once in the Supabase SQL Editor so EF does not try to re-apply that migration. Use ProductVersion `10.0.0` as in the script (matches the migration designer).
+
+For a **fresh local** PostgreSQL database, apply migrations:
 
 ```bash
 cd backend/SafeHarbor.API

@@ -28,4 +28,27 @@ public class SafeHarborDbContext : IdentityDbContext<IdentityUser, IdentityRole,
     public DbSet<SafehouseMonthlyMetric> SafehouseMonthlyMetrics => Set<SafehouseMonthlyMetric>();
     public DbSet<PublicImpactSnapshot> PublicImpactSnapshots => Set<PublicImpactSnapshot>();
     public DbSet<SocialMediaPost> SocialMediaPosts => Set<SocialMediaPost>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Resident>().ToTable("residents");
+        modelBuilder.Entity<Safehouse>().ToTable("safehouses");
+        modelBuilder.Entity<InterventionPlan>().ToTable("intervention_plans");
+        modelBuilder.Entity<ProcessRecording>().ToTable("process_recordings");
+        modelBuilder.Entity<HomeVisitation>().ToTable("home_visitations");
+        modelBuilder.Entity<IncidentReport>().ToTable("incident_reports");
+        modelBuilder.Entity<EducationRecord>().ToTable("education_records");
+        modelBuilder.Entity<HealthWellbeingRecord>().ToTable("health_wellbeing_records");
+        modelBuilder.Entity<Donation>().ToTable("donations");
+        modelBuilder.Entity<DonationAllocation>().ToTable("donation_allocations");
+        modelBuilder.Entity<InKindDonationItem>().ToTable("in_kind_donation_items");
+        modelBuilder.Entity<Supporter>().ToTable("supporters");
+        modelBuilder.Entity<Partner>().ToTable("partners");
+        modelBuilder.Entity<PartnerAssignment>().ToTable("partner_assignments");
+        modelBuilder.Entity<SafehouseMonthlyMetric>().ToTable("safehouse_monthly_metrics");
+        modelBuilder.Entity<PublicImpactSnapshot>().ToTable("public_impact_snapshots");
+        modelBuilder.Entity<SocialMediaPost>().ToTable("social_media_posts");
+    }
 }
