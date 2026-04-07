@@ -4,6 +4,7 @@
     "exclude": ["/assets/*", "/*.{css,js,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot}"]
   },
   "globalHeaders": {
-    "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net; connect-src 'self' https://safeharbor-backend-edbtdsavdke0fubp.westus2-01.azurewebsites.net; frame-ancestors 'none'; form-action 'self';"
+    "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net; connect-src 'self' https://safeharbor-backend-edbtdsavdke0fubp.westus2-01.azurewebsites.net; frame-ancestors 'none'; form-action 'self';",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
   }
 }

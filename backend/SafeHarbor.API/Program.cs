@@ -97,6 +97,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// HSTS — tells browsers to only use HTTPS for this domain (IS 414 additional security)
+app.UseHsts();
 app.UseHttpsRedirection();
 
 // Content-Security-Policy header (IS 414 requirement — must be HTTP header, not meta tag)
