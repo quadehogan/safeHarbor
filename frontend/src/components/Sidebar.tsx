@@ -1,32 +1,40 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard,
   Users,
   FileText,
   Home,
   Heart,
-  BarChart2,
+  Handshake,
   LogOut,
   Shield,
 } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
 
 const navItems = [
-  { label: 'Dashboard', icon: LayoutDashboard, href: '/' },
-  { label: 'Caseload', icon: Users, href: '/residents' },
-  { label: 'Process Recording', icon: FileText, href: '/case-activity' },
-  { label: 'Home Visitation', icon: Home, href: '/safehouses' },
-  { label: 'Donors', icon: Heart, href: '/donations' },
-  { label: 'Reports', icon: BarChart2, href: '/reports' },
+  { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
+  { label: 'Residents', icon: Users, href: '/residents' },
+  { label: 'Safehouses', icon: Home, href: '/safehouses' },
+  { label: 'Donors & Giving', icon: Heart, href: '/donor' },
+  { label: 'Partners', icon: Handshake, href: '/partners' },
+  { label: 'Social Media', icon: FileText, href: '/social-media' },
 ]
 
 export function Sidebar() {
   const location = useLocation()
+  const { clearAuth } = useAuth()
+  const navigate = useNavigate()
+
+  function handleLogout() {
+    clearAuth()
+    navigate('/login')
+  }
 
   return (
     <aside className="w-64 bg-slate-950 shrink-0 flex flex-col min-h-screen">
       {/* Logo */}
       <div className="px-6 py-5 border-b border-slate-800">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/dashboard" className="flex items-center gap-2">
           <Shield className="h-6 w-6 text-primary" />
           <span className="text-lg font-semibold text-white tracking-tight">
             SafeHarbor
@@ -57,7 +65,10 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="px-3 py-4 border-t border-slate-800">
-        <button className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors w-full">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors w-full"
+        >
           <LogOut className="h-4 w-4" />
           Logout
         </button>
