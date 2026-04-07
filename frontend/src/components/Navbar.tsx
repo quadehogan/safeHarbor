@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Anchor } from 'lucide-react'
+import { Menu, X, Anchor, Sun, Moon } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTheme } from '@/context/ThemeContext'
 
 const publicLinks = [
   { label: 'Home', to: '/' },
@@ -13,6 +14,7 @@ const publicLinks = [
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <nav className="bg-slate-950 sticky top-0 z-50">
@@ -44,8 +46,15 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Desktop login button */}
-          <div className="hidden md:flex">
+          {/* Desktop: theme toggle + login */}
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="rounded-md p-2 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
             <Link
               to="/login"
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
@@ -88,6 +97,13 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-md"
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            </button>
             <Link
               to="/login"
               onClick={() => setMobileOpen(false)}
