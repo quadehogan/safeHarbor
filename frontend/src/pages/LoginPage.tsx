@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5000'
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5046'
 
 export function LoginPage() {
   const { setAuth } = useAuth()
@@ -163,6 +163,11 @@ export function LoginPage() {
           <p className="mt-4 text-center text-sm text-muted-foreground">
             <Link to="/" className="underline hover:text-foreground">
               Return to home page
+            </Link>
+          </p>
+          <p className="mt-2 text-center text-sm text-muted-foreground">
+            <Link to="/register" className="underline hover:text-foreground">
+              Don&apos;t have an account? Register as a donor
             </Link>
           </p>
         </CardContent>

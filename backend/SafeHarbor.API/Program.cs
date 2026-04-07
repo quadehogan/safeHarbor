@@ -22,12 +22,12 @@ builder.Services.AddDbContext<SafeHarborDbContext>(options =>
 builder.Services
     .AddIdentity<IdentityUser, IdentityRole>(options =>
     {
-            options.Password.RequireDigit = true;
-        options.Password.RequiredLength = 12;
-        options.Password.RequireUppercase = true;
-        options.Password.RequireLowercase = true;
-        options.Password.RequireNonAlphanumeric = true;
-        options.Password.RequiredUniqueChars = 6;
+        options.Password.RequiredLength = 14;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredUniqueChars = 1;
     })
     .AddEntityFrameworkStores<SafeHarborDbContext>()
     .AddDefaultTokenProviders();
