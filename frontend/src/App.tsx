@@ -8,6 +8,7 @@ import { LoginPage } from '@/pages/LoginPage'
 import { RegisterPage } from '@/pages/RegisterPage'
 import { ImpactPage } from '@/pages/ImpactPage'
 import { ContactPage } from '@/pages/ContactPage'
+import { PrivacyPage } from '@/pages/PrivacyPage'
 
 // Donor
 import { DonationsPage } from '@/pages/DonationsPage'
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/impact" element={<ImpactPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
 
         {/* Donor */}
         <Route
