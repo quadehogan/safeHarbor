@@ -281,7 +281,7 @@ export function OverviewPage() {
                             </td>
                             <td className="px-4 py-3 font-medium text-foreground">
                               {d.supporter
-                                ? (d.supporter.displayName ?? `${d.supporter.firstName ?? ''} ${d.supporter.lastName ?? ''}`.trim() || '—')
+                                ? (d.supporter.displayName ?? (`${d.supporter.firstName ?? ''} ${d.supporter.lastName ?? ''}`.trim() || '—'))
                                 : `Supporter #${d.supporterId}`}
                             </td>
                             <td className="px-4 py-3 text-muted-foreground">
