@@ -74,6 +74,7 @@ import {
   Search,
   ArrowUpDown,
 } from 'lucide-react'
+import { InterventionRecommendationCard } from '@/components/residents/InterventionRecommendationCard'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -213,6 +214,7 @@ export function CaseActivityPage() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<ProcessRecording | null>(null)
   const [sheetRecord, setSheetRecord] = useState<ProcessRecording | null>(null)
+  const [selectedResidentId, setSelectedResidentId] = useState<number | null>(null)
 
   const loadRecordings = useCallback(async () => {
     setLoading(true)
@@ -292,7 +294,9 @@ export function CaseActivityPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <div className="flex-1 px-4 sm:px-6 pt-6 max-w-7xl w-full overflow-x-auto">
+        <div className="flex-1 px-4 sm:px-6 pt-6 max-w-7xl w-full">
+        <div className="flex gap-6 items-start">
+        <div className="flex-1 min-w-0 overflow-x-auto">
 
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-semibold tracking-tight">Process Recording</h1>
@@ -392,7 +396,7 @@ export function CaseActivityPage() {
                   <TableRow><TableCell colSpan={10} className="text-center py-12 text-muted-foreground">No process recordings found.</TableCell></TableRow>
                 ) : (
                   paged.map((r) => (
-                    <TableRow key={r.processRecordingId} className="cursor-pointer hover:bg-muted/50" onClick={() => setSheetRecord(r)}>
+                    <TableRow key={r.processRecordingId} className="cursor-pointer hover:bg-muted/50" onClick={() => { setSheetRecord(r); setSelectedResidentId(r.residentId ?? null) }}>
                       <TableCell className="px-4 py-3 font-medium">R-{r.residentId}</TableCell>
                       <TableCell className="px-4 py-3">{r.sessionDate ?? '--'}</TableCell>
                       <TableCell className="px-4 py-3">{r.socialWorker ?? '--'}</TableCell>
@@ -452,7 +456,20 @@ export function CaseActivityPage() {
             )}
           </Card>
           <div className="h-8" />
+        </div>{/* flex-1 min-w-0 */}
+
+        {/* Intervention recommendation sidebar */}
+        <div className="hidden lg:block w-72 shrink-0 sticky top-6">
+          {selectedResidentId != null ? (
+            <InterventionRecommendationCard residentId={selectedResidentId} token={token} />
+          ) : (
+            <div className="rounded-lg border border-dashed border-border p-6 text-center text-xs text-muted-foreground">
+              Click a session row to view the ML intervention recommendation for that resident.
+            </div>
+          )}
         </div>
+        </div>{/* flex gap-6 */}
+        </div>{/* px-4 */}
       </main>
 
       {/* Create / Edit Dialog */}

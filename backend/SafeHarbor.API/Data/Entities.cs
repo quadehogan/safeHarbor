@@ -818,6 +818,123 @@ public class PublicImpactSnapshot
     public DateOnly? PublishedAt { get; set; }
 }
 
+// ─── INTERVENTION RECOMMENDATION ─────────────────────────────────────────────
+
+public class InterventionRecommendation
+{
+    [Key]
+    [Column("resident_id")]
+    public int ResidentId { get; set; }
+
+    [Column("profile_cluster")]
+    public string? ProfileCluster { get; set; }
+
+    [Column("recommended_services")]
+    public string? RecommendedServices { get; set; }
+
+    [Column("recommended_session_type")]
+    public string? RecommendedSessionType { get; set; }
+
+    [Column("recommended_sessions_per_month")]
+    public int? RecommendedSessionsPerMonth { get; set; }
+
+    [Column("recommended_social_worker")]
+    public string? RecommendedSocialWorker { get; set; }
+
+    [Column("sw_outcome_score")]
+    public float? SwOutcomeScore { get; set; }
+
+    [Column("predicted_health_improvement")]
+    public float? PredictedHealthImprovement { get; set; }
+
+    [Column("predicted_education_improvement")]
+    public float? PredictedEducationImprovement { get; set; }
+
+    [Column("similar_resident_count")]
+    public int? SimilarResidentCount { get; set; }
+
+    [Column("confidence_tier")]
+    public string? ConfidenceTier { get; set; }
+
+    [Column("top_outcome_factors")]
+    public string? TopOutcomeFactors { get; set; }
+
+    [Column("scored_at")]
+    public DateTime? ScoredAt { get; set; }
+
+    [Column("model_version")]
+    public string? ModelVersion { get; set; }
+}
+
+// ─── SOCIAL MEDIA RECOMMENDATION ─────────────────────────────────────────────
+
+public class SocialMediaRecommendation
+{
+    [Key]
+    [Column("recommendation_id")]
+    public Guid RecommendationId { get; set; }
+
+    [Column("platform")]
+    public string Platform { get; set; } = "";
+
+    [Column("is_boosted")]
+    public bool IsBoosted { get; set; }
+
+    [Column("post_type")]
+    public string? PostType { get; set; }
+
+    [Column("media_type")]
+    public string? MediaType { get; set; }
+
+    [Column("content_topic")]
+    public string? ContentTopic { get; set; }
+
+    [Column("sentiment_tone")]
+    public string? SentimentTone { get; set; }
+
+    [Column("has_call_to_action")]
+    public bool? HasCallToAction { get; set; }
+
+    [Column("call_to_action_type")]
+    public string? CallToActionType { get; set; }
+
+    [Column("features_resident_story")]
+    public bool? FeaturesResidentStory { get; set; }
+
+    [Column("best_day_of_week")]
+    public string? BestDayOfWeek { get; set; }
+
+    [Column("best_hour")]
+    public int? BestHour { get; set; }
+
+    [Column("recommended_hashtag_count")]
+    public int? RecommendedHashtagCount { get; set; }
+
+    [Column("predicted_engagement_rate")]
+    public float? PredictedEngagementRate { get; set; }
+
+    [Column("predicted_donation_referrals")]
+    public float? PredictedDonationReferrals { get; set; }
+
+    [Column("predicted_donation_value_php")]
+    public float? PredictedDonationValuePhp { get; set; }
+
+    [Column("conversion_signal")]
+    public string? ConversionSignal { get; set; }
+
+    [Column("sample_count")]
+    public int? SampleCount { get; set; }
+
+    [Column("confidence_tier")]
+    public string? ConfidenceTier { get; set; }
+
+    [Column("generated_at")]
+    public DateTime? GeneratedAt { get; set; }
+
+    [Column("model_version")]
+    public string? ModelVersion { get; set; }
+}
+
 // ─── RESIDENT RISK SCORE ─────────────────────────────────────────────────────
 
 public class ResidentRiskScore

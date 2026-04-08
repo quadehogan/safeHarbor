@@ -28,6 +28,8 @@ public class SafeHarborDbContext : IdentityDbContext<IdentityUser, IdentityRole,
     public DbSet<SafehouseMonthlyMetric> SafehouseMonthlyMetrics => Set<SafehouseMonthlyMetric>();
     public DbSet<PublicImpactSnapshot> PublicImpactSnapshots => Set<PublicImpactSnapshot>();
     public DbSet<SocialMediaPost> SocialMediaPosts => Set<SocialMediaPost>();
+    public DbSet<InterventionRecommendation> InterventionRecommendations => Set<InterventionRecommendation>();
+    public DbSet<SocialMediaRecommendation> SocialMediaRecommendations => Set<SocialMediaRecommendation>();
     public DbSet<ResidentRiskScore> ResidentRiskScores => Set<ResidentRiskScore>();
     public DbSet<DonorChurnScore> DonorChurnScores => Set<DonorChurnScore>();
     public DbSet<DonorImpactStatement> DonorImpactStatements => Set<DonorImpactStatement>();
@@ -53,6 +55,8 @@ public class SafeHarborDbContext : IdentityDbContext<IdentityUser, IdentityRole,
         modelBuilder.Entity<SafehouseMonthlyMetric>().ToTable("safehouse_monthly_metrics");
         modelBuilder.Entity<PublicImpactSnapshot>().ToTable("public_impact_snapshots");
         modelBuilder.Entity<SocialMediaPost>().ToTable("social_media_posts");
+        modelBuilder.Entity<InterventionRecommendation>().ToTable("intervention_recommendations");
+        modelBuilder.Entity<SocialMediaRecommendation>().ToTable("social_media_recommendations");
         modelBuilder.Entity<ResidentRiskScore>().ToTable("resident_risk_scores");
         modelBuilder.Entity<DonorChurnScore>().ToTable("donor_churn_scores");
         modelBuilder.Entity<DonorImpactStatement>().ToTable("donor_impact_statements");

@@ -17,4 +17,10 @@ public class SocialMediaController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<SocialMediaPost>>> Get(CancellationToken ct) =>
         Ok(await _db.SocialMediaPosts.AsNoTracking().ToListAsync(ct));
+
+    [HttpGet("recommendations")]
+    public async Task<ActionResult<IEnumerable<SocialMediaRecommendation>>> GetRecommendations(CancellationToken ct) =>
+        Ok(await _db.SocialMediaRecommendations.AsNoTracking()
+            .OrderBy(r => r.Platform).ThenBy(r => r.IsBoosted)
+            .ToListAsync(ct));
 }

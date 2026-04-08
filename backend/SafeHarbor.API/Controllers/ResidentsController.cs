@@ -67,4 +67,58 @@ public class ResidentsController : ControllerBase
         await _db.SaveChangesAsync(ct);
         return NoContent();
     }
+
+    // GET /api/Residents/{id}/recommendation
+    [HttpGet("{id}/recommendation")]
+    public async Task<ActionResult<InterventionRecommendationDto>> GetRecommendation(int id, CancellationToken ct)
+    {
+        var rec = await _db.InterventionRecommendations
+            .AsNoTracking()
+            .FirstOrDefaultAsync(r => r.ResidentId == id, ct);
+
+        if (rec is null) return NotFound();
+
+        var services = ParseJsonArray(rec.RecommendedServices);
+        var factors = ParseJsonArray(rec.TopOutcomeFactors);
+
+        return Ok(new InterventionRecommendationDto(
+            rec.ProfileCluster,
+            services,
+            rec.RecommendedSessionType,
+            rec.RecommendedSessionsPerMonth,
+            rec.RecommendedSocialWorker,
+            rec.SwOutcomeScore,
+            rec.PredictedHealthImprovement,
+            rec.PredictedEducationImprovement,
+            rec.SimilarResidentCount,
+            rec.ConfidenceTier,
+            factors,
+            rec.ScoredAt
+        ));
+    }
+
+    private static IEnumerable<string> ParseJsonArray(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json)) return [];
+        try
+        {
+            return System.Text.Json.JsonSerializer.Deserialize<string[]>(json) ?? [];
+        }
+        catch { return []; }
+    }
 }
+
+public record InterventionRecommendationDto(
+    string? ProfileCluster,
+    IEnumerable<string> RecommendedServices,
+    string? RecommendedSessionType,
+    int? RecommendedSessionsPerMonth,
+    string? RecommendedSocialWorker,
+    float? SwOutcomeScore,
+    float? PredictedHealthImprovement,
+    float? PredictedEducationImprovement,
+    int? SimilarResidentCount,
+    string? ConfidenceTier,
+    IEnumerable<string> TopOutcomeFactors,
+    DateTime? ScoredAt
+);
