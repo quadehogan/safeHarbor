@@ -31,7 +31,6 @@ export function HealthOutcomesSection({
             label="Avg Wellbeing Score (1–5)"
             value={`${avgHealthScore.toFixed(1)} / 5.0`}
             delta={delta}
-            invert={false}
             loading={loading}
           />
           <div className="flex flex-col gap-1">

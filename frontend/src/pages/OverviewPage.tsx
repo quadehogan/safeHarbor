@@ -21,7 +21,6 @@ import type { Resident } from '@/types/Resident'
 import type { Donation } from '@/types/Donation'
 import type { Supporter } from '@/types/Supporter'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 /* ------------------------------------------------------------------ */
