@@ -58,6 +58,10 @@ public class DonationsController : ControllerBase
     [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<ActionResult<Donation>> Post(Donation donation, CancellationToken ct)
     {
+        var maxId = await _db.Donations.MaxAsync(d => (int?)d.DonationId, ct) ?? 0;
+        donation.DonationId = maxId + 1;
+        if (donation.DonationDate.Kind == DateTimeKind.Unspecified)
+            donation.DonationDate = DateTime.SpecifyKind(donation.DonationDate, DateTimeKind.Utc);
         _db.Donations.Add(donation);
         await _db.SaveChangesAsync(ct);
         return CreatedAtAction(nameof(Get), new { id = donation.DonationId }, donation);
@@ -72,6 +76,8 @@ public class DonationsController : ControllerBase
         var exists = await _db.Donations.AnyAsync(d => d.DonationId == id, ct);
         if (!exists) return NotFound();
 
+        if (donation.DonationDate.Kind == DateTimeKind.Unspecified)
+            donation.DonationDate = DateTime.SpecifyKind(donation.DonationDate, DateTimeKind.Utc);
         _db.Entry(donation).State = EntityState.Modified;
         await _db.SaveChangesAsync(ct);
         return NoContent();

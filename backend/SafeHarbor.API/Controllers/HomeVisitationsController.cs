@@ -28,6 +28,8 @@ public class HomeVisitationsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<HomeVisitation>> Post(HomeVisitation body, CancellationToken ct)
     {
+        var maxId = await _db.HomeVisitations.MaxAsync(h => (int?)h.HomeVisitationId, ct) ?? 0;
+        body.HomeVisitationId = maxId + 1;
         _db.HomeVisitations.Add(body);
         await _db.SaveChangesAsync(ct);
         return CreatedAtAction(nameof(Get), new { id = body.HomeVisitationId }, body);

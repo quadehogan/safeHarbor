@@ -46,6 +46,8 @@ public class SupportersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Supporter>> Post(Supporter supporter, CancellationToken ct)
     {
+        var maxId = await _db.Supporters.MaxAsync(s => (int?)s.SupporterId, ct) ?? 0;
+        supporter.SupporterId = maxId + 1;
         supporter.CreatedAt = DateTime.UtcNow;
         _db.Supporters.Add(supporter);
         await _db.SaveChangesAsync(ct);

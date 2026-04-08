@@ -33,6 +33,8 @@ public class ResidentsController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Resident>> Create([FromBody] Resident resident, CancellationToken ct)
     {
+        var maxId = await _db.Residents.MaxAsync(r => (int?)r.ResidentId, ct) ?? 0;
+        resident.ResidentId = maxId + 1;
         _db.Residents.Add(resident);
         await _db.SaveChangesAsync(ct);
         return CreatedAtAction(nameof(GetById), new { id = resident.ResidentId }, resident);

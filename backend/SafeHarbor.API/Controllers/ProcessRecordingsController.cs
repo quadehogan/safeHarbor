@@ -41,6 +41,8 @@ public class ProcessRecordingsController : ControllerBase
     public async Task<ActionResult<ProcessRecording>> Create(
         [FromBody] ProcessRecording recording, CancellationToken ct)
     {
+        var maxId = await _db.ProcessRecordings.MaxAsync(r => (int?)r.ProcessRecordingId, ct) ?? 0;
+        recording.ProcessRecordingId = maxId + 1;
         _db.ProcessRecordings.Add(recording);
         await _db.SaveChangesAsync(ct);
         return CreatedAtAction(nameof(GetById), new { id = recording.ProcessRecordingId }, recording);

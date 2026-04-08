@@ -22,6 +22,15 @@ import type { Resident } from '@/types/Resident'
 import type { Donation } from '@/types/Donation'
 import type { Supporter } from '@/types/Supporter'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 /* ------------------------------------------------------------------ */
@@ -180,14 +189,15 @@ export function OverviewPage() {
             <span className="text-xs text-muted-foreground">
               Updated {lastRefresh.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
             </span>
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={loadData}
               disabled={loading}
-              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               Refresh
-            </button>
+            </Button>
             <span className="rounded-full bg-primary/10 text-primary text-xs font-medium px-3 py-1">
               {roleLabel}
             </span>
@@ -263,43 +273,41 @@ export function OverviewPage() {
                     No donations recorded yet.
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-border bg-muted/40">
-                          <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">Date</th>
-                          <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">Supporter</th>
-                          <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">Type</th>
-                          <th className="px-4 py-2.5 text-right text-xs font-medium text-muted-foreground">Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-border">
-                        {recentDonations.map(d => (
-                          <tr key={d.donationId} className="hover:bg-muted/30 transition-colors">
-                            <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
-                              {fmtDate(d.donationDate)}
-                            </td>
-                            <td className="px-4 py-3 font-medium text-foreground">
-                              {d.supporter
-                                ? (d.supporter.displayName ?? (`${d.supporter.firstName ?? ''} ${d.supporter.lastName ?? ''}`.trim() || '—'))
-                                : `Supporter #${d.supporterId}`}
-                            </td>
-                            <td className="px-4 py-3 text-muted-foreground">
-                              {d.donationType ?? '—'}
-                              {d.isRecurring && (
-                                <span className="ml-1.5 inline-flex items-center gap-0.5 text-xs text-primary">
-                                  <RefreshCw className="h-2.5 w-2.5" /> recurring
-                                </span>
-                              )}
-                            </td>
-                            <td className="px-4 py-3 text-right font-semibold text-foreground">
-                              {d.amount != null ? fmtCurrency(d.amount) : d.estimatedValue != null ? fmtCurrency(d.estimatedValue) : '—'}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-muted/40">
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">Date</TableHead>
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">Supporter</TableHead>
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">Type</TableHead>
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide text-right">Amount</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {recentDonations.map(d => (
+                        <TableRow key={d.donationId}>
+                          <TableCell className="text-muted-foreground whitespace-nowrap">
+                            {fmtDate(d.donationDate)}
+                          </TableCell>
+                          <TableCell className="font-medium text-foreground">
+                            {d.supporter
+                              ? (d.supporter.displayName ?? (`${d.supporter.firstName ?? ''} ${d.supporter.lastName ?? ''}`.trim() || '—'))
+                              : `Supporter #${d.supporterId}`}
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">
+                            {d.donationType ?? '—'}
+                            {d.isRecurring && (
+                              <span className="ml-1.5 inline-flex items-center gap-0.5 text-xs text-primary">
+                                <RefreshCw className="h-2.5 w-2.5" /> recurring
+                              </span>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right font-semibold text-foreground">
+                            {d.amount != null ? fmtCurrency(d.amount) : d.estimatedValue != null ? fmtCurrency(d.estimatedValue) : '—'}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 )}
               </CardContent>
             </Card>
@@ -378,44 +386,42 @@ export function OverviewPage() {
                     No high or critical risk residents.
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-border bg-muted/40">
-                          <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">Case #</th>
-                          <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">Status</th>
-                          <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">Risk</th>
-                          <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">Social Worker</th>
-                          <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">Admitted</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-border">
-                        {[...criticalResidents, ...highRiskResidents].slice(0, 8).map(r => (
-                          <tr key={r.residentId} className="hover:bg-muted/30 transition-colors">
-                            <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
-                              {r.caseControlNo ?? r.internalCode ?? `#${r.residentId}`}
-                            </td>
-                            <td className="px-4 py-3">
-                              <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${statusColor(r.caseStatus)}`}>
-                                {r.caseStatus ?? '—'}
-                              </span>
-                            </td>
-                            <td className="px-4 py-3">
-                              <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${riskColor(r.currentRiskLevel)}`}>
-                                {r.currentRiskLevel ?? '—'}
-                              </span>
-                            </td>
-                            <td className="px-4 py-3 text-muted-foreground">
-                              {r.assignedSocialWorker ?? '—'}
-                            </td>
-                            <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
-                              {fmtDate(r.dateOfAdmission)}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-muted/40">
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">Case #</TableHead>
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">Status</TableHead>
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">Risk</TableHead>
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">Social Worker</TableHead>
+                        <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">Admitted</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {[...criticalResidents, ...highRiskResidents].slice(0, 8).map(r => (
+                        <TableRow key={r.residentId}>
+                          <TableCell className="font-mono text-xs text-muted-foreground">
+                            {r.caseControlNo ?? r.internalCode ?? `#${r.residentId}`}
+                          </TableCell>
+                          <TableCell>
+                            <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${statusColor(r.caseStatus)}`}>
+                              {r.caseStatus ?? '—'}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${riskColor(r.currentRiskLevel)}`}>
+                              {r.currentRiskLevel ?? '—'}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">
+                            {r.assignedSocialWorker ?? '—'}
+                          </TableCell>
+                          <TableCell className="text-muted-foreground whitespace-nowrap">
+                            {fmtDate(r.dateOfAdmission)}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 )}
               </CardContent>
             </Card>
