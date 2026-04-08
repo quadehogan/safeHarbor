@@ -84,7 +84,7 @@ export default function App() {
           }
         />
         <Route
-          path="/residents/:id"
+          path="/process-recordings"
           element={
             <ProtectedRoute roles={STAFF}>
               <CaseActivityPage />

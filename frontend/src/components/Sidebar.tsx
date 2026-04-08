@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   Users,
   FileText,
+  ClipboardList,
   Home,
   Heart,
   Handshake,
@@ -16,6 +17,7 @@ import { useAuth } from '@/context/AuthContext'
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
   { label: 'Residents', icon: Users, href: '/residents' },
+  { label: 'Process Recording', icon: ClipboardList, href: '/process-recordings' },
   { label: 'Safehouses', icon: Home, href: '/safehouses' },
   { label: 'Donors & Giving', icon: Heart, href: '/donor' },
   { label: 'Partners', icon: Handshake, href: '/partners' },
