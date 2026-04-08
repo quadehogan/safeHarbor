@@ -1268,7 +1268,7 @@ function DonationForm({
     channelSource: donation?.channelSource ?? '',
     amount: donation?.amount ?? 0,
     estimatedValue: donation?.estimatedValue ?? 0,
-    impactUnit: donation?.impactUnit ?? 'pesos',
+    impactUnit: donation?.impactUnit ?? 'dollars',
     notes: donation?.notes ?? '',
     currencyCode: 'USD',
   })

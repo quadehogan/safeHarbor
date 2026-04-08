@@ -39,7 +39,7 @@ export function ProgramAreaImpactCard({
 
         {sampleStatement && (
           <p className="text-sm text-muted-foreground italic leading-relaxed border-l-2 border-primary/30 pl-3 mt-auto">
-            "{sampleStatement}"
+            "{sampleStatement.replace(/PHP\s*/gi, '$').replace(/₱\s*/g, '$')}"
           </p>
         )}
 

@@ -26,7 +26,7 @@ export function PersonalizedStatementCard({
             +{estimatedPctChange.toFixed(1)}% over {timeWindowMonths} months
           </span>
         </div>
-        <p className="text-sm text-foreground leading-relaxed">{statementText}</p>
+        <p className="text-sm text-foreground leading-relaxed">{statementText.replace(/PHP\s*/gi, '$').replace(/₱\s*/g, '$')}</p>
         {generatedAt && (
           <p className="text-xs text-muted-foreground">
             Estimated as of {new Date(generatedAt).toLocaleDateString()}
