@@ -12,6 +12,7 @@ import { PrivacyPage } from '@/pages/PrivacyPage'
 
 // Donor
 import { DonationsPage } from '@/pages/DonationsPage'
+import { DonorImpactPage } from '@/pages/DonorImpactPage'
 
 // Admin / Staff
 import { OverviewPage } from '@/pages/OverviewPage'
@@ -21,6 +22,7 @@ import { CaseActivityPage } from '@/pages/CaseActivityPage'
 import { SafehousesPage } from '@/pages/SafehousesPage'
 import { SocialMediaPage } from '@/pages/SocialMediaPage'
 import { PartnersPage } from '@/pages/PartnersPage'
+import { ReportsPage } from '@/pages/ReportsPage'
 
 const STAFF = ['Admin', 'SocialWorker']
 const DONOR = ['DonorPortal']
@@ -44,6 +46,14 @@ export default function App() {
           element={
             <ProtectedRoute roles={[...STAFF, ...DONOR]}>
               <DonationsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/donor/impact"
+          element={
+            <ProtectedRoute roles={[...STAFF, ...DONOR]}>
+              <DonorImpactPage />
             </ProtectedRoute>
           }
         />
@@ -102,6 +112,14 @@ export default function App() {
           element={
             <ProtectedRoute roles={STAFF}>
               <PartnersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute roles={STAFF}>
+              <ReportsPage />
             </ProtectedRoute>
           }
         />

@@ -818,6 +818,102 @@ public class PublicImpactSnapshot
     public DateOnly? PublishedAt { get; set; }
 }
 
+// ─── RESIDENT RISK SCORE ─────────────────────────────────────────────────────
+
+public class ResidentRiskScore
+{
+    [Key]
+    [Column("resident_id")]
+    public int ResidentId { get; set; }
+
+    [Column("regression_risk_score")]
+    public float RegressionRiskScore { get; set; }
+
+    [Column("regression_risk_tier")]
+    public string RegressionRiskTier { get; set; } = "";
+
+    [Column("reintegration_score")]
+    public float ReintegrationScore { get; set; }
+
+    [Column("reintegration_tier")]
+    public string ReintegrationTier { get; set; } = "";
+
+    [Column("top_concern_factors")]
+    public string? TopConcernFactors { get; set; }
+
+    [Column("top_strength_factors")]
+    public string? TopStrengthFactors { get; set; }
+
+    [Column("scored_at")]
+    public DateTime? ScoredAt { get; set; }
+
+    [Column("model_version")]
+    public string? ModelVersion { get; set; }
+}
+
+// ─── DONOR CHURN SCORE ───────────────────────────────────────────────────────
+
+public class DonorChurnScore
+{
+    [Key]
+    [Column("supporter_id")]
+    public int SupporterId { get; set; }
+
+    [Column("churn_score")]
+    public float ChurnScore { get; set; }
+
+    [Column("churn_tier")]
+    public string ChurnTier { get; set; } = "";
+
+    [Column("top_churn_factors")]
+    public string? TopChurnFactors { get; set; }
+
+    [Column("scored_at")]
+    public DateTime? ScoredAt { get; set; }
+
+    [Column("model_version")]
+    public string? ModelVersion { get; set; }
+}
+
+// ─── DONOR IMPACT STATEMENT ──────────────────────────────────────────────────
+
+public class DonorImpactStatement
+{
+    [Key]
+    [Column("statement_id")]
+    public Guid StatementId { get; set; }
+
+    [Column("supporter_id")]
+    public int SupporterId { get; set; }
+
+    [Column("safehouse_id")]
+    public string SafehouseId { get; set; } = "";
+
+    [Column("program_area")]
+    public string ProgramArea { get; set; } = "";
+
+    [Column("allocation_amount")]
+    public float AllocationAmount { get; set; }
+
+    [Column("outcome_metric")]
+    public string OutcomeMetric { get; set; } = "";
+
+    [Column("time_window_months")]
+    public int TimeWindowMonths { get; set; }
+
+    [Column("estimated_pct_change")]
+    public float EstimatedPctChange { get; set; }
+
+    [Column("statement_text")]
+    public string StatementText { get; set; } = "";
+
+    [Column("generated_at")]
+    public DateTime? GeneratedAt { get; set; }
+
+    [Column("model_version")]
+    public string? ModelVersion { get; set; }
+}
+
 // ─── SOCIAL MEDIA POST ────────────────────────────────────────────────────────
 
 public class SocialMediaPost
