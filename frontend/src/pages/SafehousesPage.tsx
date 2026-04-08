@@ -61,6 +61,10 @@ import {
 /* ------------------------------------------------------------------ */
 const PAGE_SIZE = 10
 
+/** Strip "Lighthouse" prefix from safehouse names */
+const cleanName = (name: string | null | undefined) =>
+  (name ?? '').replace(/^Lighthouse\s*/i, '') || '—'
+
 /* ------------------------------------------------------------------ */
 /*  Main page                                                          */
 /* ------------------------------------------------------------------ */
@@ -339,7 +343,7 @@ export function SafehousesPage() {
                             {r.safehouseCode ?? `#${r.safehouseId}`}
                           </TableCell>
                           <TableCell className="font-medium text-foreground">
-                            {r.name ?? '—'}
+                            {cleanName(r.name)}
                           </TableCell>
                           <TableCell className="text-muted-foreground">
                             {[r.city, r.region].filter(Boolean).join(', ') || '—'}
@@ -468,7 +472,7 @@ function SafehouseDetailReport({ detail: d }: { detail: SafehouseDetailDto }) {
           <div className="flex items-center justify-center h-9 w-9 rounded-lg bg-primary/10">
             <Home className="h-5 w-5 text-primary" />
           </div>
-          {d.name ?? 'Safehouse'}
+          {cleanName(d.name)}
           <StatusBadge status={d.status} />
         </SheetTitle>
         <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
