@@ -130,41 +130,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ===== IMPACT NUMBERS ===== */}
-        <section className="bg-background">
-          <div className="mx-auto max-w-5xl px-6 lg:px-8 py-16 sm:py-20">
-            <h2 className="text-xl font-semibold text-foreground text-center mb-10">
-              Our Impact
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-              <div>
-                <p className="text-4xl font-bold text-primary">9</p>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Safe Homes
-                </p>
-              </div>
-              <div>
-                <p className="text-4xl font-bold text-primary">77</p>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Residents Sheltered
-                </p>
-              </div>
-              <div>
-                <p className="text-4xl font-bold text-primary">420+</p>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Donations Received
-                </p>
-              </div>
-              <div>
-                <p className="text-4xl font-bold text-primary">78%</p>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Avg Education Progress
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ===== CTA ===== */}
         <section className="bg-primary/10">
           <div className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">

@@ -1,6 +1,5 @@
 import { ShieldCheck, TrendingUp, Users, Sparkles, BookOpen, GraduationCap } from 'lucide-react'
 import { FadeIn } from '@/components/FadeIn'
-import { MetricNumber } from '@/components/analytics/MetricNumber'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface ResidentOutcomesPublicProps {
@@ -87,17 +86,18 @@ export function ResidentOutcomesPublic({
                 school consistently. Every education plan is personalized — because every girl's
                 starting point is different.
               </p>
-              <div className="mt-8 grid grid-cols-2 gap-3">
+              <div className="mt-8 grid grid-cols-2 gap-4 max-w-md">
                 {loading ? (
-                  [...Array(4)].map((_, i) => <Skeleton key={i} className="h-20" />)
+                  [...Array(2)].map((_, i) => <Skeleton key={i} className="h-28" />)
                 ) : (
                   [
                     { value: `${schoolEnrollmentRate}%`, label: 'School Enrollment Rate', icon: BookOpen },
                     { value: String(vocationalGraduates), label: 'Vocational Graduates', icon: GraduationCap },
                   ].map((stat) => (
-                    <div key={stat.label} className="rounded-xl bg-muted/60 border border-border p-4 text-center">
-                      <stat.icon className="h-4 w-4 text-primary mx-auto mb-1.5" />
-                      <MetricNumber label={stat.label} value={stat.value} />
+                    <div key={stat.label} className="rounded-xl bg-muted/60 border border-border p-5 flex flex-col items-center text-center">
+                      <stat.icon className="h-5 w-5 text-primary mb-2" />
+                      <span className="text-3xl font-bold text-foreground">{stat.value}</span>
+                      <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
                     </div>
                   ))
                 )}
