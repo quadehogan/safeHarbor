@@ -72,7 +72,7 @@ export function DonorImpactPage() {
             {
               icon: DollarSign,
               label: 'Total Given',
-              value: loading ? '—' : `PHP ${Math.round(totalGiven).toLocaleString()}`,
+              value: loading ? '—' : `$${Math.round(totalGiven).toLocaleString()}`,
             },
             {
               icon: Heart,

@@ -192,7 +192,7 @@ export function ReportsPage() {
                   { label: 'Active Residents', value: activeResidents },
                   { label: 'Total Safehouses', value: totalSafehouses },
                   { label: 'Active Donors', value: totalDonors },
-                  { label: 'Total Raised (PHP)', value: Math.round(totalRaised).toLocaleString() },
+                  { label: 'Total Raised (USD)', value: `$${Math.round(totalRaised).toLocaleString()}` },
                 ]}
               />
             </div>

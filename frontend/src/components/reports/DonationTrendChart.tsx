@@ -45,7 +45,7 @@ export function DonationTrendChart({ donations, loading = false }: DonationTrend
         ) : (
           <MetricNumber
             label="Total Raised"
-            value={`PHP ${totalRaised.toLocaleString()}`}
+            value={`$${totalRaised.toLocaleString()}`}
             loading={loading}
           />
         )}
@@ -53,7 +53,7 @@ export function DonationTrendChart({ donations, loading = false }: DonationTrend
           data={monthlyData as Record<string, unknown>[]}
           xKey="month"
           yKey="total"
-          label="Total Donated (PHP)"
+          label="Total Donated (USD)"
           chartType="bar"
           height={220}
         />

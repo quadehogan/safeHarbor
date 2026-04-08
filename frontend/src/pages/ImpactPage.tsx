@@ -81,7 +81,7 @@ export function ImpactPage() {
     { icon: Handshake, value: '12', label: 'Active Partners' },
     {
       icon: DollarSign,
-      value: derived ? `PHP ${Math.round(derived.totalRaised / 1000)}K+` : 'PHP 420K+',
+      value: derived ? `$${Math.round(derived.totalRaised / 1000)}K+` : '$420K+',
       label: 'Total Raised',
     },
   ]
