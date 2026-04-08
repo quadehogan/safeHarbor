@@ -367,8 +367,8 @@ export function ResidentsPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <main className="flex-1 flex flex-col">
-        <div className="flex-1 px-6 pt-6 max-w-7xl w-full">
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <div className="flex-1 px-4 sm:px-6 pt-6 max-w-7xl w-full overflow-x-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-semibold tracking-tight">Caseload Inventory</h1>
@@ -412,8 +412,8 @@ export function ResidentsPage() {
 
           {/* Filters */}
           <Card className="mb-6">
-            <CardContent className="p-4 flex flex-wrap items-end gap-3">
-              <div className="flex-1 min-w-[200px]">
+            <CardContent className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div className="sm:col-span-2 lg:col-span-1">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -425,21 +425,21 @@ export function ResidentsPage() {
                 </div>
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-[140px]"><SelectValue placeholder="Status" /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder="Status" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Status</SelectItem>
                   {STATUS_OPTIONS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
               <Select value={riskFilter} onValueChange={setRiskFilter}>
-                <SelectTrigger className="w-[140px]"><SelectValue placeholder="Risk" /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder="Risk" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Risk</SelectItem>
                   {RISK_OPTIONS.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
                 </SelectContent>
               </Select>
               <Select value={reintFilter} onValueChange={setReintFilter}>
-                <SelectTrigger className="w-[160px]"><SelectValue placeholder="Reintegration" /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder="Reintegration" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Reintegration</SelectItem>
                   {REINTEGRATION_OPTIONS.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
@@ -449,8 +449,8 @@ export function ResidentsPage() {
           </Card>
 
           {/* Table */}
-          <Card>
-            <Table>
+          <Card className="overflow-x-auto">
+            <Table className="min-w-[900px]">
               <TableHeader>
                 <TableRow>
                   {([
