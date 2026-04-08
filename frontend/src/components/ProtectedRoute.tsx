@@ -10,7 +10,7 @@ type Props = {
 export function ProtectedRoute({ children, roles }: Props) {
   const { token, roles: userRoles } = useAuth()
 
-  if (!token) return <Navigate to="/login" replace />
+  if (!token) return <Navigate to="/" replace />
 
   if (roles && !roles.some(r => userRoles.includes(r))) {
     return <Navigate to="/" replace />

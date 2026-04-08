@@ -22,7 +22,7 @@ export function Navbar() {
 
   function handleLogout() {
     clearAuth()
-    navigate('/')
+    navigate('/', { replace: true })
   }
 
   return (
