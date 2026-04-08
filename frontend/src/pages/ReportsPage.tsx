@@ -16,7 +16,6 @@ import { EducationProgressSection } from '@/components/reports/EducationProgress
 import { HealthOutcomesSection } from '@/components/reports/HealthOutcomesSection'
 import { DonationTrendChart } from '@/components/reports/DonationTrendChart'
 import { DonorChurnWidget } from '@/components/reports/DonorChurnWidget'
-import { SafehouseComparisonTable } from '@/components/reports/SafehouseComparisonTable'
 
 import { useAuth } from '@/context/AuthContext'
 import {
@@ -156,7 +155,6 @@ export function ReportsPage() {
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="residents">Resident Outcomes</TabsTrigger>
             <TabsTrigger value="donations">Donations & Donors</TabsTrigger>
-            <TabsTrigger value="safehouses">Safehouse Performance</TabsTrigger>
           </TabsList>
 
           {/* ── OVERVIEW ── */}
@@ -236,14 +234,6 @@ export function ReportsPage() {
           </TabsContent>
 
           {/* ── SAFEHOUSE PERFORMANCE ── */}
-          <TabsContent value="safehouses">
-            <div className="rounded-xl border border-border bg-card p-6">
-              <h2 className="text-base font-semibold text-foreground mb-4">
-                Safehouse Comparison — {selectedYear}
-              </h2>
-              <SafehouseComparisonTable rows={safehouses} loading={loading} />
-            </div>
-          </TabsContent>
         </Tabs>
       </main>
     </div>
