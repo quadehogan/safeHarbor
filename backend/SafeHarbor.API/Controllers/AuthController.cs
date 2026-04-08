@@ -63,14 +63,35 @@ public class AuthController : ControllerBase
         return Ok(new AuthResponse { Token = token, Email = user.Email ?? "", Roles = roles });
     }
 
+    // Debug: check what Google config values the app can see
+    [AllowAnonymous]
+    [HttpGet("google-debug")]
+    public IActionResult GoogleDebug()
+    {
+        var clientId = _configuration["Google:ClientId"];
+        var hasSecret = !string.IsNullOrWhiteSpace(_configuration["Google:ClientSecret"]);
+        return Ok(new
+        {
+            clientIdPresent = !string.IsNullOrWhiteSpace(clientId),
+            clientIdPrefix = clientId?.Length > 10 ? clientId[..10] + "..." : clientId,
+            clientSecretPresent = hasSecret,
+        });
+    }
+
     // Google OAuth: redirect user to Google's login page
     [AllowAnonymous]
     [HttpGet("google-login")]
     public IActionResult GoogleLogin()
     {
-        if (string.IsNullOrWhiteSpace(_configuration["Google:ClientId"]) ||
-            string.IsNullOrWhiteSpace(_configuration["Google:ClientSecret"]))
-            return BadRequest("Google sign-in is not configured.");
+        var clientId = _configuration["Google:ClientId"]
+            ?? Environment.GetEnvironmentVariable("Google__ClientId")
+            ?? Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+        var clientSecret = _configuration["Google:ClientSecret"]
+            ?? Environment.GetEnvironmentVariable("Google__ClientSecret")
+            ?? Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+
+        if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret))
+            return BadRequest("Google sign-in is not configured. Check env vars Google__ClientId and Google__ClientSecret.");
 
         var redirectUrl = Url.Action(nameof(GoogleCallback), "Auth");
         var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
@@ -82,9 +103,6 @@ public class AuthController : ControllerBase
     [HttpGet("google-callback")]
     public async Task<IActionResult> GoogleCallback()
     {
-        if (string.IsNullOrWhiteSpace(_configuration["Google:ClientId"]) ||
-            string.IsNullOrWhiteSpace(_configuration["Google:ClientSecret"]))
-            return BadRequest("Google sign-in is not configured.");
 
         var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
         if (!result.Succeeded)
