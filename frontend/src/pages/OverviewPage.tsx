@@ -11,6 +11,7 @@ import {
   RefreshCw,
   Handshake,
   FileText,
+  ClipboardList,
 } from 'lucide-react'
 import { Sidebar } from '@/components/Sidebar'
 import { useAuth } from '@/context/AuthContext'
@@ -427,6 +428,7 @@ export function OverviewPage() {
               <CardContent className="space-y-2">
                 {[
                   { icon: Users, label: 'View All Residents', to: '/residents', color: 'text-violet-500' },
+                  { icon: ClipboardList, label: 'Home Visitation', to: '/home-visitation', color: 'text-teal-500' },
                   { icon: Home, label: 'Manage Safehouses', to: '/safehouses', color: 'text-blue-500' },
                   { icon: Heart, label: 'Donors & Giving', to: '/donor', color: 'text-pink-500' },
                   { icon: Handshake, label: 'Partner Organizations', to: '/partners', color: 'text-amber-500' },

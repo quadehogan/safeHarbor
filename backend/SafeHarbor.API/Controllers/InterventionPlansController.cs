@@ -16,5 +16,5 @@ public class InterventionPlansController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<InterventionPlan>>> Get(CancellationToken ct) =>
-        Ok(await _db.InterventionPlans.AsNoTracking().ToListAsync(ct));
+        Ok(await _db.InterventionPlans.Include(ip => ip.Resident).AsNoTracking().ToListAsync(ct));
 }

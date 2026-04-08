@@ -23,6 +23,7 @@ import { SafehousesPage } from '@/pages/SafehousesPage'
 import { SocialMediaPage } from '@/pages/SocialMediaPage'
 import { PartnersPage } from '@/pages/PartnersPage'
 import { ReportsPage } from '@/pages/ReportsPage'
+import { HomeVisitationPage } from '@/pages/HomeVisitationPage'
 
 const STAFF = ['Admin', 'SocialWorker']
 const DONOR = ['DonorPortal']
@@ -88,6 +89,14 @@ export default function App() {
           element={
             <ProtectedRoute roles={STAFF}>
               <CaseActivityPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/home-visitation"
+          element={
+            <ProtectedRoute roles={STAFF}>
+              <HomeVisitationPage />
             </ProtectedRoute>
           }
         />

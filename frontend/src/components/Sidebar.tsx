@@ -18,6 +18,7 @@ const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
   { label: 'Residents', icon: Users, href: '/residents' },
   { label: 'Process Recording', icon: ClipboardList, href: '/process-recordings' },
+  { label: 'Home Visitation', icon: ClipboardList, href: '/home-visitation' },
   { label: 'Safehouses', icon: Home, href: '/safehouses' },
   { label: 'Donors & Giving', icon: Heart, href: '/donor' },
   { label: 'Partners', icon: Handshake, href: '/partners' },
