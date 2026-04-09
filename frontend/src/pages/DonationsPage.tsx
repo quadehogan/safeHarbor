@@ -657,7 +657,7 @@ export function DonationsPage() {
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                   <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                    <AlertDialogTitle>Remove Supporter Record?</AlertDialogTitle>
                                     <AlertDialogDescription>
                                       This will permanently delete this supporter record. This action cannot be undone.
                                     </AlertDialogDescription>
@@ -927,7 +927,7 @@ export function DonationsPage() {
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                   <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                    <AlertDialogTitle>Remove Donation Record?</AlertDialogTitle>
                                     <AlertDialogDescription>
                                       This will permanently delete this donation record. This action cannot be undone.
                                     </AlertDialogDescription>

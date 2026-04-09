@@ -351,7 +351,7 @@ export function CaseActivityPage() {
             <Card><CardContent className="p-6 flex items-center gap-4">
               <div className="rounded-lg bg-violet-100 dark:bg-violet-900/30 p-3"><Clock className="h-5 w-5 text-violet-600 dark:text-violet-400" /></div>
               <div>
-                <p className="text-sm text-muted-foreground">Avg Duration</p>
+                <p className="text-sm text-muted-foreground">Avg Session Length</p>
                 {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-3xl font-bold">{stats.avgDur}m</p>}
               </div>
             </CardContent></Card>
