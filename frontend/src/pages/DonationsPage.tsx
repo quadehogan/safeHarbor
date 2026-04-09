@@ -200,7 +200,7 @@ function TablePagination({
 // ═══════════════════════════════════════════════════════════════════
 
 export function DonationsPage() {
-  const { token } = useAuth()
+  const { token, isAdmin } = useAuth()
 
   // ── supporters state ──
   const [supporters, setSupporters] = useState<Supporter[]>([])
@@ -552,15 +552,17 @@ export function DonationsPage() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <Button
-                      onClick={() => {
-                        setEditingSupporter(null)
-                        setSuppDialogOpen(true)
-                      }}
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Supporter
-                    </Button>
+                    {isAdmin && (
+                      <Button
+                        onClick={() => {
+                          setEditingSupporter(null)
+                          setSuppDialogOpen(true)
+                        }}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Supporter
+                      </Button>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -608,10 +610,14 @@ export function DonationsPage() {
                           <TableCell colSpan={7}>
                             <EmptyState
                               label="supporters"
-                              onAdd={() => {
-                                setEditingSupporter(null)
-                                setSuppDialogOpen(true)
-                              }}
+                              onAdd={
+                                isAdmin
+                                  ? () => {
+                                      setEditingSupporter(null)
+                                      setSuppDialogOpen(true)
+                                    }
+                                  : undefined
+                              }
                             />
                           </TableCell>
                         </TableRow>
@@ -639,40 +645,44 @@ export function DonationsPage() {
                             </TableCell>
                             <TableCell className="px-4 py-3 text-sm">{s.email ?? '—'}</TableCell>
                             <TableCell className="px-4 py-3 text-right" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => {
-                                  setEditingSupporter(s)
-                                  setSuppDialogOpen(true)
-                                }}
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </Button>
-                              <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                  <Button variant="ghost" size="icon">
-                                    <Trash2 className="h-4 w-4 text-destructive" />
+                              {isAdmin && (
+                                <>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => {
+                                      setEditingSupporter(s)
+                                      setSuppDialogOpen(true)
+                                    }}
+                                  >
+                                    <Pencil className="h-4 w-4" />
                                   </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                  <AlertDialogHeader>
-                                    <AlertDialogTitle>Remove Supporter Record?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                      This will permanently delete this supporter record. This action cannot be undone.
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction
-                                      className="bg-destructive text-destructive-foreground"
-                                      onClick={() => handleDeleteSupporter(s.supporterId)}
-                                    >
-                                      Delete
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialog>
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <Button variant="ghost" size="icon">
+                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                      </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle>Remove Supporter Record?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                          This will permanently delete this supporter record. This action cannot be undone.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction
+                                          className="bg-destructive text-destructive-foreground"
+                                          onClick={() => handleDeleteSupporter(s.supporterId)}
+                                        >
+                                          Delete
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
+                                </>
+                              )}
                             </TableCell>
                           </TableRow>
                         ))
@@ -810,15 +820,17 @@ export function DonationsPage() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <Button
-                      onClick={() => {
-                        setEditingDonation(null)
-                        setDonDialogOpen(true)
-                      }}
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Donation
-                    </Button>
+                    {isAdmin && (
+                      <Button
+                        onClick={() => {
+                          setEditingDonation(null)
+                          setDonDialogOpen(true)
+                        }}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Donation
+                      </Button>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -869,10 +881,14 @@ export function DonationsPage() {
                           <TableCell colSpan={8}>
                             <EmptyState
                               label="donations"
-                              onAdd={() => {
-                                setEditingDonation(null)
-                                setDonDialogOpen(true)
-                              }}
+                              onAdd={
+                                isAdmin
+                                  ? () => {
+                                      setEditingDonation(null)
+                                      setDonDialogOpen(true)
+                                    }
+                                  : undefined
+                              }
                             />
                           </TableCell>
                         </TableRow>
@@ -909,40 +925,44 @@ export function DonationsPage() {
                               </Badge>
                             </TableCell>
                             <TableCell className="px-4 py-3 text-right">
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => {
-                                  setEditingDonation(d)
-                                  setDonDialogOpen(true)
-                                }}
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </Button>
-                              <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                  <Button variant="ghost" size="icon">
-                                    <Trash2 className="h-4 w-4 text-destructive" />
+                              {isAdmin && (
+                                <>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => {
+                                      setEditingDonation(d)
+                                      setDonDialogOpen(true)
+                                    }}
+                                  >
+                                    <Pencil className="h-4 w-4" />
                                   </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                  <AlertDialogHeader>
-                                    <AlertDialogTitle>Remove Donation Record?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                      This will permanently delete this donation record. This action cannot be undone.
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction
-                                      className="bg-destructive text-destructive-foreground"
-                                      onClick={() => handleDeleteDonation(d.donationId)}
-                                    >
-                                      Delete
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialog>
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <Button variant="ghost" size="icon">
+                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                      </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle>Remove Donation Record?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                          This will permanently delete this donation record. This action cannot be undone.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction
+                                          className="bg-destructive text-destructive-foreground"
+                                          onClick={() => handleDeleteDonation(d.donationId)}
+                                        >
+                                          Delete
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
+                                </>
+                              )}
                             </TableCell>
                           </TableRow>
                         ))
@@ -1086,14 +1106,13 @@ export function DonationsPage() {
 
 function SupporterForm({
   supporter,
-  onSave: _onSave,
+  onSave,
   onCancel,
 }: {
   supporter: Supporter | null
   onSave: (data: Partial<Supporter>) => void
   onCancel: () => void
 }) {
-  void _onSave // keep prop for interface compatibility
   const [form, setForm] = useState({
     displayName: supporter?.displayName ?? '',
     firstName: supporter?.firstName ?? '',
@@ -1133,9 +1152,7 @@ function SupporterForm({
       return
     }
 
-    // Show success confirmation without saving to DB
-    toast.success('Supporter saved!')
-    onCancel()
+    onSave(form)
   }
 
   return (

@@ -45,7 +45,7 @@ export default function App() {
           path="/donor"
           element={
             <ProtectedRoute roles={[...STAFF, ...DONOR]}>
-              <DonationsPage />
+              <DonorImpactPage />
             </ProtectedRoute>
           }
         />
@@ -72,6 +72,14 @@ export default function App() {
           element={
             <ProtectedRoute roles={STAFF}>
               <SupportersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/donors"
+          element={
+            <ProtectedRoute roles={STAFF}>
+              <DonationsPage />
             </ProtectedRoute>
           }
         />

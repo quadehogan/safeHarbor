@@ -21,14 +21,16 @@ const navItems = [
   { label: 'Process Recording', icon: ClipboardList, href: '/process-recordings' },
   { label: 'Home Visitation', icon: ClipboardList, href: '/home-visitation' },
   { label: 'Safehouses', icon: Home, href: '/safehouses' },
-  { label: 'Donors & Giving', icon: Heart, href: '/donor' },
+  { label: 'Donors & Giving', icon: Heart, href: '/donors' },
   { label: 'Social Media', icon: FileText, href: '/social-media' },
   { label: 'Reports', icon: BarChart2, href: '/reports' },
 ]
 
+const donorNavItems = [{ label: 'My Impact', icon: Heart, href: '/donor' }]
+
 export function Sidebar() {
   const location = useLocation()
-  const { clearAuth } = useAuth()
+  const { clearAuth, isDonor } = useAuth()
   const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -92,7 +94,7 @@ export function Sidebar() {
 
         {/* Nav links */}
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {navItems.map((item) => {
+          {(isDonor ? donorNavItems : navItems).map((item) => {
             const isActive = location.pathname === item.href
             return (
               <Link
