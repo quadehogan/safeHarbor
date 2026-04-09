@@ -2,7 +2,17 @@ import { useEffect, useMemo, useState } from 'react'
 import { Sidebar } from '@/components/Sidebar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import {
   Table,
   TableBody,
@@ -11,25 +21,52 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Heart, DollarSign } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Heart, DollarSign, Plus } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
-import { fetchDonations } from '@/api/DonationsAPI'
+import { fetchDonations, createDonation } from '@/api/DonationsAPI'
+import { fetchMySupporter } from '@/api/SupportersAPI'
 import type { Donation } from '@/types/Donation'
+import { toast } from 'sonner'
+
+/* ------------------------------------------------------------------ */
+/*  Constants for the donation form                                    */
+/* ------------------------------------------------------------------ */
+const CAMPAIGNS = ['Year-End Hope', 'Summer of Safety', 'Back to School', 'GivingTuesday']
 
 export function DonorImpactPage() {
   const { token } = useAuth()
 
   const [donations, setDonations] = useState<Donation[]>([])
+  const [supporterId, setSupporterId] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
+  // Donation form state
+  const [formOpen, setFormOpen] = useState(false)
+  const [formAmount, setFormAmount] = useState('')
+  const [formCampaign, setFormCampaign] = useState('')
+  const [formRecurring, setFormRecurring] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  function loadData() {
     if (!token) return
 
-    Promise.allSettled([fetchDonations(token)]).then(([dons]) => {
+    Promise.allSettled([
+      fetchDonations(token),
+      fetchMySupporter(token),
+    ]).then(([dons, supporter]) => {
       if (dons.status === 'fulfilled') setDonations(dons.value)
+      if (supporter.status === 'fulfilled') setSupporterId(supporter.value.supporterId)
       setLoading(false)
     })
-  }, [token])
+  }
+
+  useEffect(() => { loadData() }, [token])
 
   // Derive stats from this donor's donations
   const totalGiven = donations.reduce(
@@ -38,6 +75,7 @@ export function DonorImpactPage() {
   )
   const totalGifts = donations.length
 
+  // Resolve donor display name from the first donation's supporter record
   const donorName = useMemo(() => {
     const s = donations.find((d) => d.supporter)?.supporter
     if (!s) return null
@@ -50,25 +88,69 @@ export function DonorImpactPage() {
     return null
   }, [donations])
 
+  // Handle fake donation submission
+  async function handleDonate() {
+    const amount = parseFloat(formAmount)
+    if (!amount || amount <= 0) {
+      toast.error('Please enter a valid donation amount.')
+      return
+    }
+    if (!supporterId) {
+      toast.error('Your account is not linked to a donor record.')
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      await createDonation(token, {
+        supporterId,
+        donationType: 'Monetary',
+        donationDate: new Date().toISOString().split('T')[0],
+        amount,
+        currencyCode: 'PHP',
+        channelSource: 'Direct',
+        campaignName: formCampaign && formCampaign !== 'none' ? formCampaign : null,
+        isRecurring: formRecurring,
+        impactUnit: 'pesos',
+        notes: 'Submitted via donor portal',
+      })
+      toast.success('Thank you for your donation!')
+      setFormOpen(false)
+      setFormAmount('')
+      setFormCampaign('')
+      setFormRecurring(false)
+      // Reload donations to show the new one
+      setLoading(true)
+      loadData()
+    } catch {
+      toast.error('Failed to submit donation. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
       <main id="main-content" className="flex-1 overflow-auto px-6 pb-6 pt-14 lg:p-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-foreground">My Impact</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {loading ? (
-              <Skeleton className="h-4 w-48 inline-block align-middle" />
-            ) : donorName ? (
-              <>
-                {donorName} — your personalized giving impact dashboard
-              </>
-            ) : (
-              <>Your personalized giving impact dashboard</>
-            )}
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">My Impact</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {loading ? (
+                <Skeleton className="h-4 w-48 inline-block align-middle" />
+              ) : donorName ? (
+                <>{donorName} — your personalized giving impact dashboard</>
+              ) : (
+                <>Your personalized giving impact dashboard</>
+              )}
+            </p>
+          </div>
+          <Button onClick={() => setFormOpen(true)} className="gap-2">
+            <Plus className="h-4 w-4" /> Make a Donation
+          </Button>
         </div>
 
         {/* Summary stat cards */}
@@ -77,7 +159,7 @@ export function DonorImpactPage() {
             {
               icon: DollarSign,
               label: 'Total Given',
-              value: loading ? '—' : `$${Math.round(totalGiven).toLocaleString()}`,
+              value: loading ? '—' : `₱${Math.round(totalGiven).toLocaleString()}`,
             },
             {
               icon: Heart,
@@ -103,6 +185,7 @@ export function DonorImpactPage() {
           ))}
         </div>
 
+        {/* Donation History */}
         <Card className="mt-8">
           <CardHeader>
             <CardTitle className="text-base font-semibold">Donation History</CardTitle>
@@ -115,7 +198,7 @@ export function DonorImpactPage() {
                 ))}
               </div>
             ) : donations.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No donations recorded yet.</p>
+              <p className="text-sm text-muted-foreground">No donations recorded yet. Click "Make a Donation" above to get started!</p>
             ) : (
               <div className="overflow-x-auto">
                 <Table>
@@ -152,9 +235,9 @@ export function DonorImpactPage() {
                           </TableCell>
                           <TableCell className="text-sm">
                             {d.amount != null
-                              ? `$${d.amount.toLocaleString()}`
+                              ? `₱${d.amount.toLocaleString()}`
                               : d.estimatedValue != null
-                                ? `~$${d.estimatedValue.toLocaleString()}`
+                                ? `~₱${d.estimatedValue.toLocaleString()}`
                                 : '—'}
                           </TableCell>
                           <TableCell>
@@ -181,6 +264,61 @@ export function DonorImpactPage() {
           </CardContent>
         </Card>
       </main>
+
+      {/* ============== DONATION DIALOG ============== */}
+      <Dialog open={formOpen} onOpenChange={setFormOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Make a Donation</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div>
+              <Label>Amount (PHP) *</Label>
+              <Input
+                type="number"
+                min="1"
+                step="0.01"
+                placeholder="e.g. 500"
+                value={formAmount}
+                onChange={(e) => setFormAmount(e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>Campaign (optional)</Label>
+              <Select value={formCampaign} onValueChange={setFormCampaign}>
+                <SelectTrigger><SelectValue placeholder="Select a campaign" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">No Campaign</SelectItem>
+                  {CAMPAIGNS.map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="recurring"
+                checked={formRecurring}
+                onChange={(e) => setFormRecurring(e.target.checked)}
+                className="h-4 w-4 rounded border-border text-primary"
+              />
+              <Label htmlFor="recurring" className="mb-0">Make this a recurring monthly donation</Label>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-3">
+              <p className="text-xs text-muted-foreground">
+                This is a simulated donation for demonstration purposes. No real payment will be processed.
+              </p>
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="outline" onClick={() => setFormOpen(false)}>Cancel</Button>
+              <Button onClick={handleDonate} disabled={submitting}>
+                {submitting ? 'Processing...' : 'Donate'}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

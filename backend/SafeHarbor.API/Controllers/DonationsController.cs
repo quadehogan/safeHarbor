@@ -70,7 +70,7 @@ public class DonationsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,SocialWorker")]
+    [Authorize(Roles = "Admin,SocialWorker,DonorPortal")]
     public async Task<ActionResult<Donation>> Post(Donation donation, CancellationToken ct)
     {
         var maxId = await _db.Donations.MaxAsync(d => (int?)d.DonationId, ct) ?? 0;

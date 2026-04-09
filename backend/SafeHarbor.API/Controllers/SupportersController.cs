@@ -2,6 +2,7 @@ using SafeHarbor.API.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace SafeHarbor.API.Controllers;
 
@@ -13,6 +14,23 @@ public class SupportersController : ControllerBase
     private readonly SafeHarborDbContext _db;
 
     public SupportersController(SafeHarborDbContext db) => _db = db;
+
+    // GET /api/Supporters/me — returns the current donor's supporter record by JWT email
+    [HttpGet("me")]
+    [Authorize(Roles = "Admin,SocialWorker,DonorPortal")]
+    public async Task<ActionResult<Supporter>> GetMe(CancellationToken ct)
+    {
+        var email = User.FindFirst(ClaimTypes.Email)?.Value
+                    ?? User.FindFirst("email")?.Value;
+        if (email == null) return Unauthorized();
+
+        var supporter = await _db.Supporters
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Email == email, ct);
+
+        if (supporter == null) return NotFound("No supporter record found for this account.");
+        return Ok(supporter);
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Supporter>>> Get(

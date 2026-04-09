@@ -9,6 +9,13 @@ function headers(token: string | null) {
   }
 }
 
+// Get the current logged-in donor's supporter record
+export async function fetchMySupporter(token: string | null): Promise<Supporter> {
+  const res = await fetch(`${API_BASE_URL}/me`, { headers: headers(token) })
+  if (!res.ok) throw new Error(await res.text())
+  return res.json()
+}
+
 export async function fetchSupporters(
   token: string | null,
   filters?: { status?: string; type?: string }
