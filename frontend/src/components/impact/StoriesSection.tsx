@@ -3,7 +3,6 @@ import { AnonymizedStoryCard } from './AnonymizedStoryCard'
 
 interface Story {
   label: string
-  age: string
   text: string
   status: string
   image: string
@@ -21,8 +20,8 @@ export function StoriesSection({ stories }: StoriesSectionProps) {
           <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
           <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">In Their Own Words</h2>
           <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Names and details have been changed to protect privacy. But these are real stories from
-            real girls whose lives are being transformed.
+            Names and details have been changed to protect privacy. These are real girls, and these
+            are their own words about what their lives look like today.
           </p>
         </FadeIn>
 

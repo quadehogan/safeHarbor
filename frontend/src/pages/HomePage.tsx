@@ -16,13 +16,13 @@ const howWeHelp = [
     image: shelterImg,
     title: 'Safe Housing',
     description:
-      'We operate 9 safe homes across the Philippines where girls in our care find shelter, stability, and the space to begin healing.',
+      'We operate 9 safe homes across the Philippines where girls in our care find shelter, stability, and the safety to begin healing.',
   },
   {
     image: educationImg,
     title: 'Education & Growth',
     description:
-      'From literacy programs to vocational training, every girl receives a personalized education plan to help her build a future.',
+      'From literacy programs to vocational training, every girl receives a personalized education plan — from basic literacy to vocational training — that meets her where she is and helps her grow into who she\'s meant to be.',
   },
   {
     image: communityImg,
@@ -36,17 +36,17 @@ const howWeHelp = [
 const stories = [
   {
     label: 'Resident A',
-    text: 'Arrived at age 14 after being rescued from a trafficking situation. Through counseling and our Bridge Program, she is now completing secondary education and preparing for vocational training.',
+    text: 'After coming to Safe Harbor at age 14, she enrolled in our Bridge Program. Through counseling and steady support, she is now completing secondary education and preparing for vocational training.',
     status: 'Education In Progress',
   },
   {
     label: 'Resident B',
-    text: 'Entered care through a government referral at age 12. After two years of holistic support, she was successfully reunified with her family and continues to receive follow-up visits.',
+    text: 'Entered care through a government referral at age 12. After two years of holistic support, she reunified with her family and continues to receive follow-up visits.',
     status: 'Reintegration Completed',
   },
   {
     label: 'Resident C',
-    text: 'Came to Safe Harbor at age 15 with critical health needs. With access to regular medical checkups, nutrition support, and counseling, her risk level has improved from Critical to Low.',
+    text: 'Came to Safe Harbor at age 15 with critical health needs. With access to regular medical checkups, nutrition support, and counseling, today, with consistent care and support, she is healthy, stable, and thriving.',
     status: 'Health Improving',
   },
 ]
@@ -112,7 +112,7 @@ export default function HomePage() {
               <p className="mt-5 text-base sm:text-lg leading-relaxed text-white/85">
                 In the Philippines, thousands of young girls have experienced
                 abuse, neglect, abandonment, or trafficking. Safe Harbor gives them
-                a home, an education, and a path back to the life they deserve.
+                a home, an education, and a path toward the future they deserve.
               </p>
               <div className="mt-8">
                 <Link
@@ -132,8 +132,8 @@ export default function HomePage() {
           <FadeIn className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
             <h2 className="text-xl sm:text-2xl font-semibold text-foreground leading-snug">
-              We walk alongside girls in our care on their journey from crisis to
-              a confident, independent future.
+              We walk alongside each girl in our care — from her first day with us
+              through her confident, independent future.
             </h2>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
               Safe Harbor operates safe homes across Luzon, Visayas, and Mindanao
@@ -192,13 +192,13 @@ export default function HomePage() {
               <div>
                 <p className="text-4xl font-bold text-primary">60+</p>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  girls served across our safehouses, past and present
+                  girls who have called a Safe Harbor home their own
                 </p>
               </div>
               <div>
                 <p className="text-4xl font-bold text-primary">180+</p>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  personalized care plans guiding each girl's recovery
+                  care plan milestones reached, guiding each girl toward a confident future
                 </p>
               </div>
             </div>
@@ -239,12 +239,11 @@ export default function HomePage() {
           <div className="mx-auto max-w-5xl px-6 lg:px-8 py-16 sm:py-20">
             <FadeIn>
               <h2 className="text-xl font-semibold text-foreground text-center mb-3">
-                Their Stories, In Their Own Time
+                Stories From Our Homes
               </h2>
               <p className="text-sm text-muted-foreground text-center max-w-xl mx-auto mb-10">
-                Every girl's journey is different. Here are a few of the lives
-                being transformed through Safe Harbor's care. Names are withheld
-                to protect their privacy.
+                Every girl's journey is different. Here are a few glimpses into life at Safe Harbor.
+                Names are withheld to protect their privacy.
               </p>
             </FadeIn>
 

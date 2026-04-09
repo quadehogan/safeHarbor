@@ -22,23 +22,20 @@ import healthImg from '@/assets/photos/health.jpg'
 const stories = [
   {
     label: 'Resident A',
-    age: '16',
-    text: 'She arrived frightened and unsure of everything. Today, two years later, she is one of the top students in her class and dreams of becoming a nurse. She says the safe home gave her something she never had before — a routine, people who cared, and the quiet belief that she could be more.',
-    status: 'Education In Progress',
+    text: 'Two years ago, she arrived at Safe Harbor uncertain about what came next. Today she is one of the top students in her class and dreams of becoming a nurse. That future once felt impossible — but with a routine, caring adults, and steady encouragement, she found herself.',
+    status: 'Building Her Future',
     image: educationImg,
   },
   {
     label: 'Resident B',
-    age: '14',
     text: 'After being reunified with her grandmother last year, she continues to visit the safe home on weekends for tutoring. Her social worker says she lights up the room. She recently told a new resident, "It gets better. I promise."',
-    status: 'Reintegration Complete',
+    status: 'Thriving in the Community',
     image: communityImg,
   },
   {
     label: 'Resident C',
-    age: '15',
-    text: "When she first came to Safe Harbor, she wouldn't speak to anyone for weeks. Through patient counseling and art therapy, she slowly began to open up. Now she leads a small peer support group and helps younger girls feel welcome.",
-    status: 'Healing In Progress',
+    text: "When she first came to Safe Harbor, she wouldn't speak to anyone for weeks. Through patient counseling and art therapy, over time, she found her voice. Now she leads a small peer support group and helps younger girls feel welcome.",
+    status: 'Growing Every Day',
     image: healthImg,
   },
 ]
@@ -71,7 +68,7 @@ export function ImpactPage() {
   const derived = deriveStats(snapshots)
 
   const heroStats = [
-    { icon: Heart, value: derived ? `${derived.totalResidents}+` : '180+', label: 'Girls Rescued' },
+    { icon: Heart, value: derived ? `${derived.totalResidents}+` : '180+', label: 'Girls Supported' },
     { icon: Home, value: '9', label: 'Safe Homes' },
     { icon: Handshake, value: '12', label: 'Active Partners' },
     {
@@ -164,8 +161,8 @@ export function ImpactPage() {
         </section>
 
         <ImpactCTASection
-          headline="You can be part of their story"
-          body="Whether through giving, volunteering, or simply spreading the word — your support helps a young girl find safety, hope, and a future she can call her own."
+          headline="You can be part of her story"
+          body="Whether through giving, volunteering, or simply spreading the word — your support gives a young girl the safety, stability, and people she needs to build a life that belongs to her."
           primaryLabel="Get Involved"
           primaryTo="/contact"
           secondaryLabel="Learn About Us"

@@ -51,9 +51,8 @@ export function CookieConsent() {
 
           <div className="flex-1 space-y-3">
             <p className="text-sm text-foreground leading-relaxed">
-              We use cookies to keep you logged in and remember your
-              preferences. Essential cookies are always active for
-              authentication. Preference cookies (like dark mode) are optional.{' '}
+              We use essential cookies for secure login and optional preference cookies (like dark
+              mode). We do not track visitors or share data with third parties.{' '}
               <Link
                 to="/privacy"
                 className="underline underline-offset-2 text-primary hover:text-primary/80"

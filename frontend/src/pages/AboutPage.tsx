@@ -76,14 +76,13 @@ export default function AboutPage() {
               operated safe homes in the Philippines for years, Safe Harbor
               extends that mission to new underserved regions. We take a holistic
               approach: every girl who enters our care receives shelter,
-              counseling, education, healthcare, and a personalized plan for
-              reintegration into society.
+              counseling, education, healthcare, and a personalized plan for her future.
             </p>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
               Our dedicated social workers walk alongside each resident from the
               day she arrives through her transition to an independent, confident
-              future. We believe that with the right support, every girl can
-              heal.
+              future. We believe that with the right support, every girl can build a
+              future that belongs to her.
             </p>
           </div>
         </section>
@@ -133,11 +132,11 @@ export default function AboutPage() {
         <section className="bg-primary/10">
           <div className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-              Join us in making a difference
+              Be part of her story
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              Every donation, every volunteer hour, and every shared story brings
-              a girl one step closer to safety and independence.
+              Every donation, volunteer hour, and shared story helps a girl in our
+              care heal, learn, and build a life she's proud of.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link

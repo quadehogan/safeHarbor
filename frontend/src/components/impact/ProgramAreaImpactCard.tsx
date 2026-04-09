@@ -44,8 +44,7 @@ export function ProgramAreaImpactCard({
         )}
 
         <p className="text-xs text-muted-foreground/70 mt-auto">
-          Based on statistical analysis of donor allocations and resident outcomes.
-          Results are estimated and reflect population-level trends.
+          Estimates based on program data over the selected time period.
         </p>
       </CardContent>
     </Card>

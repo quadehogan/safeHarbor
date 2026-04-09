@@ -27,7 +27,7 @@ export function ResidentOutcomesPublic({
 }: ResidentOutcomesPublicProps) {
   return (
     <>
-      {/* Rescue & Reintegration */}
+      {/* Care & Reintegration */}
       <section className="bg-muted/40">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -43,7 +43,7 @@ export function ResidentOutcomesPublic({
             <FadeIn className="delay-100">
               <div className="h-1 w-12 rounded-full bg-primary mb-6" />
               <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
-                Rescue & Reintegration
+                Care & Reintegration
               </h2>
               <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
                 Every girl in our care has her own story and her own timeline. What they share is a
@@ -54,8 +54,8 @@ export function ResidentOutcomesPublic({
                   [...Array(4)].map((_, i) => <Skeleton key={i} className="h-20" />)
                 ) : (
                   [
-                    { value: String(girlsCurrentlyInCare), label: 'Girls Currently in Care', icon: ShieldCheck },
-                    { value: `${reintegrationRate}%`, label: 'Successfully Reintegrated', icon: TrendingUp },
+                    { value: String(girlsCurrentlyInCare), label: 'Girls Currently Supported', icon: ShieldCheck },
+                    { value: `${reintegrationRate}%`, label: 'Reintegration Completed', icon: TrendingUp },
                     { value: String(inFamilyReunification), label: 'In Family Reunification', icon: Users },
                     { value: String(livingIndependently), label: 'Living Independently', icon: Sparkles },
                   ].map((stat) => (
@@ -82,7 +82,7 @@ export function ResidentOutcomesPublic({
                 Education That Opens Doors
               </h2>
               <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
-                For many of our girls, Safe Harbor is the first place they've been able to attend
+                For many of the girls in our care, Safe Harbor is the first place they've been able to attend
                 school consistently. Every education plan is personalized — because every girl's
                 starting point is different.
               </p>

@@ -23,7 +23,7 @@ const contactInfo = [
     icon: Mail,
     title: 'Write to Us',
     detail: 'info@safeharbor.org',
-    sub: 'We\'ll get back to you within a day',
+    sub: 'We respond within one business day (Mon–Fri)',
   },
   {
     icon: MapPin,
@@ -89,6 +89,9 @@ export function ContactPage() {
               simply want to learn more about our mission, don't
               hesitate to reach out.
             </p>
+            <p className="mt-4 text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              If you or someone you know needs immediate assistance, please contact local emergency services or a trusted child protection authority. This form is monitored Monday through Friday.
+            </p>
           </div>
         </section>
 
@@ -145,7 +148,7 @@ export function ContactPage() {
                     <SelectItem value="volunteer">I'd like to volunteer my time</SelectItem>
                     <SelectItem value="partner">I represent an organization</SelectItem>
                     <SelectItem value="story">I'd like to share a story</SelectItem>
-                    <SelectItem value="general">Just saying hello</SelectItem>
+                    <SelectItem value="general">General inquiry</SelectItem>
                   </SelectContent>
                 </Select>
                 <FieldError message={fieldError('subject')} />
@@ -158,7 +161,7 @@ export function ContactPage() {
                   rows={5}
                   value={message}
                   onChange={(e) => { setMessage(e.target.value); clearError('message') }}
-                  placeholder="Tell us what's on your heart..."
+                  placeholder="Share what's on your mind…"
                 />
                 <FieldError message={fieldError('message')} />
               </div>
@@ -211,10 +214,10 @@ export function ContactPage() {
         <section className="bg-primary/10">
           <div className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-            Transforming lives, together.
+            Every girl's story is still being written.
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            See how our safe houses are making a difference, and discover the vital role your support plays.
+            See the real impact behind the numbers, and learn how your support helps write the next chapter.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link

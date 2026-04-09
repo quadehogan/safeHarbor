@@ -25,7 +25,7 @@ export function DonorPersonalizedSection({ token }: DonorPersonalizedSectionProp
           <div className="h-1 w-12 rounded-full bg-primary mb-4" />
           <h2 className="text-2xl font-semibold text-foreground">Your Personal Impact</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Based on your donation allocations and resident outcomes.
+            A look at how your giving has contributed to real change across our programs.
           </p>
         </div>
 

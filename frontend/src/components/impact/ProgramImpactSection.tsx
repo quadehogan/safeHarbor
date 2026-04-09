@@ -29,7 +29,7 @@ export function ProgramImpactSection({ programs, loading = false }: ProgramImpac
             Where Your Support Makes a Difference
           </h2>
           <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Based on statistical analysis of donor allocations and resident outcomes.
+            See how donations are making a measurable difference across our core programs.
           </p>
         </FadeIn>
 

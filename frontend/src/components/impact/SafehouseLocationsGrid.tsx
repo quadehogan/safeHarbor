@@ -1,7 +1,6 @@
 import { MapPin } from 'lucide-react'
 import { FadeIn } from '@/components/FadeIn'
 import { Skeleton } from '@/components/ui/skeleton'
-import { OccupancyBar } from '@/components/analytics/OccupancyBar'
 
 interface SafehouseLocation {
   city: string
@@ -30,10 +29,7 @@ export function SafehouseLocationsGrid({ locations, loading = false }: Safehouse
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-semibold text-card-foreground">{loc.city}</h3>
                     <p className="text-xs text-muted-foreground">{loc.region}</p>
-                    <div className="mt-3">
-                      {/* showLabel=false for public privacy */}
-                      <OccupancyBar current={loc.current} capacity={loc.capacity} showLabel={false} />
-                    </div>
+                    <span className="mt-2 inline-block text-xs font-medium text-primary bg-primary/10 rounded-full px-2.5 py-0.5">Active</span>
                   </div>
                 </div>
               </div>

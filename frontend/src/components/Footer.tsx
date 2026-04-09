@@ -15,8 +15,8 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm leading-relaxed">
-              Restoring hope and rebuilding futures for survivors of trafficking
-              and abuse in the Philippines.
+              Providing safe homes, education, and care for girls in the Philippines — so every girl
+              can build a future that belongs to her.
             </p>
           </div>
 
