@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Sidebar } from '@/components/Sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Card, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Select,
   SelectContent,
@@ -8,8 +10,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { SummaryStatRow } from '@/components/analytics/SummaryStatRow'
-import { AARSummaryCard } from '@/components/reports/AARSummaryCard'
+import {
+  Heart,
+  HeartPulse,
+  BookOpen,
+  Users,
+  TrendingUp,
+  CheckCircle2,
+  Home,
+  HandHeart,
+  DollarSign,
+} from 'lucide-react'
 import { ResidentRiskWidget } from '@/components/reports/ResidentRiskWidget'
 import { ReintegrationFunnel } from '@/components/reports/ReintegrationFunnel'
 import { EducationProgressSection } from '@/components/reports/EducationProgressSection'
@@ -159,40 +170,137 @@ export function ReportsPage() {
 
           {/* ── OVERVIEW ── */}
           <TabsContent value="overview" className="space-y-6">
-            {aarData ? (
-              <AARSummaryCard
-                year={aarData.year}
-                caring={aarData.caringCount}
-                healing={aarData.healingCount}
-                teaching={aarData.teachingCount}
-                totalBeneficiaries={aarData.totalBeneficiaries}
-                reintegrated={aarData.reintegratedCount}
-                loading={loading}
-              />
-            ) : (
-              <AARSummaryCard
-                year={selectedYear}
-                caring={0}
-                healing={0}
-                teaching={0}
-                totalBeneficiaries={0}
-                reintegrated={0}
-                loading={loading}
-              />
-            )}
-            <div className="rounded-xl border border-border bg-card p-6">
-              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-4">
-                Key Metrics
-              </p>
-              <SummaryStatRow
-                loading={loading}
-                metrics={[
-                  { label: 'Active Residents', value: activeResidents },
-                  { label: 'Total Safehouses', value: totalSafehouses },
-                  { label: 'Active Donors', value: totalDonors },
-                  { label: 'Total Raised (USD)', value: `$${Math.round(totalRaised).toLocaleString()}` },
-                ]}
-              />
+            {/* AAR Service Pillars Section */}
+            <div>
+              <div className="flex items-end justify-between mb-4">
+                <div>
+                  <h2 className="text-lg font-semibold text-foreground">
+                    Annual Accomplishment Report — {aarData?.year ?? selectedYear}
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    Aligned with Philippine DSWD AAR service pillars
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <PillarCard
+                  icon={Heart}
+                  label="Caring"
+                  value={aarData?.caringCount ?? 0}
+                  description="Residents under care"
+                  accent="rose"
+                  loading={loading}
+                />
+                <PillarCard
+                  icon={HeartPulse}
+                  label="Healing"
+                  value={aarData?.healingCount ?? 0}
+                  description="Receiving treatment"
+                  accent="blue"
+                  loading={loading}
+                />
+                <PillarCard
+                  icon={BookOpen}
+                  label="Teaching"
+                  value={aarData?.teachingCount ?? 0}
+                  description="In education programs"
+                  accent="violet"
+                  loading={loading}
+                />
+                <PillarCard
+                  icon={Users}
+                  label="Total Beneficiaries"
+                  value={aarData?.totalBeneficiaries ?? 0}
+                  description="Served this year"
+                  accent="emerald"
+                  loading={loading}
+                />
+              </div>
+
+              {/* Reintegration highlight row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50 to-white dark:from-emerald-950/20 dark:to-transparent dark:border-emerald-900/40">
+                  <CardContent className="flex items-center gap-4 py-5">
+                    <div className="h-12 w-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                        Reintegrated This Year
+                      </p>
+                      {loading ? (
+                        <Skeleton className="h-8 w-16 mt-1" />
+                      ) : (
+                        <p className="text-3xl font-bold text-foreground tabular-nums">
+                          {aarData?.reintegratedCount ?? 0}
+                        </p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="border-violet-200 bg-gradient-to-br from-violet-50 to-white dark:from-violet-950/20 dark:to-transparent dark:border-violet-900/40">
+                  <CardContent className="flex items-center gap-4 py-5">
+                    <div className="h-12 w-12 rounded-xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center shrink-0">
+                      <TrendingUp className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                        Reintegration Rate
+                      </p>
+                      {loading ? (
+                        <Skeleton className="h-8 w-16 mt-1" />
+                      ) : (
+                        <p className="text-3xl font-bold text-foreground tabular-nums">
+                          {(aarData?.totalBeneficiaries ?? 0) > 0
+                            ? Math.round(((aarData?.reintegratedCount ?? 0) / (aarData?.totalBeneficiaries ?? 1)) * 100)
+                            : 0}
+                          <span className="text-xl text-muted-foreground">%</span>
+                        </p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Key Metrics Section */}
+            <div>
+              <h2 className="text-lg font-semibold text-foreground mb-4">Key Metrics</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <MetricCard
+                  icon={Users}
+                  label="Active Residents"
+                  value={String(activeResidents)}
+                  accent="text-blue-500"
+                  bgAccent="bg-blue-500/10"
+                  loading={loading}
+                />
+                <MetricCard
+                  icon={Home}
+                  label="Total Safehouses"
+                  value={String(totalSafehouses)}
+                  accent="text-violet-500"
+                  bgAccent="bg-violet-500/10"
+                  loading={loading}
+                />
+                <MetricCard
+                  icon={HandHeart}
+                  label="Active Donors"
+                  value={String(totalDonors)}
+                  accent="text-rose-500"
+                  bgAccent="bg-rose-500/10"
+                  loading={loading}
+                />
+                <MetricCard
+                  icon={DollarSign}
+                  label="Total Raised (USD)"
+                  value={`$${Math.round(totalRaised).toLocaleString()}`}
+                  accent="text-emerald-500"
+                  bgAccent="bg-emerald-500/10"
+                  loading={loading}
+                />
+              </div>
             </div>
           </TabsContent>
 
@@ -233,9 +341,118 @@ export function ReportsPage() {
             {isAdmin && <DonorChurnWidget data={churnSummary} loading={loading} />}
           </TabsContent>
 
-          {/* ── SAFEHOUSE PERFORMANCE ── */}
         </Tabs>
       </main>
     </div>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/*  Sub-components                                                     */
+/* ------------------------------------------------------------------ */
+
+type AccentColor = 'rose' | 'blue' | 'violet' | 'emerald'
+
+const ACCENT_STYLES: Record<
+  AccentColor,
+  { iconBg: string; iconColor: string; border: string; gradient: string }
+> = {
+  rose: {
+    iconBg: 'bg-rose-100 dark:bg-rose-900/40',
+    iconColor: 'text-rose-600 dark:text-rose-400',
+    border: 'border-rose-200 dark:border-rose-900/40',
+    gradient: 'bg-gradient-to-br from-rose-50 to-white dark:from-rose-950/20 dark:to-transparent',
+  },
+  blue: {
+    iconBg: 'bg-blue-100 dark:bg-blue-900/40',
+    iconColor: 'text-blue-600 dark:text-blue-400',
+    border: 'border-blue-200 dark:border-blue-900/40',
+    gradient: 'bg-gradient-to-br from-blue-50 to-white dark:from-blue-950/20 dark:to-transparent',
+  },
+  violet: {
+    iconBg: 'bg-violet-100 dark:bg-violet-900/40',
+    iconColor: 'text-violet-600 dark:text-violet-400',
+    border: 'border-violet-200 dark:border-violet-900/40',
+    gradient: 'bg-gradient-to-br from-violet-50 to-white dark:from-violet-950/20 dark:to-transparent',
+  },
+  emerald: {
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/40',
+    iconColor: 'text-emerald-600 dark:text-emerald-400',
+    border: 'border-emerald-200 dark:border-emerald-900/40',
+    gradient: 'bg-gradient-to-br from-emerald-50 to-white dark:from-emerald-950/20 dark:to-transparent',
+  },
+}
+
+function PillarCard({
+  icon: Icon,
+  label,
+  value,
+  description,
+  accent,
+  loading,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  label: string
+  value: number
+  description: string
+  accent: AccentColor
+  loading: boolean
+}) {
+  const styles = ACCENT_STYLES[accent]
+  return (
+    <Card className={`${styles.border} ${styles.gradient} transition-shadow hover:shadow-md`}>
+      <CardContent className="py-5">
+        <div className="flex items-start justify-between mb-3">
+          <div className={`h-10 w-10 rounded-lg ${styles.iconBg} flex items-center justify-center`}>
+            <Icon className={`h-5 w-5 ${styles.iconColor}`} />
+          </div>
+        </div>
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+          {label}
+        </p>
+        {loading ? (
+          <Skeleton className="h-9 w-20 mt-1" />
+        ) : (
+          <p className="text-3xl font-bold text-foreground tabular-nums mt-1">{value}</p>
+        )}
+        <p className="text-xs text-muted-foreground mt-1">{description}</p>
+      </CardContent>
+    </Card>
+  )
+}
+
+function MetricCard({
+  icon: Icon,
+  label,
+  value,
+  accent,
+  bgAccent,
+  loading,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  label: string
+  value: string
+  accent: string
+  bgAccent: string
+  loading: boolean
+}) {
+  return (
+    <Card className="transition-shadow hover:shadow-md">
+      <CardContent className="py-5">
+        <div className="flex items-center gap-3 mb-3">
+          <div className={`h-9 w-9 rounded-lg ${bgAccent} flex items-center justify-center`}>
+            <Icon className={`h-4.5 w-4.5 ${accent}`} />
+          </div>
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+            {label}
+          </p>
+        </div>
+        {loading ? (
+          <Skeleton className="h-8 w-24" />
+        ) : (
+          <p className="text-2xl font-bold text-foreground tabular-nums">{value}</p>
+        )}
+      </CardContent>
+    </Card>
   )
 }
