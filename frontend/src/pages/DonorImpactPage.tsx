@@ -1,40 +1,31 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Sidebar } from '@/components/Sidebar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Heart, DollarSign, TrendingUp, Sparkles } from 'lucide-react'
-import { useAuth } from '@/context/AuthContext'
-import { PersonalizedStatementCard } from '@/components/impact/PersonalizedStatementCard'
 import {
-  fetchDonorImpactStatements,
-  fetchProgramImpactSummary,
-  type DonorImpactStatementDto,
-  type ProgramImpactSummaryDto,
-} from '@/api/ImpactAPI'
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Heart, DollarSign } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
 import { fetchDonations } from '@/api/DonationsAPI'
 import type { Donation } from '@/types/Donation'
 
 export function DonorImpactPage() {
-  const { token, email } = useAuth()
+  const { token } = useAuth()
 
-  const [statements, setStatements] = useState<DonorImpactStatementDto[]>([])
-  const [programs, setPrograms] = useState<ProgramImpactSummaryDto[]>([])
   const [donations, setDonations] = useState<Donation[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!token) return
 
-    Promise.allSettled([
-      fetchDonorImpactStatements(token),
-      fetchProgramImpactSummary(),
-      fetchDonations(token),
-    ]).then(([stmts, progs, dons]) => {
-      if (stmts.status === 'fulfilled') setStatements(stmts.value)
-      else setError('Could not load your impact data. Your account may not be linked to a donor record yet.')
-      if (progs.status === 'fulfilled') setPrograms(progs.value)
+    Promise.allSettled([fetchDonations(token)]).then(([dons]) => {
       if (dons.status === 'fulfilled') setDonations(dons.value)
       setLoading(false)
     })
@@ -46,12 +37,18 @@ export function DonorImpactPage() {
     0,
   )
   const totalGifts = donations.length
-  const programAreas = [...new Set(statements.map((s) => s.programArea))]
-  const highestImpact = statements.length
-    ? statements.reduce((best, s) =>
-        s.estimatedPctChange > best.estimatedPctChange ? s : best,
-      )
-    : null
+
+  const donorName = useMemo(() => {
+    const s = donations.find((d) => d.supporter)?.supporter
+    if (!s) return null
+    const display = s.displayName?.trim()
+    if (display) return display
+    const firstLast = [s.firstName, s.lastName].filter(Boolean).join(' ').trim()
+    if (firstLast) return firstLast
+    const org = s.organizationName?.trim()
+    if (org) return org
+    return null
+  }, [donations])
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -62,12 +59,20 @@ export function DonorImpactPage() {
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-foreground">My Impact</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {email} — your personalized giving impact dashboard
+            {loading ? (
+              <Skeleton className="h-4 w-48 inline-block align-middle" />
+            ) : donorName ? (
+              <>
+                {donorName} — your personalized giving impact dashboard
+              </>
+            ) : (
+              <>Your personalized giving impact dashboard</>
+            )}
           </p>
         </div>
 
         {/* Summary stat cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 gap-4 mb-8">
           {[
             {
               icon: DollarSign,
@@ -78,20 +83,6 @@ export function DonorImpactPage() {
               icon: Heart,
               label: 'Total Gifts',
               value: loading ? '—' : totalGifts,
-            },
-            {
-              icon: Sparkles,
-              label: 'Program Areas',
-              value: loading ? '—' : programAreas.length || '—',
-            },
-            {
-              icon: TrendingUp,
-              label: 'Biggest Impact',
-              value: loading
-                ? '—'
-                : highestImpact
-                ? `+${highestImpact.estimatedPctChange.toFixed(1)}%`
-                : '—',
             },
           ].map((stat) => (
             <Card key={stat.label}>
@@ -112,98 +103,83 @@ export function DonorImpactPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Personalized impact statements */}
-          <div className="lg:col-span-2 space-y-4">
-            <h2 className="text-base font-semibold text-foreground">Your Impact Statements</h2>
-            <p className="text-sm text-muted-foreground -mt-2">
-              Based on your donation allocations and statistical analysis of resident outcomes.
-            </p>
-
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle className="text-base font-semibold">Donation History</CardTitle>
+          </CardHeader>
+          <CardContent>
             {loading ? (
-              <div className="space-y-4">
-                {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-28" />)}
+              <div className="space-y-3">
+                {[...Array(5)].map((_, i) => (
+                  <Skeleton key={i} className="h-8 w-24" />
+                ))}
               </div>
-            ) : error ? (
-              <div className="rounded-lg border border-border bg-muted/30 p-6">
-                <p className="text-sm text-muted-foreground">{error}</p>
-              </div>
-            ) : statements.length === 0 ? (
-              <div className="rounded-lg border border-border bg-muted/30 p-6">
-                <p className="text-sm text-muted-foreground">
-                  Your impact is being tracked. Personalized results will appear here as our data
-                  grows — thank you for your continued support.
-                </p>
-              </div>
+            ) : donations.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No donations recorded yet.</p>
             ) : (
-              statements.map((s) => (
-                <PersonalizedStatementCard
-                  key={s.statementId}
-                  statementText={s.statementText}
-                  programArea={s.programArea}
-                  allocationAmount={s.allocationAmount}
-                  estimatedPctChange={s.estimatedPctChange}
-                  timeWindowMonths={s.timeWindowMonths}
-                  generatedAt={s.generatedAt}
-                />
-              ))
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted">
+                      <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">
+                        Date
+                      </TableHead>
+                      <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">
+                        Amount
+                      </TableHead>
+                      <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">
+                        Type
+                      </TableHead>
+                      <TableHead className="text-muted-foreground text-xs uppercase tracking-wide">
+                        Campaign
+                      </TableHead>
+                      <TableHead className="text-muted-foreground text-xs uppercase tracking-wide text-right">
+                        Recurring
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {[...donations]
+                      .sort(
+                        (a, b) =>
+                          new Date(b.donationDate).getTime() -
+                          new Date(a.donationDate).getTime(),
+                      )
+                      .map((d) => (
+                        <TableRow key={d.donationId}>
+                          <TableCell className="text-sm">
+                            {new Date(d.donationDate).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell className="text-sm">
+                            {d.amount != null
+                              ? `$${d.amount.toLocaleString()}`
+                              : d.estimatedValue != null
+                                ? `~$${d.estimatedValue.toLocaleString()}`
+                                : '—'}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline">{d.donationType}</Badge>
+                          </TableCell>
+                          <TableCell className="text-sm">{d.campaignName ?? '—'}</TableCell>
+                          <TableCell className="text-right">
+                            <Badge
+                              className={
+                                d.isRecurring
+                                  ? 'bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-400'
+                                  : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                              }
+                            >
+                              {d.isRecurring ? 'Yes' : 'No'}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </div>
             )}
-          </div>
-
-          {/* Sidebar: program breakdown + org-wide context */}
-          <div className="space-y-4">
-            {/* Your program areas */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm font-semibold">Your Program Areas</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {loading ? (
-                  <div className="space-y-2">
-                    {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-6 w-full" />)}
-                  </div>
-                ) : programAreas.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">No allocations recorded yet.</p>
-                ) : (
-                  <div className="flex flex-wrap gap-2">
-                    {programAreas.map((area) => (
-                      <Badge key={area} className="bg-primary/10 text-primary hover:bg-primary/10">
-                        {area}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Org-wide program impact context */}
-            {programs.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm font-semibold">Organization-Wide Impact</CardTitle>
-                  <p className="text-xs text-muted-foreground">
-                    Across all donors — statistical estimates
-                  </p>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {programs.map((p) => (
-                    <div key={`${p.programArea}-${p.outcomeMetric}`} className="flex items-start justify-between gap-2">
-                      <div>
-                        <p className="text-xs font-medium text-foreground">{p.programArea}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {p.outcomeMetric.replace(/_/g, ' ')} · {p.timeWindowMonths}mo
-                        </p>
-                      </div>
-                      <span className="text-sm font-bold text-emerald-700 whitespace-nowrap">
-                        +{p.estimatedPctChange.toFixed(1)}%
-                      </span>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </main>
     </div>
   )

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using SafeHarbor.API.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,20 @@ public class DonationsController : ControllerBase
             .Include(d => d.Supporter)
             .AsNoTracking()
             .AsQueryable();
+
+        if (User.IsInRole("DonorPortal") && !User.IsInRole("Admin"))
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst("email")?.Value;
+            if (string.IsNullOrWhiteSpace(email))
+                return Ok(Array.Empty<Donation>());
+
+            var supporter = await _db.Supporters.AsNoTracking()
+                .FirstOrDefaultAsync(s => s.Email == email, ct);
+            if (supporter is null)
+                return Ok(Array.Empty<Donation>());
+
+            query = query.Where(d => d.SupporterId == supporter.SupporterId);
+        }
 
         if (!string.IsNullOrEmpty(type))
             query = query.Where(d => d.DonationType == type);
