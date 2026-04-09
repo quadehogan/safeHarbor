@@ -4,13 +4,12 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { FadeIn } from '@/components/FadeIn'
 import { ImpactHeroSection } from '@/components/impact/ImpactHeroSection'
-import { ProgramImpactSection } from '@/components/impact/ProgramImpactSection'
 import { SafehouseLocationsGrid } from '@/components/impact/SafehouseLocationsGrid'
 import { ResidentOutcomesPublic } from '@/components/impact/ResidentOutcomesPublic'
 import { StoriesSection } from '@/components/impact/StoriesSection'
 import { ImpactCTASection } from '@/components/impact/ImpactCTASection'
 
-import { fetchImpactSnapshots, fetchProgramImpactSummary, type ImpactSnapshotDto, type ProgramImpactSummaryDto } from '@/api/ImpactAPI'
+import { fetchImpactSnapshots, type ImpactSnapshotDto } from '@/api/ImpactAPI'
 
 import shelterImg from '@/assets/photos/shelter.jpg'
 import educationImg from '@/assets/photos/education.jpg'
@@ -60,15 +59,11 @@ function deriveStats(snapshots: ImpactSnapshotDto[]) {
 /* ------------------------------------------------------------------ */
 export function ImpactPage() {
   const [snapshots, setSnapshots] = useState<ImpactSnapshotDto[]>([])
-  const [programs, setPrograms] = useState<ProgramImpactSummaryDto[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    Promise.all([fetchImpactSnapshots(), fetchProgramImpactSummary()])
-      .then(([snaps, progs]) => {
-        setSnapshots(snaps)
-        setPrograms(progs)
-      })
+    fetchImpactSnapshots()
+      .then(setSnapshots)
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
@@ -133,8 +128,6 @@ export function ImpactPage() {
             <SafehouseLocationsGrid locations={staticLocations} loading={loading && !snapshots.length} />
           </div>
         </section>
-
-        <ProgramImpactSection programs={programs} loading={loading} />
 
         <ResidentOutcomesPublic
           girlsCurrentlyInCare={totalInCare}
