@@ -632,64 +632,146 @@ export function ResidentsPage() {
 
       {/* ===== Detail Sheet ===== */}
       <Sheet open={!!sheetResident} onOpenChange={() => setSheetResident(null)}>
-        <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle>Resident Detail</SheetTitle>
+        <SheetContent className="w-[420px] sm:w-[560px] overflow-y-auto">
+          <SheetHeader className="pb-4">
+            <SheetTitle>
+              {sheetResident?.internalCode
+                ? `Resident ${sheetResident.internalCode}`
+                : 'Resident Detail'}
+            </SheetTitle>
           </SheetHeader>
+
           {sheetResident && (
-            <div className="mt-6 space-y-4 text-sm">
-              <DetailRow label="Internal Code" value={sheetResident.internalCode} />
-              <DetailRow label="Case Status" value={sheetResident.caseStatus} />
-              <DetailRow label="Case Category" value={sheetResident.caseCategory} />
-              <DetailRow label="Safehouse ID" value={sheetResident.safehouseId?.toString()} />
-              <DetailRow label="Age" value={sheetResident.presentAge} />
-              <DetailRow label="Date of Birth" value={sheetResident.dateOfBirth} />
-              <DetailRow label="Sex" value={sheetResident.sex} />
-              <DetailRow label="Place of Birth" value={sheetResident.placeOfBirth} />
-              <DetailRow label="Religion" value={sheetResident.religion} />
-              <DetailRow label="Date of Admission" value={sheetResident.dateOfAdmission} />
-              <DetailRow label="Age Upon Admission" value={sheetResident.ageUponAdmission} />
-              <DetailRow label="Length of Stay" value={sheetResident.lengthOfStay} />
-              <DetailRow label="Referral Source" value={sheetResident.referralSource} />
-              <DetailRow label="Referring Person/Agency" value={sheetResident.referringAgencyPerson} />
-              <DetailRow label="Assigned Social Worker" value={sheetResident.assignedSocialWorker} />
-              <DetailRow label="Initial Risk Level" value={sheetResident.initialRiskLevel} />
-              <DetailRow label="Current Risk Level" value={sheetResident.currentRiskLevel} />
-              <DetailRow label="Reintegration Type" value={sheetResident.reintegrationType} />
-              <DetailRow label="Reintegration Status" value={sheetResident.reintegrationStatus} />
-              <DetailRow label="Initial Case Assessment" value={sheetResident.initialCaseAssessment} />
-              <DetailRow label="Date Enrolled" value={sheetResident.dateEnrolled} />
-              <DetailRow label="Date Closed" value={sheetResident.dateClosed} />
+            <div className="space-y-4 pb-8">
+
+              {/* ML Recommendation — top */}
+              <InterventionRecommendationCard residentId={sheetResident.residentId} token={token} />
+
+              {/* Status & Risk — quick glance row */}
+              <Card>
+                <CardContent className="p-4 grid grid-cols-3 gap-3 text-center">
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-1">Status</p>
+                    <Badge className={statusBadgeClass(sheetResident.caseStatus)}>
+                      {sheetResident.caseStatus ?? '—'}
+                    </Badge>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-1">Risk</p>
+                    <Badge className={riskBadgeClass(sheetResident.currentRiskLevel)}>
+                      {sheetResident.currentRiskLevel ?? '—'}
+                    </Badge>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-1">Reintegration</p>
+                    <Badge className={reintegrationBadgeClass(sheetResident.reintegrationStatus)}>
+                      {sheetResident.reintegrationStatus ?? '—'}
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Demographics */}
+              <Card>
+                <CardContent className="p-4 space-y-0">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Demographics</p>
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
+                    <InfoCell label="Age" value={sheetResident.presentAge} />
+                    <InfoCell label="Sex" value={sheetResident.sex} />
+                    <InfoCell label="Date of Birth" value={sheetResident.dateOfBirth} />
+                    <InfoCell label="Place of Birth" value={sheetResident.placeOfBirth} />
+                    <InfoCell label="Religion" value={sheetResident.religion} />
+                    <InfoCell label="Safehouse ID" value={sheetResident.safehouseId?.toString()} />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Case Info */}
+              <Card>
+                <CardContent className="p-4 space-y-0">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Case Information</p>
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
+                    <InfoCell label="Category" value={sheetResident.caseCategory} />
+                    <InfoCell label="Referral Source" value={sheetResident.referralSource} />
+                    <InfoCell label="Referring Agency" value={sheetResident.referringAgencyPerson} />
+                    <InfoCell label="Social Worker" value={sheetResident.assignedSocialWorker} />
+                    <InfoCell label="Admitted" value={sheetResident.dateOfAdmission} />
+                    <InfoCell label="Age at Admission" value={sheetResident.ageUponAdmission} />
+                    <InfoCell label="Length of Stay" value={sheetResident.lengthOfStay} />
+                    <InfoCell label="Date Enrolled" value={sheetResident.dateEnrolled} />
+                    <InfoCell label="Initial Risk" value={sheetResident.initialRiskLevel} />
+                    <InfoCell label="Date Closed" value={sheetResident.dateClosed} />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Reintegration */}
+              <Card>
+                <CardContent className="p-4 space-y-0">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Reintegration</p>
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
+                    <InfoCell label="Type" value={sheetResident.reintegrationType} />
+                    <InfoCell label="Status" value={sheetResident.reintegrationStatus} />
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* Sub-categories */}
-              <div className="pt-2 border-t border-border">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Sub-Categories</p>
-                <div className="flex flex-wrap gap-2">
-                  {sheetResident.subCatOrphaned && <Badge variant="outline">Orphaned</Badge>}
-                  {sheetResident.subCatTrafficked && <Badge variant="outline">Trafficked</Badge>}
-                  {sheetResident.subCatChildLabor && <Badge variant="outline">Child Labor</Badge>}
-                  {sheetResident.subCatPhysicalAbuse && <Badge variant="outline">Physical Abuse</Badge>}
-                  {sheetResident.subCatSexualAbuse && <Badge variant="outline">Sexual Abuse</Badge>}
-                  {sheetResident.subCatOsaec && <Badge variant="outline">OSAEC</Badge>}
-                  {sheetResident.subCatCicl && <Badge variant="outline">CICL</Badge>}
-                  {sheetResident.subCatAtRisk && <Badge variant="outline">At Risk</Badge>}
-                  {sheetResident.subCatStreetChild && <Badge variant="outline">Street Child</Badge>}
-                  {sheetResident.subCatChildWithHiv && <Badge variant="outline">Child with HIV</Badge>}
-                </div>
-              </div>
-
-              {/* Sensitive notes -- admin only */}
-              {isAdmin && sheetResident.notesRestricted && (
-                <div className="pt-2 border-t border-border">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Restricted Notes</p>
-                  <p className="text-sm text-foreground whitespace-pre-wrap">{sheetResident.notesRestricted}</p>
-                </div>
+              {[
+                sheetResident.subCatOrphaned,
+                sheetResident.subCatTrafficked,
+                sheetResident.subCatChildLabor,
+                sheetResident.subCatPhysicalAbuse,
+                sheetResident.subCatSexualAbuse,
+                sheetResident.subCatOsaec,
+                sheetResident.subCatCicl,
+                sheetResident.subCatAtRisk,
+                sheetResident.subCatStreetChild,
+                sheetResident.subCatChildWithHiv,
+              ].some(Boolean) && (
+                <Card>
+                  <CardContent className="p-4">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Sub-Categories</p>
+                    <div className="flex flex-wrap gap-2">
+                      {sheetResident.subCatOrphaned && <Badge variant="outline">Orphaned</Badge>}
+                      {sheetResident.subCatTrafficked && <Badge variant="outline">Trafficked</Badge>}
+                      {sheetResident.subCatChildLabor && <Badge variant="outline">Child Labor</Badge>}
+                      {sheetResident.subCatPhysicalAbuse && <Badge variant="outline">Physical Abuse</Badge>}
+                      {sheetResident.subCatSexualAbuse && <Badge variant="outline">Sexual Abuse</Badge>}
+                      {sheetResident.subCatOsaec && <Badge variant="outline">OSAEC</Badge>}
+                      {sheetResident.subCatCicl && <Badge variant="outline">CICL</Badge>}
+                      {sheetResident.subCatAtRisk && <Badge variant="outline">At Risk</Badge>}
+                      {sheetResident.subCatStreetChild && <Badge variant="outline">Street Child</Badge>}
+                      {sheetResident.subCatChildWithHiv && <Badge variant="outline">Child with HIV</Badge>}
+                    </div>
+                  </CardContent>
+                </Card>
               )}
 
-              {/* ML Intervention Recommendation */}
-              <div className="pt-2 border-t border-border">
-                <InterventionRecommendationCard residentId={sheetResident.residentId} token={token} />
-              </div>
+              {/* Initial Assessment */}
+              {sheetResident.initialCaseAssessment && (
+                <Card>
+                  <CardContent className="p-4">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Initial Case Assessment</p>
+                    <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
+                      {sheetResident.initialCaseAssessment}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Restricted notes — admin only */}
+              {isAdmin && sheetResident.notesRestricted && (
+                <Card className="border-destructive/30 bg-destructive/5">
+                  <CardContent className="p-4">
+                    <p className="text-xs font-semibold text-destructive uppercase tracking-wide mb-2">Restricted Notes</p>
+                    <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
+                      {sheetResident.notesRestricted}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
             </div>
           )}
         </SheetContent>
@@ -699,13 +781,13 @@ export function ResidentsPage() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Detail row helper                                                  */
+/*  Info cell helper                                                   */
 /* ------------------------------------------------------------------ */
-function DetailRow({ label, value }: { label: string; value?: string | null }) {
+function InfoCell({ label, value }: { label: string; value?: string | null }) {
   return (
-    <div className="grid grid-cols-[140px_1fr] gap-2">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="text-foreground">{value || '--'}</span>
+    <div>
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="font-medium text-foreground">{value || '—'}</p>
     </div>
   )
 }
