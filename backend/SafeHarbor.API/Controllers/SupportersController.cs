@@ -15,7 +15,8 @@ public class SupportersController : ControllerBase
 
     public SupportersController(SafeHarborDbContext db) => _db = db;
 
-    // GET /api/Supporters/me — returns the current donor's supporter record by JWT email
+    // GET /api/Supporters/me — returns the current donor's supporter record by JWT email.
+    // If no supporter record exists, auto-creates one so Google-authenticated donors can donate immediately.
     [HttpGet("me")]
     [Authorize(Roles = "Admin,SocialWorker,DonorPortal")]
     public async Task<ActionResult<Supporter>> GetMe(CancellationToken ct)
@@ -25,10 +26,30 @@ public class SupportersController : ControllerBase
         if (email == null) return Unauthorized();
 
         var supporter = await _db.Supporters
-            .AsNoTracking()
             .FirstOrDefaultAsync(s => s.Email == email, ct);
 
-        if (supporter == null) return NotFound("No supporter record found for this account.");
+        if (supporter == null)
+        {
+            // Auto-create a supporter record for this user
+            var name = User.FindFirst(ClaimTypes.Name)?.Value
+                       ?? User.FindFirst("name")?.Value
+                       ?? email.Split('@')[0];
+            var maxId = await _db.Supporters.MaxAsync(s => (int?)s.SupporterId, ct) ?? 0;
+            supporter = new Supporter
+            {
+                SupporterId = maxId + 1,
+                SupporterType = "MonetaryDonor",
+                DisplayName = name,
+                Email = email,
+                Status = "Active",
+                AcquisitionChannel = "Website",
+                RelationshipType = "International",
+                CreatedAt = DateTime.UtcNow,
+            };
+            _db.Supporters.Add(supporter);
+            await _db.SaveChangesAsync(ct);
+        }
+
         return Ok(supporter);
     }
 
