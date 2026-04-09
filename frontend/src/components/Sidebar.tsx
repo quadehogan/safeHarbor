@@ -9,7 +9,6 @@ import {
   Handshake,
   LogOut,
   BarChart2,
-  Sparkles,
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 
@@ -23,7 +22,6 @@ const navItems = [
   { label: 'Partners', icon: Handshake, href: '/partners' },
   { label: 'Social Media', icon: FileText, href: '/social-media' },
   { label: 'Reports', icon: BarChart2, href: '/reports' },
-  { label: 'My Impact', icon: Sparkles, href: '/donor/impact' },
 ]
 
 export function Sidebar() {
