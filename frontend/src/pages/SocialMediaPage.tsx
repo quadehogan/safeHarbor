@@ -24,9 +24,18 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 import { Search, ThumbsUp, MessageCircle, Share2, TrendingUp } from 'lucide-react'
 
 const PLATFORMS = ['Facebook', 'Instagram', 'TikTok', 'WhatsApp', 'LinkedIn']
+const PAGE_SIZE = 10
 
 function platformBadge(platform?: string) {
   const colors: Record<string, string> = {
@@ -56,6 +65,7 @@ export function SocialMediaPage() {
   const [search, setSearch] = useState('')
   const [platformFilter, setPlatformFilter] = useState('all')
   const [boostedFilter, setBoostedFilter] = useState('all')
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     setPostsLoading(true)
@@ -100,6 +110,11 @@ export function SocialMediaPage() {
     if (boostedFilter === 'organic') list = list.filter((p) => p.isBoosted !== true)
     return list.sort((a, b) => (b.donationReferrals ?? 0) - (a.donationReferrals ?? 0))
   }, [posts, search, platformFilter, boostedFilter])
+
+  useEffect(() => setPage(1), [search, platformFilter, boostedFilter])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const paged = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -197,7 +212,7 @@ export function SocialMediaPage() {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    filtered.map((p) => (
+                    paged.map((p) => (
                       <TableRow key={p.socialMediaPostId}>
                         <TableCell className="px-4 py-3">{platformBadge(p.platform)}</TableCell>
                         <TableCell className="px-4 py-3 text-xs">{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '—'}</TableCell>
@@ -222,6 +237,37 @@ export function SocialMediaPage() {
                   )}
                 </TableBody>
               </Table>
+
+            {totalPages > 1 && (
+              <div className="p-4 border-t border-border">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setPage((p) => Math.max(1, p - 1))}
+                        className={page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
+                      .map((p, idx, arr) => (
+                        <PaginationItem key={p}>
+                          {idx > 0 && arr[idx - 1] !== p - 1 && <span className="px-2 text-muted-foreground">...</span>}
+                          <PaginationLink onClick={() => setPage(p)} isActive={p === page} className="cursor-pointer">
+                            {p}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                        className={page === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
             </Card>
           </div>
 
