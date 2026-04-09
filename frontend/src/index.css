@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * SafeHarbor design tokens
+ * Safe Harbor design tokens
  * Theme: violet primary, slate neutral (shadcn convention)
  * Source of truth: ui-components.md
  */

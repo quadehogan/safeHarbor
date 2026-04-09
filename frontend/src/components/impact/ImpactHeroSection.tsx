@@ -19,7 +19,7 @@ export function ImpactHeroSection({ headline, subheadline, stats, backgroundImag
     <section className="relative min-h-[480px] sm:min-h-[540px] flex items-center">
       <img
         src={backgroundImage}
-        alt="SafeHarbor shelter in the Philippines"
+        alt="Safe Harbor shelter in the Philippines"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-black/60" />

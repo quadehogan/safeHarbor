@@ -46,7 +46,7 @@ const stories = [
   },
   {
     label: 'Resident C',
-    text: 'Came to SafeHarbor at age 15 with critical health needs. With access to regular medical checkups, nutrition support, and counseling, her risk level has improved from Critical to Low.',
+    text: 'Came to Safe Harbor at age 15 with critical health needs. With access to regular medical checkups, nutrition support, and counseling, her risk level has improved from Critical to Low.',
     status: 'Health Improving',
   },
 ]
@@ -111,7 +111,7 @@ export default function HomePage() {
               </h1>
               <p className="mt-5 text-base sm:text-lg leading-relaxed text-white/85">
                 In the Philippines, thousands of young girls are survivors of
-                trafficking and abuse. SafeHarbor gives them a home, an
+                trafficking and abuse. Safe Harbor gives them a home, an
                 education, and a path back to the life they deserve.
               </p>
               <div className="mt-8">
@@ -136,7 +136,7 @@ export default function HomePage() {
               confident, independent future.
             </h2>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              SafeHarbor operates safe homes across Luzon, Visayas, and Mindanao
+              Safe Harbor operates safe homes across Luzon, Visayas, and Mindanao
               for young girls who have experienced trafficking, abuse, and
               neglect. Through holistic case management -- counseling, health
               care, education, and family reintegration -- we help each girl
@@ -243,7 +243,7 @@ export default function HomePage() {
               </h2>
               <p className="text-sm text-muted-foreground text-center max-w-xl mx-auto mb-10">
                 Every girl's journey is different. Here are a few of the lives
-                being transformed through SafeHarbor's care. Names are withheld
+                being transformed through Safe Harbor's care. Names are withheld
                 to protect their privacy.
               </p>
             </FadeIn>

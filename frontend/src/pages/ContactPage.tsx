@@ -72,7 +72,7 @@ export function ContactPage() {
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Whether you're moved to give, ready to volunteer your time, or
-              simply want to learn more about the girls we serve, don't
+              simply want to learn more about our mission, don't
               hesitate to reach out.
             </p>
           </div>
@@ -196,11 +196,10 @@ export function ContactPage() {
         <section className="bg-primary/10">
           <div className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-              Every connection matters
+            Transforming lives, together.
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              Learn about the girls whose lives are being transformed, and
-              discover how your support makes it possible.
+            See how our safe houses are making a difference, and discover the vital role your support plays.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link

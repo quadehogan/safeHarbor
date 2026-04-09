@@ -61,7 +61,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
-          &copy; {new Date().getFullYear()} SafeHarbor. All rights reserved.
+          &copy; {new Date().getFullYear()} Safe Harbor. All rights reserved.
         </div>
       </div>
     </footer>

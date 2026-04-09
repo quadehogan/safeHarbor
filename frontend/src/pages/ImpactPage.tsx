@@ -38,7 +38,7 @@ const stories = [
   {
     label: 'Resident C',
     age: '15',
-    text: "When she first came to SafeHarbor, she wouldn't speak to anyone for weeks. Through patient counseling and art therapy, she slowly began to open up. Now she leads a small peer support group and helps younger girls feel welcome.",
+    text: "When she first came to Safe Harbor, she wouldn't speak to anyone for weeks. Through patient counseling and art therapy, she slowly began to open up. Now she leads a small peer support group and helps younger girls feel welcome.",
     status: 'Healing In Progress',
     image: healthImg,
   },
@@ -126,7 +126,7 @@ export function ImpactPage() {
               <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
               <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">Where We Are</h2>
               <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Across 6 regions of the Philippines, SafeHarbor operates safe homes where girls can
+                Across 6 regions of the Philippines, Safe Harbor operates safe homes where girls can
                 begin to heal, learn, and grow at their own pace.
               </p>
             </FadeIn>
@@ -154,7 +154,7 @@ export function ImpactPage() {
         <section className="relative h-64 sm:h-80">
           <img
             src={healthImg}
-            alt="Girls at a SafeHarbor community gathering"
+            alt="Girls at a Safe Harbor community gathering"
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/40" />
@@ -164,7 +164,7 @@ export function ImpactPage() {
                 "It gets better. I promise."
               </p>
               <p className="mt-2 text-sm text-white/70">
-                — A SafeHarbor resident to a newly arrived girl
+                — A Safe Harbor resident to a newly arrived girl
               </p>
             </FadeIn>
           </div>

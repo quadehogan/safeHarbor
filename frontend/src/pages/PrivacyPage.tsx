@@ -30,7 +30,7 @@ export function PrivacyPage() {
               Last updated: {LAST_UPDATED}
             </p>
             <p className="mt-4 text-sm text-slate-300 leading-relaxed max-w-xl">
-              SafeHarbor is committed to protecting your personal data and
+              Safe Harbor is committed to protecting your personal data and
               respecting your privacy. This policy explains what information we
               collect, how we use it, and what rights you have — in compliance
               with the General Data Protection Regulation (GDPR) and applicable
@@ -45,13 +45,13 @@ export function PrivacyPage() {
           {/* 1. Who We Are */}
           <Section title="1. Who We Are">
             <p>
-              SafeHarbor is a nonprofit organization operating safe homes for
+              Safe Harbor is a nonprofit organization operating safe homes for
               survivors of trafficking, abuse, and neglect across the
               Philippines. We are the data controller responsible for your
               personal information collected through this website.
             </p>
             <p>
-              <strong className="text-foreground">Organization name:</strong> SafeHarbor Foundation, Inc.<br />
+              <strong className="text-foreground">Organization name:</strong> Safe Harbor Foundation, Inc.<br />
               <strong className="text-foreground">Primary operating country:</strong> Philippines<br />
               <strong className="text-foreground">Privacy contact:</strong>{' '}
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-primary hover:underline">
@@ -311,7 +311,7 @@ export function PrivacyPage() {
           {/* 9. International Transfers */}
           <Section title="9. International Data Transfers">
             <p>
-              SafeHarbor's primary operations and data storage are based in the
+              Safe Harbor's primary operations and data storage are based in the
               Philippines. If you are located in the EEA or UK, your data may be
               transferred to and processed in a country that does not have the
               same data protection laws as your jurisdiction.
@@ -373,7 +373,7 @@ export function PrivacyPage() {
                 {CONTACT_EMAIL}
               </a>
               <br />
-              <strong className="text-foreground">Organization:</strong> SafeHarbor Foundation, Inc.<br />
+              <strong className="text-foreground">Organization:</strong> Safe Harbor Foundation, Inc.<br />
               <strong className="text-foreground">Country:</strong> Philippines
             </p>
             <p>

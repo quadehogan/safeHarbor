@@ -35,7 +35,7 @@ export function ResidentOutcomesPublic({
               <div className="rounded-xl overflow-hidden shadow-md">
                 <img
                   src={communityImg}
-                  alt="Girls supported through SafeHarbor's reintegration program"
+                  alt="Girls supported through Safe Harbor's reintegration program"
                   className="w-full h-72 sm:h-80 object-cover"
                 />
               </div>
@@ -82,7 +82,7 @@ export function ResidentOutcomesPublic({
                 Education That Opens Doors
               </h2>
               <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
-                For many of our girls, SafeHarbor is the first place they've been able to attend
+                For many of our girls, Safe Harbor is the first place they've been able to attend
                 school consistently. Every education plan is personalized — because every girl's
                 starting point is different.
               </p>
@@ -107,7 +107,7 @@ export function ResidentOutcomesPublic({
               <div className="rounded-xl overflow-hidden shadow-md">
                 <img
                   src={educationImg}
-                  alt="Girl studying at a SafeHarbor education program"
+                  alt="Girl studying at a Safe Harbor education program"
                   className="w-full h-72 sm:h-80 object-cover"
                 />
               </div>

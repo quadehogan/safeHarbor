@@ -49,7 +49,7 @@ export default function AboutPage() {
         <section className="bg-muted/60 dark:bg-slate-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-24 text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-              About SafeHarbor
+              About Safe Harbor
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               A safe place for every survivor to heal, grow, and build a future
@@ -68,13 +68,13 @@ export default function AboutPage() {
             <p className="mt-6 text-sm sm:text-base text-muted-foreground leading-relaxed">
               In the Philippines, thousands of young girls are survivors of
               trafficking, abuse, abandonment, and neglect. Many have nowhere
-              safe to go. SafeHarbor was founded to change that — to give every
+              safe to go. Safe Harbor was founded to change that — to give every
               girl a home, a community, and the tools she needs to rebuild her
               life.
             </p>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
               Modeled after Lighthouse Sanctuary, a US-based 501(c)(3) that has
-              operated safe homes in the Philippines for years, SafeHarbor
+              operated safe homes in the Philippines for years, Safe Harbor
               extends that mission to new underserved regions. We take a holistic
               approach: every girl who enters our care receives shelter,
               counseling, education, healthcare, and a personalized plan for
