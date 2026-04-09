@@ -2,6 +2,8 @@ import { useEffect, useState, useMemo, useCallback } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { Sidebar } from '@/components/Sidebar'
 import type { Resident } from '@/types/Resident'
+import { useFormValidation, requiredSelect, notFutureDate } from '@/lib/useFormValidation'
+import { FieldError } from '@/components/FieldError'
 import {
   fetchResidents,
   createResident,
@@ -136,10 +138,18 @@ function ResidentForm({
   const [form, setForm] = useState<Partial<Resident>>(initial)
   const set = (key: keyof Resident, val: unknown) => setForm((p) => ({ ...p, [key]: val }))
 
+  const { validate, fieldError, clearError } = useFormValidation<Partial<Resident>>({
+    caseStatus: requiredSelect('case status'),
+    caseCategory: requiredSelect('case category'),
+    dateOfBirth: notFutureDate('Date of birth'),
+    dateOfAdmission: notFutureDate('Date of admission'),
+  })
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
+        if (!validate(form)) return
         onSave(form)
       }}
       className="space-y-4 max-h-[70vh] overflow-y-auto pr-2"
@@ -151,21 +161,23 @@ function ResidentForm({
         </div>
         <div className="space-y-1">
           <Label>Case Status *</Label>
-          <Select value={form.caseStatus ?? ''} onValueChange={(v) => set('caseStatus', v)}>
+          <Select value={form.caseStatus ?? ''} onValueChange={(v) => { set('caseStatus', v); clearError('caseStatus') }}>
             <SelectTrigger><SelectValue placeholder="Select status" /></SelectTrigger>
             <SelectContent>
               {STATUS_OPTIONS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
             </SelectContent>
           </Select>
+          <FieldError message={fieldError('caseStatus')} />
         </div>
         <div className="space-y-1">
           <Label>Case Category *</Label>
-          <Select value={form.caseCategory ?? ''} onValueChange={(v) => set('caseCategory', v)}>
+          <Select value={form.caseCategory ?? ''} onValueChange={(v) => { set('caseCategory', v); clearError('caseCategory') }}>
             <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
             <SelectContent>
               {CATEGORY_OPTIONS.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
             </SelectContent>
           </Select>
+          <FieldError message={fieldError('caseCategory')} />
         </div>
         <div className="space-y-1">
           <Label>Safehouse ID</Label>
@@ -173,11 +185,13 @@ function ResidentForm({
         </div>
         <div className="space-y-1">
           <Label>Date of Birth</Label>
-          <Input type="date" value={form.dateOfBirth ?? ''} onChange={(e) => set('dateOfBirth', e.target.value || null)} />
+          <Input type="date" value={form.dateOfBirth ?? ''} onChange={(e) => { set('dateOfBirth', e.target.value || null); clearError('dateOfBirth') }} />
+          <FieldError message={fieldError('dateOfBirth')} />
         </div>
         <div className="space-y-1">
           <Label>Date of Admission</Label>
-          <Input type="date" value={form.dateOfAdmission ?? ''} onChange={(e) => set('dateOfAdmission', e.target.value || null)} />
+          <Input type="date" value={form.dateOfAdmission ?? ''} onChange={(e) => { set('dateOfAdmission', e.target.value || null); clearError('dateOfAdmission') }} />
+          <FieldError message={fieldError('dateOfAdmission')} />
         </div>
         <div className="space-y-1">
           <Label>Current Risk Level</Label>

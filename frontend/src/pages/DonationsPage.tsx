@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext'
 import { Sidebar } from '../components/Sidebar'
 import type { Supporter } from '../types/Supporter'
 import type { Donation } from '../types/Donation'
+import { useFormValidation, required, requiredSelect, validEmail, positiveNumber } from '@/lib/useFormValidation'
+import { FieldError } from '@/components/FieldError'
 import {
   fetchSupporters,
   createSupporter,
@@ -1106,8 +1108,20 @@ function SupporterForm({
     acquisitionChannel: supporter?.acquisitionChannel ?? '',
   })
 
+  const { validate, fieldError, clearError } = useFormValidation<typeof form>({
+    supporterType: requiredSelect('supporter type'),
+    status: requiredSelect('status'),
+    email: (value) => {
+      // Only validate if not empty
+      if (!value || value === '') return ''
+      if (typeof value === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email address'
+      return ''
+    },
+  })
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (!validate(form)) return
     onSave({
       ...form,
       displayName: form.displayName || null,
@@ -1157,7 +1171,7 @@ function SupporterForm({
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Type *</Label>
-          <Select value={form.supporterType} onValueChange={(v: string) => setForm({ ...form, supporterType: v })}>
+          <Select value={form.supporterType} onValueChange={(v: string) => { setForm({ ...form, supporterType: v }); clearError('supporterType') }}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               {SUPPORTER_TYPES.map((t) => (
@@ -1165,16 +1179,18 @@ function SupporterForm({
               ))}
             </SelectContent>
           </Select>
+          <FieldError message={fieldError('supporterType')} />
         </div>
         <div className="space-y-2">
           <Label>Status *</Label>
-          <Select value={form.status} onValueChange={(v: string) => setForm({ ...form, status: v })}>
+          <Select value={form.status} onValueChange={(v: string) => { setForm({ ...form, status: v }); clearError('status') }}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="Active">Active</SelectItem>
               <SelectItem value="Inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
+          <FieldError message={fieldError('status')} />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -1183,8 +1199,9 @@ function SupporterForm({
           <Input
             type="email"
             value={form.email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, email: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, email: e.target.value }); clearError('email') }}
           />
+          <FieldError message={fieldError('email')} />
         </div>
         <div className="space-y-2">
           <Label>Phone</Label>
@@ -1273,8 +1290,19 @@ function DonationForm({
     currencyCode: 'USD',
   })
 
+  const { validate, fieldError, clearError } = useFormValidation<typeof form>({
+    supporterId: (value) => {
+      if (!value || value === 0) return 'Please select a supporter'
+      return ''
+    },
+    donationType: requiredSelect('donation type'),
+    donationDate: required('Donation date'),
+    amount: positiveNumber('Amount'),
+  })
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (!validate(form)) return
     onSave({
       ...form,
       campaignName: form.campaignName || null,
@@ -1291,7 +1319,7 @@ function DonationForm({
         <Label>Supporter *</Label>
         <Select
           value={form.supporterId ? String(form.supporterId) : ''}
-          onValueChange={(v: string) => setForm({ ...form, supporterId: parseInt(v) })}
+          onValueChange={(v: string) => { setForm({ ...form, supporterId: parseInt(v) }); clearError('supporterId') }}
         >
           <SelectTrigger><SelectValue placeholder="Select supporter..." /></SelectTrigger>
           <SelectContent>
@@ -1302,11 +1330,12 @@ function DonationForm({
             ))}
           </SelectContent>
         </Select>
+        <FieldError message={fieldError('supporterId')} />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Type *</Label>
-          <Select value={form.donationType} onValueChange={(v: string) => setForm({ ...form, donationType: v })}>
+          <Select value={form.donationType} onValueChange={(v: string) => { setForm({ ...form, donationType: v }); clearError('donationType') }}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               {DONATION_TYPES.map((t) => (
@@ -1314,14 +1343,16 @@ function DonationForm({
               ))}
             </SelectContent>
           </Select>
+          <FieldError message={fieldError('donationType')} />
         </div>
         <div className="space-y-2">
           <Label>Date *</Label>
           <Input
             type="date"
             value={form.donationDate}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, donationDate: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, donationDate: e.target.value }); clearError('donationDate') }}
           />
+          <FieldError message={fieldError('donationDate')} />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -1331,8 +1362,9 @@ function DonationForm({
             type="number"
             step="0.01"
             value={form.amount}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, amount: parseFloat(e.target.value) || 0 })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, amount: parseFloat(e.target.value) || 0 }); clearError('amount') }}
           />
+          <FieldError message={fieldError('amount')} />
         </div>
         <div className="space-y-2">
           <Label>Estimated Value</Label>

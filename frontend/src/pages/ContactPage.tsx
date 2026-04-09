@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useFormValidation, required, requiredSelect, validEmail, minLength } from '@/lib/useFormValidation'
+import { FieldError } from '@/components/FieldError'
 
 const contactInfo = [
   {
@@ -44,8 +46,20 @@ export function ContactPage() {
   const [message, setMessage] = useState('')
   const [sending, setSending] = useState(false)
 
+  const { validate, fieldError, clearError } = useFormValidation<{ name: string; email: string; subject: string; message: string }>({
+    name: required('Name'),
+    email: validEmail,
+    subject: requiredSelect('topic'),
+    message: (value) => {
+      const req = required('Message')(value)
+      if (req) return req
+      return minLength('Message', 10)(value)
+    },
+  })
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
+    if (!validate({ name, email, subject, message })) return
     setSending(true)
 
     // Simulate submission
@@ -101,28 +115,28 @@ export function ContactPage() {
                   <Label htmlFor="name">Your name *</Label>
                   <Input
                     id="name"
-                    required
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => { setName(e.target.value); clearError('name') }}
                     placeholder="First and last name"
                   />
+                  <FieldError message={fieldError('name')} />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="email">Email address *</Label>
                   <Input
                     id="email"
                     type="email"
-                    required
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => { setEmail(e.target.value); clearError('email') }}
                     placeholder="you@example.com"
                   />
+                  <FieldError message={fieldError('email')} />
                 </div>
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="subject">How can we help? *</Label>
-                <Select value={subject} onValueChange={setSubject} required>
+                <Select value={subject} onValueChange={(v) => { setSubject(v); clearError('subject') }}>
                   <SelectTrigger id="subject">
                     <SelectValue placeholder="Choose a topic" />
                   </SelectTrigger>
@@ -134,18 +148,19 @@ export function ContactPage() {
                     <SelectItem value="general">Just saying hello</SelectItem>
                   </SelectContent>
                 </Select>
+                <FieldError message={fieldError('subject')} />
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="message">Your message *</Label>
                 <Textarea
                   id="message"
-                  required
                   rows={5}
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={(e) => { setMessage(e.target.value); clearError('message') }}
                   placeholder="Tell us what's on your heart..."
                 />
+                <FieldError message={fieldError('message')} />
               </div>
 
               <Button type="submit" className="w-full" disabled={sending}>

@@ -2,6 +2,8 @@ import { useEffect, useState, useMemo, useCallback } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { Sidebar } from '@/components/Sidebar'
 import type { ProcessRecording } from '@/types/ProcessRecording'
+import { useFormValidation, required, requiredSelect, notFutureDate, positiveNumber } from '@/lib/useFormValidation'
+import { FieldError } from '@/components/FieldError'
 import {
   fetchProcessRecordings,
   createProcessRecording,
@@ -107,10 +109,27 @@ function RecordingForm({
   const [form, setForm] = useState<Partial<ProcessRecording>>(initial)
   const set = (key: keyof ProcessRecording, val: unknown) => setForm((p) => ({ ...p, [key]: val }))
 
+  const { validate, fieldError, clearError } = useFormValidation<Partial<ProcessRecording>>({
+    residentId: (value) => {
+      if (value === null || value === undefined || value === 0) return 'Resident ID is required'
+      if (typeof value === 'number' && value < 0) return 'Resident ID must be a positive number'
+      return ''
+    },
+    sessionDate: (value) => {
+      if (!value || value === '') return 'Session date is required'
+      if (typeof value === 'string' && new Date(value) > new Date()) return 'Session date cannot be in the future'
+      return ''
+    },
+    socialWorker: required('Social worker'),
+    sessionType: requiredSelect('session type'),
+    sessionDurationMinutes: positiveNumber('Duration'),
+  })
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
+        if (!validate(form)) return
         onSave(form)
       }}
       className="space-y-4 max-h-[70vh] overflow-y-auto pr-2"
@@ -118,28 +137,33 @@ function RecordingForm({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1">
           <Label>Resident ID *</Label>
-          <Input type="number" required value={form.residentId ?? ''} onChange={(e) => set('residentId', e.target.value ? Number(e.target.value) : null)} />
+          <Input type="number" value={form.residentId ?? ''} onChange={(e) => { set('residentId', e.target.value ? Number(e.target.value) : null); clearError('residentId') }} />
+          <FieldError message={fieldError('residentId')} />
         </div>
         <div className="space-y-1">
           <Label>Session Date *</Label>
-          <Input type="date" required value={form.sessionDate ?? ''} onChange={(e) => set('sessionDate', e.target.value || null)} />
+          <Input type="date" value={form.sessionDate ?? ''} onChange={(e) => { set('sessionDate', e.target.value || null); clearError('sessionDate') }} />
+          <FieldError message={fieldError('sessionDate')} />
         </div>
         <div className="space-y-1">
           <Label>Social Worker *</Label>
-          <Input required value={form.socialWorker ?? ''} onChange={(e) => set('socialWorker', e.target.value || null)} />
+          <Input value={form.socialWorker ?? ''} onChange={(e) => { set('socialWorker', e.target.value || null); clearError('socialWorker') }} />
+          <FieldError message={fieldError('socialWorker')} />
         </div>
         <div className="space-y-1">
           <Label>Session Type *</Label>
-          <Select value={form.sessionType ?? ''} onValueChange={(v) => set('sessionType', v)}>
+          <Select value={form.sessionType ?? ''} onValueChange={(v) => { set('sessionType', v); clearError('sessionType') }}>
             <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
             <SelectContent>
               {SESSION_TYPES.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}
             </SelectContent>
           </Select>
+          <FieldError message={fieldError('sessionType')} />
         </div>
         <div className="space-y-1">
           <Label>Duration (minutes)</Label>
-          <Input type="number" value={form.sessionDurationMinutes ?? ''} onChange={(e) => set('sessionDurationMinutes', e.target.value ? Number(e.target.value) : null)} />
+          <Input type="number" value={form.sessionDurationMinutes ?? ''} onChange={(e) => { set('sessionDurationMinutes', e.target.value ? Number(e.target.value) : null); clearError('sessionDurationMinutes') }} />
+          <FieldError message={fieldError('sessionDurationMinutes')} />
         </div>
         <div className="space-y-1">
           <Label>Emotional State (Start)</Label>
