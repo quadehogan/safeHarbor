@@ -75,6 +75,7 @@ import {
   Search,
   ArrowUpDown,
 } from 'lucide-react'
+import { InterventionRecommendationCard } from '@/components/residents/InterventionRecommendationCard'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -684,6 +685,11 @@ export function ResidentsPage() {
                   <p className="text-sm text-foreground whitespace-pre-wrap">{sheetResident.notesRestricted}</p>
                 </div>
               )}
+
+              {/* ML Intervention Recommendation */}
+              <div className="pt-2 border-t border-border">
+                <InterventionRecommendationCard residentId={sheetResident.residentId} token={token} />
+              </div>
             </div>
           )}
         </SheetContent>
