@@ -426,7 +426,7 @@ export function HomeVisitationPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden pt-14 lg:pt-0">
         <div className="flex-1 overflow-y-auto px-6 py-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
@@ -489,7 +489,7 @@ export function HomeVisitationPage() {
               </Card>
 
               {/* Table */}
-              <Card>
+              <Card className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/40">
@@ -611,7 +611,7 @@ export function HomeVisitationPage() {
                 <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
                   <CalendarClock className="h-4 w-4 text-primary" /> Upcoming Conferences
                 </h3>
-                <Card>
+                <Card className="overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-muted/40">

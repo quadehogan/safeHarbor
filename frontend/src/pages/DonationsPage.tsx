@@ -439,7 +439,7 @@ export function DonationsPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col pt-14 lg:pt-0">
         <div className="flex-1 px-6 pt-6 max-w-7xl">
           <h1 className="text-2xl font-semibold tracking-tight mb-6">
             Donors &amp; Contributions
@@ -567,7 +567,7 @@ export function DonationsPage() {
 
               {/* Table */}
               <Card>
-                <CardContent className="p-0">
+                <CardContent className="p-0 overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-muted">
@@ -825,7 +825,7 @@ export function DonationsPage() {
 
               {/* Table */}
               <Card>
-                <CardContent className="p-0">
+                <CardContent className="p-0 overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-muted">

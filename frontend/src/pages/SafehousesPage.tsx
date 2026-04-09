@@ -216,7 +216,7 @@ export function SafehousesPage() {
     <div className="flex min-h-screen">
       <Sidebar />
 
-      <main className="flex-1 bg-background p-6 lg:p-10 overflow-y-auto">
+      <main className="flex-1 bg-background px-6 pb-6 pt-14 lg:p-10 overflow-y-auto">
         <div className="mx-auto max-w-7xl space-y-6">
           {/* Header */}
           <div>
@@ -291,7 +291,7 @@ export function SafehousesPage() {
 
           {/* ── Table ───────────────────────────────────────────── */}
           <Card>
-            <CardContent className="p-0">
+            <CardContent className="p-0 overflow-x-auto">
               {loading ? (
                 <div className="p-6 space-y-3">
                   {Array.from({ length: 6 }).map((_, i) => (
@@ -482,7 +482,7 @@ function SafehouseDetailReport({ detail: d }: { detail: SafehouseDetailDto }) {
       </SheetHeader>
 
       <Tabs defaultValue="performance" className="mt-2">
-        <TabsList className="w-full grid grid-cols-4">
+        <TabsList className="w-full grid grid-cols-2 sm:grid-cols-4 h-auto">
           <TabsTrigger value="performance">Performance</TabsTrigger>
           <TabsTrigger value="residents">Residents ({d.residents.length})</TabsTrigger>
           <TabsTrigger value="incidents">Incidents ({d.recentIncidents.length})</TabsTrigger>
@@ -660,6 +660,7 @@ function SafehouseDetailReport({ detail: d }: { detail: SafehouseDetailDto }) {
               <p className="text-sm">No residents currently assigned</p>
             </div>
           ) : (
+            <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/40">
@@ -682,6 +683,7 @@ function SafehouseDetailReport({ detail: d }: { detail: SafehouseDetailDto }) {
                 ))}
               </TableBody>
             </Table>
+            </div>
           )}
         </TabsContent>
 
@@ -858,7 +860,7 @@ function SafehouseDetailReport({ detail: d }: { detail: SafehouseDetailDto }) {
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium">Monthly Breakdown</CardTitle>
                 </CardHeader>
-                <CardContent className="p-0">
+                <CardContent className="p-0 overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-muted/40">

@@ -176,17 +176,17 @@ export function OverviewPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden pt-14 lg:pt-0">
         {/* Top bar */}
-        <header className="bg-card border-b border-border px-6 py-4 flex items-center justify-between">
-          <div>
+        <header className="bg-card border-b border-border px-6 py-4 flex items-center justify-between gap-3">
+          <div className="min-w-0 flex-1">
             <h1 className="text-xl font-semibold text-foreground">Dashboard</h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="text-sm text-muted-foreground mt-0.5 truncate">
               Welcome back, <span className="font-medium text-foreground">{email ?? 'Staff'}</span>
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-muted-foreground">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="hidden sm:inline text-xs text-muted-foreground">
               Updated {lastRefresh.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
             </span>
             <Button
@@ -261,7 +261,7 @@ export function OverviewPage() {
                   View all <ArrowRight className="h-3 w-3" />
                 </Link>
               </CardHeader>
-              <CardContent className="p-0">
+              <CardContent className="p-0 overflow-x-auto">
                 {loading ? (
                   <div className="px-6 pb-4 space-y-3">
                     {Array.from({ length: 5 }).map((_, i) => (
@@ -376,7 +376,7 @@ export function OverviewPage() {
                 </CardTitle>
                 <span className="text-xs text-muted-foreground">High &amp; Critical risk only</span>
               </CardHeader>
-              <CardContent className="p-0">
+              <CardContent className="p-0 overflow-x-auto">
                 {loading ? (
                   <div className="px-6 pb-4 space-y-3">
                     {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-10 w-full" />)}

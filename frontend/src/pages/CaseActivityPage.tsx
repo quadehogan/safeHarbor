@@ -325,7 +325,7 @@ export function CaseActivityPage() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden pt-14 lg:pt-0">
         <div className="flex-1 px-4 sm:px-6 pt-6 max-w-7xl w-full">
         <div className="flex gap-6 items-start">
         <div className="flex-1 min-w-0 overflow-x-auto">
@@ -433,7 +433,7 @@ export function CaseActivityPage() {
                   <TableRow><TableCell colSpan={10} className="text-center py-12 text-muted-foreground">No process recordings found.</TableCell></TableRow>
                 ) : (
                   paged.map((r) => (
-                    <TableRow key={r.processRecordingId} className="cursor-pointer hover:bg-muted/50" onClick={() => { setSheetRecord(r); setSelectedResidentId(r.residentId ?? null) }}>
+                    <TableRow key={r.processRecordingId} className="cursor-pointer hover:bg-muted/50" onClick={() => { setSelectedResidentId(r.residentId ?? null) }}>
                       <TableCell className="px-4 py-3 font-medium">R-{r.residentId}</TableCell>
                       <TableCell className="px-4 py-3">{r.sessionDate ?? '--'}</TableCell>
                       <TableCell className="px-4 py-3">{r.socialWorker ?? '--'}</TableCell>
