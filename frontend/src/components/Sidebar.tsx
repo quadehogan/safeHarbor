@@ -6,7 +6,6 @@ import {
   ClipboardList,
   Home,
   Heart,
-  Handshake,
   LogOut,
   BarChart2,
 } from 'lucide-react'
@@ -19,7 +18,6 @@ const navItems = [
   { label: 'Home Visitation', icon: ClipboardList, href: '/home-visitation' },
   { label: 'Safehouses', icon: Home, href: '/safehouses' },
   { label: 'Donors & Giving', icon: Heart, href: '/donor' },
-  { label: 'Partners', icon: Handshake, href: '/partners' },
   { label: 'Social Media', icon: FileText, href: '/social-media' },
   { label: 'Reports', icon: BarChart2, href: '/reports' },
 ]

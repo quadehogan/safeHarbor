@@ -21,7 +21,6 @@ import { ResidentsPage } from '@/pages/ResidentsPage'
 import { CaseActivityPage } from '@/pages/CaseActivityPage'
 import { SafehousesPage } from '@/pages/SafehousesPage'
 import { SocialMediaPage } from '@/pages/SocialMediaPage'
-import { PartnersPage } from '@/pages/PartnersPage'
 import { ReportsPage } from '@/pages/ReportsPage'
 import { HomeVisitationPage } from '@/pages/HomeVisitationPage'
 
@@ -116,15 +115,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/partners"
-          element={
-            <ProtectedRoute roles={STAFF}>
-              <PartnersPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
+<Route
           path="/reports"
           element={
             <ProtectedRoute roles={STAFF}>
