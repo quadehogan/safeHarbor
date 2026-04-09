@@ -468,25 +468,25 @@ export function DonationsPage() {
                   <>
                     <Card>
                       <CardContent className="p-6">
-                        <p className="text-3xl font-bold">{suppStats.total}</p>
+                        <p className="text-xl sm:text-3xl font-bold">{suppStats.total}</p>
                         <p className="text-sm text-muted-foreground">Total Supporters</p>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardContent className="p-6">
-                        <p className="text-3xl font-bold">{suppStats.active}</p>
+                        <p className="text-xl sm:text-3xl font-bold">{suppStats.active}</p>
                         <p className="text-sm text-muted-foreground">Active</p>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardContent className="p-6">
-                        <p className="text-3xl font-bold">{suppStats.inactive}</p>
+                        <p className="text-xl sm:text-3xl font-bold">{suppStats.inactive}</p>
                         <p className="text-sm text-muted-foreground">Inactive</p>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardContent className="p-6">
-                        <p className="text-3xl font-bold">{suppStats.topChannel}</p>
+                        <p className="text-xl sm:text-3xl font-bold">{suppStats.topChannel}</p>
                         <p className="text-sm text-muted-foreground">Top Acquisition</p>
                       </CardContent>
                     </Card>
@@ -701,13 +701,13 @@ export function DonationsPage() {
                   <>
                     <Card>
                       <CardContent className="p-6">
-                        <p className="text-3xl font-bold">{donStats.total}</p>
+                        <p className="text-xl sm:text-3xl font-bold">{donStats.total}</p>
                         <p className="text-sm text-muted-foreground">Total Donations</p>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardContent className="p-6">
-                        <p className="text-3xl font-bold">
+                        <p className="text-xl sm:text-3xl font-bold">
                           ${donStats.totalUsd.toLocaleString()}
                         </p>
                         <p className="text-sm text-muted-foreground">Total USD</p>
@@ -715,7 +715,7 @@ export function DonationsPage() {
                     </Card>
                     <Card>
                       <CardContent className="p-6">
-                        <p className="text-3xl font-bold">
+                        <p className="text-xl sm:text-3xl font-bold">
                           ${Math.round(donStats.avgGift).toLocaleString()}
                         </p>
                         <p className="text-sm text-muted-foreground">Avg Gift</p>
@@ -723,7 +723,7 @@ export function DonationsPage() {
                     </Card>
                     <Card>
                       <CardContent className="p-6">
-                        <p className="text-3xl font-bold">{donStats.recurringPct}%</p>
+                        <p className="text-xl sm:text-3xl font-bold">{donStats.recurringPct}%</p>
                         <p className="text-sm text-muted-foreground">Recurring</p>
                       </CardContent>
                     </Card>
@@ -988,7 +988,7 @@ export function DonationsPage() {
 
       {/* ═══════════ SUPPORTER DETAIL SHEET ═══════════ */}
       <Sheet open={!!sheetSupporter} onOpenChange={() => setSheetSupporter(null)}>
-        <SheetContent side="right" className="w-[400px] sm:w-[540px] overflow-y-auto">
+        <SheetContent side="right" className="w-full sm:w-[400px] overflow-y-auto">
           {sheetSupporter && (
             <>
               <SheetHeader>

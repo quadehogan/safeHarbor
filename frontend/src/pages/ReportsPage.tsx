@@ -232,7 +232,7 @@ export function ReportsPage() {
                       {loading ? (
                         <Skeleton className="h-8 w-16 mt-1" />
                       ) : (
-                        <p className="text-3xl font-bold text-foreground tabular-nums">
+                        <p className="text-xl sm:text-3xl font-bold text-foreground tabular-nums">
                           {aarData?.reintegratedCount ?? 0}
                         </p>
                       )}
@@ -251,7 +251,7 @@ export function ReportsPage() {
                       {loading ? (
                         <Skeleton className="h-8 w-16 mt-1" />
                       ) : (
-                        <p className="text-3xl font-bold text-foreground tabular-nums">
+                        <p className="text-xl sm:text-3xl font-bold text-foreground tabular-nums">
                           {(aarData?.totalBeneficiaries ?? 0) > 0
                             ? Math.round(((aarData?.reintegratedCount ?? 0) / (aarData?.totalBeneficiaries ?? 1)) * 100)
                             : 0}
@@ -413,7 +413,7 @@ function PillarCard({
         {loading ? (
           <Skeleton className="h-9 w-20 mt-1" />
         ) : (
-          <p className="text-3xl font-bold text-foreground tabular-nums mt-1">{value}</p>
+          <p className="text-xl sm:text-3xl font-bold text-foreground tabular-nums mt-1">{value}</p>
         )}
         <p className="text-xs text-muted-foreground mt-1">{description}</p>
       </CardContent>
