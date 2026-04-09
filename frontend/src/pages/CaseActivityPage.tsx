@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useCallback } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { Sidebar } from '@/components/Sidebar'
 import type { ProcessRecording } from '@/types/ProcessRecording'
-import { useFormValidation, required, requiredSelect, notFutureDate, positiveNumber } from '@/lib/useFormValidation'
+import { useFormValidation, required, requiredSelect, positiveNumber } from '@/lib/useFormValidation'
 import { FieldError } from '@/components/FieldError'
 import {
   fetchProcessRecordings,

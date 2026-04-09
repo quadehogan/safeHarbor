@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { Sidebar } from '../components/Sidebar'
 import type { Supporter } from '../types/Supporter'
 import type { Donation } from '../types/Donation'
-import { useFormValidation, required, requiredSelect, validEmail, positiveNumber } from '@/lib/useFormValidation'
+import { useFormValidation, required, requiredSelect, positiveNumber } from '@/lib/useFormValidation'
 import { FieldError } from '@/components/FieldError'
 import {
   fetchSupporters,
