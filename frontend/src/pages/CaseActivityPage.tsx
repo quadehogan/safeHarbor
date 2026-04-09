@@ -422,7 +422,7 @@ export function CaseActivityPage() {
                     ['progressNoted', 'Progress'],
                     ['concernsFlagged', 'Flagged concerns'],
                   ] as [keyof ProcessRecording, string][]).map(([key, label]) => (
-                    <TableHead key={key} className="text-muted-foreground text-xs uppercase tracking-wide cursor-pointer select-none" onClick={() => toggleSort(key)}>
+                    <TableHead key={key} role="button" aria-label={`Sort by ${label}`} className="text-muted-foreground text-xs uppercase tracking-wide cursor-pointer select-none" onClick={() => toggleSort(key)}>
                       <span className="inline-flex items-center gap-1">{label}<ArrowUpDown className="h-3 w-3" /></span>
                     </TableHead>
                   ))}

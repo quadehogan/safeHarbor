@@ -575,6 +575,8 @@ export function DonationsPage() {
                     <TableHeader>
                       <TableRow className="bg-muted">
                         <TableHead
+                          role="button"
+                          aria-label="Sort by Name"
                           className="text-muted-foreground text-xs uppercase tracking-wide px-4 py-3 cursor-pointer"
                           onClick={() => toggleSuppSort('displayName')}
                         >
@@ -587,6 +589,8 @@ export function DonationsPage() {
                           Status
                         </TableHead>
                         <TableHead
+                          role="button"
+                          aria-label="Sort by Country"
                           className="text-muted-foreground text-xs uppercase tracking-wide px-4 py-3 cursor-pointer"
                           onClick={() => toggleSuppSort('country')}
                         >
@@ -845,6 +849,8 @@ export function DonationsPage() {
                     <TableHeader>
                       <TableRow className="bg-muted">
                         <TableHead
+                          role="button"
+                          aria-label="Sort by Date"
                           className="text-muted-foreground text-xs uppercase tracking-wide px-4 py-3 cursor-pointer"
                           onClick={() => toggleDonSort('donationDate')}
                         >
@@ -857,6 +863,8 @@ export function DonationsPage() {
                           Type
                         </TableHead>
                         <TableHead
+                          role="button"
+                          aria-label="Sort by Amount"
                           className="text-muted-foreground text-xs uppercase tracking-wide px-4 py-3 cursor-pointer"
                           onClick={() => toggleDonSort('amount')}
                         >

@@ -481,6 +481,8 @@ export function ResidentsPage() {
                   ] as [keyof Resident, string][]).map(([key, label]) => (
                     <TableHead
                       key={key}
+                      role="button"
+                      aria-label={`Sort by ${label}`}
                       className="text-muted-foreground text-xs uppercase tracking-wide cursor-pointer select-none"
                       onClick={() => toggleSort(key)}
                     >
