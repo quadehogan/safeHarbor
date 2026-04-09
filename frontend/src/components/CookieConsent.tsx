@@ -44,7 +44,7 @@ export function CookieConsent() {
   if (!visible) return null
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-50 p-4 sm:p-6">
+    <div className="fixed bottom-0 inset-x-0 z-50 p-4 sm:p-6" role="dialog" aria-label="Cookie consent">
       <div className="mx-auto max-w-2xl rounded-xl border border-border bg-card shadow-lg p-5 sm:p-6">
         <div className="flex items-start gap-4">
           <Cookie className="h-5 w-5 text-primary mt-0.5 shrink-0" />

@@ -57,7 +57,7 @@ export function DonorImpactPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <main className="flex-1 overflow-auto px-6 pb-6 pt-14 lg:p-8">
+      <main id="main-content" className="flex-1 overflow-auto px-6 pb-6 pt-14 lg:p-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-foreground">My Impact</h1>

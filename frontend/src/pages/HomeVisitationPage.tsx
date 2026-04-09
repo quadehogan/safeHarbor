@@ -426,7 +426,7 @@ export function HomeVisitationPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <div className="flex-1 flex flex-col overflow-hidden pt-14 lg:pt-0">
+      <main id="main-content" className="flex-1 flex flex-col overflow-hidden pt-14 lg:pt-0">
         <div className="flex-1 overflow-y-auto px-6 py-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
@@ -463,6 +463,7 @@ export function HomeVisitationPage() {
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
+                        aria-label="Search visits"
                         placeholder="Search worker, location, resident..."
                         value={search}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setSearch(e.target.value); setVisitPage(1) }}
@@ -544,12 +545,12 @@ export function HomeVisitationPage() {
                           </TableCell>
                           <TableCell className="px-4 py-3 text-right">
                             <div className="flex justify-end gap-1">
-                              <Button variant="ghost" size="icon" onClick={() => openEdit(v)}>
+                              <Button variant="ghost" size="icon" aria-label="Edit visit" onClick={() => openEdit(v)}>
                                 <Pencil className="h-4 w-4" />
                               </Button>
                               <AlertDialog>
                                 <AlertDialogTrigger asChild>
-                                  <Button variant="ghost" size="icon">
+                                  <Button variant="ghost" size="icon" aria-label="Delete visit">
                                     <Trash2 className="h-4 w-4 text-destructive" />
                                   </Button>
                                 </AlertDialogTrigger>
@@ -712,7 +713,7 @@ export function HomeVisitationPage() {
             </TabsContent>
           </Tabs>
         </div>
-      </div>
+      </main>
 
       {/* ============== CREATE / EDIT DIALOG ============== */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

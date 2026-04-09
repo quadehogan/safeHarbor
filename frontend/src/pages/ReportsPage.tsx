@@ -133,7 +133,7 @@ export function ReportsPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <main className="flex-1 overflow-auto px-6 pb-6 pt-14 lg:p-8">
+      <main id="main-content" className="flex-1 overflow-auto px-6 pb-6 pt-14 lg:p-8">
         {/* Page header */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div>

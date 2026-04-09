@@ -382,7 +382,7 @@ export function ResidentsPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden pt-14 lg:pt-0">
+      <main id="main-content" className="flex-1 flex flex-col min-w-0 overflow-hidden pt-14 lg:pt-0">
         <div className="flex-1 px-4 sm:px-6 pt-6 max-w-7xl w-full overflow-x-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
@@ -432,6 +432,7 @@ export function ResidentsPage() {
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
+                    aria-label="Search residents"
                     placeholder="Search code, worker, category..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -535,13 +536,14 @@ export function ResidentsPage() {
                               <Button
                                 variant="ghost"
                                 size="icon"
+                                aria-label="Edit resident"
                                 onClick={() => { setEditing(r); setDialogOpen(true) }}
                               >
                                 <Pencil className="h-4 w-4" />
                               </Button>
                               <AlertDialog>
                                 <AlertDialogTrigger asChild>
-                                  <Button variant="ghost" size="icon">
+                                  <Button variant="ghost" size="icon" aria-label="Delete resident">
                                     <Trash2 className="h-4 w-4 text-destructive" />
                                   </Button>
                                 </AlertDialogTrigger>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export function Footer() {
   return (
-    <footer className="bg-slate-950 text-slate-400">
+    <footer className="bg-slate-950 text-slate-300">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
@@ -60,7 +60,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+        <div className="mt-10 border-t border-slate-800 pt-6 text-center text-xs text-slate-400">
           &copy; {new Date().getFullYear()} Safe Harbor. All rights reserved.
         </div>
       </div>

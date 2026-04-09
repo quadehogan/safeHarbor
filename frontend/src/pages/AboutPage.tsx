@@ -44,7 +44,7 @@ export default function AboutPage() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* ===== HERO BANNER ===== */}
         <section className="bg-muted/60 dark:bg-slate-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-24 text-center">

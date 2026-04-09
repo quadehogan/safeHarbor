@@ -93,7 +93,7 @@ export function RegisterPage() {
     loading || !passwordsMatch || !email.trim() || !password
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <main id="main-content" className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center space-y-1">
           <CardTitle className="text-2xl font-bold text-foreground">Create account</CardTitle>
@@ -169,6 +169,6 @@ export function RegisterPage() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </main>
   )
 }

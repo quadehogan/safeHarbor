@@ -439,7 +439,7 @@ export function DonationsPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <main className="flex-1 flex flex-col pt-14 lg:pt-0">
+      <main id="main-content" className="flex-1 flex flex-col pt-14 lg:pt-0">
         <div className="flex-1 px-6 pt-6 max-w-7xl">
           <h1 className="text-2xl font-semibold tracking-tight mb-6">
             Donors &amp; Contributions
@@ -503,6 +503,7 @@ export function DonationsPage() {
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
+                          aria-label="Search supporters"
                           placeholder="Search by name or email..."
                           className="pl-9"
                           value={suppSearch}
@@ -648,6 +649,7 @@ export function DonationsPage() {
                               {isAdmin && (
                                 <>
                                   <Button
+                                    aria-label="Edit supporter"
                                     variant="ghost"
                                     size="icon"
                                     onClick={() => {
@@ -659,7 +661,7 @@ export function DonationsPage() {
                                   </Button>
                                   <AlertDialog>
                                     <AlertDialogTrigger asChild>
-                                      <Button variant="ghost" size="icon">
+                                      <Button variant="ghost" size="icon" aria-label="Delete supporter">
                                         <Trash2 className="h-4 w-4 text-destructive" />
                                       </Button>
                                     </AlertDialogTrigger>
@@ -750,6 +752,7 @@ export function DonationsPage() {
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
+                          aria-label="Search donations"
                           placeholder="Search by supporter or campaign..."
                           className="pl-9"
                           value={donSearch}
@@ -930,6 +933,7 @@ export function DonationsPage() {
                                   <Button
                                     variant="ghost"
                                     size="icon"
+                                    aria-label="Edit donation"
                                     onClick={() => {
                                       setEditingDonation(d)
                                       setDonDialogOpen(true)
@@ -939,7 +943,7 @@ export function DonationsPage() {
                                   </Button>
                                   <AlertDialog>
                                     <AlertDialogTrigger asChild>
-                                      <Button variant="ghost" size="icon">
+                                      <Button variant="ghost" size="icon" aria-label="Delete donation">
                                         <Trash2 className="h-4 w-4 text-destructive" />
                                       </Button>
                                     </AlertDialogTrigger>

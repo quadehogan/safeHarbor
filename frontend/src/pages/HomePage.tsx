@@ -94,7 +94,7 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* ===== HERO (photo background) ===== */}
         <section className="relative min-h-[520px] sm:min-h-[600px] flex items-center">
           <img

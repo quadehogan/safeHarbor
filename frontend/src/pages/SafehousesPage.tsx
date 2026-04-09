@@ -216,7 +216,7 @@ export function SafehousesPage() {
     <div className="flex min-h-screen">
       <Sidebar />
 
-      <main className="flex-1 bg-background px-6 pb-6 pt-14 lg:p-10 overflow-y-auto">
+      <main id="main-content" className="flex-1 bg-background px-6 pb-6 pt-14 lg:p-10 overflow-y-auto">
         <div className="mx-auto max-w-7xl space-y-6">
           {/* Header */}
           <div>
@@ -258,6 +258,7 @@ export function SafehousesPage() {
               <div className="relative flex-1 min-w-[200px]">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
+                  aria-label="Search safehouses"
                   placeholder="Search by name, code, city, or region…"
                   value={search}
                   onChange={(e) => { setSearch(e.target.value); setPage(1) }}
@@ -373,13 +374,13 @@ export function SafehousesPage() {
                       {filtered.length}
                     </p>
                     <div className="flex items-center gap-1">
-                      <Button variant="ghost" size="icon" disabled={page <= 1} onClick={() => setPage(page - 1)}>
+                      <Button variant="ghost" size="icon" aria-label="Previous page" disabled={page <= 1} onClick={() => setPage(page - 1)}>
                         <ChevronLeft className="h-4 w-4" />
                       </Button>
                       <span className="text-xs text-muted-foreground px-2">
                         {page} / {totalPages}
                       </span>
-                      <Button variant="ghost" size="icon" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
+                      <Button variant="ghost" size="icon" aria-label="Next page" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
                         <ChevronRight className="h-4 w-4" />
                       </Button>
                     </div>

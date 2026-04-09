@@ -88,6 +88,8 @@ export function Navbar() {
             type="button"
             className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-slate-800"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? (
               <X className="h-5 w-5" />

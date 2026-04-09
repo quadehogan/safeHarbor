@@ -78,7 +78,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <main id="main-content" className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center space-y-1">
           <CardTitle className="text-2xl font-bold text-foreground">Sign in</CardTitle>
@@ -139,7 +139,7 @@ export function LoginPage() {
             className="w-full"
             onClick={handleGoogleLogin}
           >
-            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
                 fill="#4285F4"
@@ -172,6 +172,6 @@ export function LoginPage() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </main>
   )
 }

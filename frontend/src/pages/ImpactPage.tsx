@@ -103,7 +103,7 @@ export function ImpactPage() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <ImpactHeroSection
           headline="The lives behind the numbers"
           subheadline="Every number on this page represents someone who found safety when they needed it most. Here's a look at the impact your support makes possible."

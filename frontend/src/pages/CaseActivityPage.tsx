@@ -325,7 +325,7 @@ export function CaseActivityPage() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden pt-14 lg:pt-0">
+      <main id="main-content" className="flex-1 flex flex-col min-w-0 overflow-hidden pt-14 lg:pt-0">
         <div className="flex-1 px-4 sm:px-6 lg:px-8 pt-6 w-full">
         <div className="flex gap-6 items-start">
         <div className="flex-1 min-w-0 overflow-x-auto">
@@ -387,7 +387,7 @@ export function CaseActivityPage() {
           <Card className="mb-6"><CardContent className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search worker or resident ID..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
+              <Input aria-label="Search recordings" placeholder="Search worker or resident ID..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
             </div>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
               <SelectTrigger><SelectValue placeholder="Session Type" /></SelectTrigger>
@@ -455,9 +455,9 @@ export function CaseActivityPage() {
                       <TableCell className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                         <div className="flex gap-1">
                           {isAdmin && (<>
-                            <Button variant="ghost" size="icon" onClick={() => { setEditing(r); setDialogOpen(true) }}><Pencil className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="icon" aria-label="Edit session" onClick={() => { setEditing(r); setDialogOpen(true) }}><Pencil className="h-4 w-4" /></Button>
                             <AlertDialog>
-                              <AlertDialogTrigger asChild><Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
+                              <AlertDialogTrigger asChild><Button variant="ghost" size="icon" aria-label="Delete session"><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>Delete recording?</AlertDialogTitle>
