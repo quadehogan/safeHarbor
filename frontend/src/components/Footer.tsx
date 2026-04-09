@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { Anchor } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -8,12 +7,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Anchor className="h-5 w-5 text-primary" />
-              <span className="text-base font-semibold text-white">
-                SafeHarbor
-              </span>
-            </div>
+            <Link to="/" className="inline-block mb-3">
+              <img
+                src="/DarkModeSafeHarborLogo.png"
+                alt="Safe Harbor"
+                className="h-11 w-auto"
+              />
+            </Link>
             <p className="text-sm leading-relaxed">
               Restoring hope and rebuilding futures for survivors of trafficking
               and abuse in the Philippines.

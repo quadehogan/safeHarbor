@@ -8,7 +8,6 @@ import {
   Heart,
   Handshake,
   LogOut,
-  Shield,
   BarChart2,
   Sparkles,
 } from 'lucide-react'
@@ -41,11 +40,12 @@ export function Sidebar() {
     <aside className="w-64 bg-slate-950 shrink-0 flex flex-col min-h-screen">
       {/* Logo */}
       <div className="px-6 py-5 border-b border-slate-800">
-        <Link to="/dashboard" className="flex items-center gap-2">
-          <Shield className="h-6 w-6 text-primary" />
-          <span className="text-lg font-semibold text-white tracking-tight">
-            SafeHarbor
-          </span>
+        <Link to="/dashboard" className="flex items-center">
+          <img
+            src="/DarkModeSafeHarborLogo.png"
+            alt="Safe Harbor"
+            className="h-12 w-auto"
+          />
         </Link>
       </div>
 

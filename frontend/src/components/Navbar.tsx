@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Menu, X, Anchor, Sun, Moon } from 'lucide-react'
+import { Menu, X, Sun, Moon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useTheme } from '@/context/ThemeContext'
 import { useAuth } from '@/context/AuthContext'
@@ -30,11 +30,16 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <Anchor className="h-6 w-6 text-primary" />
-            <span className="text-lg font-semibold text-foreground tracking-tight">
-              SafeHarbor
-            </span>
+          <Link to="/" className="flex items-center">
+            <img
+              src={
+                theme === 'dark'
+                  ? '/DarkModeSafeHarborLogo.png'
+                  : '/LightModeSafeHarbor.png'
+              }
+              alt="Safe Harbor"
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Desktop links */}
