@@ -35,7 +35,7 @@ const pillars = [
     image: communityImg,
     title: 'Reintegration',
     description:
-      'Through home visitations, family counseling, and careful planning, we guide each girl toward a safe, independent future — whether through family reunification, foster care, or independent living.',
+      'Through home visits, family counseling, and careful planning, we walk alongside each resident toward a safe and stable future — whether through family reunification, foster care, or independent living.',
   },
 ]
 
@@ -52,8 +52,8 @@ export default function AboutPage() {
               About Safe Harbor
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              A safe place for every girl in our care to heal, grow, and build a
-              future on her own terms.
+              A safe place for each girl in our care to heal, grow, and build a
+              future that belongs to her.
             </p>
           </div>
         </section>
@@ -66,23 +66,23 @@ export default function AboutPage() {
               Our Story
             </h2>
             <p className="mt-6 text-sm sm:text-base text-muted-foreground leading-relaxed">
-              In the Philippines, thousands of young girls have experienced
-              abuse, neglect, abandonment, or trafficking. Many have nowhere safe
-              to go. Safe Harbor was founded to change that — to give every girl
-              a home, a community, and the tools she needs to rebuild her life.
+              In the Philippines, many young girls have no safe place to turn —
+              whether because of abuse, neglect, abandonment, or exploitation.
+              Safe Harbor was founded to change that: to give each girl who comes
+              to us a home, a community, and the support she needs to begin healing.
             </p>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
               Modeled after Lighthouse Sanctuary, a US-based 501(c)(3) that has
               operated safe homes in the Philippines for years, Safe Harbor
-              extends that mission to new underserved regions. We take a holistic
+              extends that mission to communities with fewer services and supports. We take a holistic
               approach: every girl who enters our care receives shelter,
               counseling, education, healthcare, and a personalized plan for her future.
             </p>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
               Our dedicated social workers walk alongside each resident from the
               day she arrives through her transition to an independent, confident
-              future. We believe that with the right support, every girl can build a
-              future that belongs to her.
+              future. We believe that with the right support, each girl can build a
+              future that is truly her own.
             </p>
           </div>
         </section>
@@ -132,11 +132,11 @@ export default function AboutPage() {
         <section className="bg-primary/10">
           <div className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-              Be part of her story
+              Walk alongside her
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              Every donation, volunteer hour, and shared story helps a girl in our
-              care heal, learn, and build a life she's proud of.
+              Every donation, volunteer hour, and shared story helps a young person
+              in our care heal, learn, and step into the future on her own terms.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link

@@ -15,8 +15,8 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm leading-relaxed">
-              Providing safe homes, education, and care for girls in the Philippines — so every girl
-              can build a future that belongs to her.
+              Providing safe homes, education, and care for girls across the Philippines —
+              so each young person can build a future that is truly her own.
             </p>
           </div>
 
