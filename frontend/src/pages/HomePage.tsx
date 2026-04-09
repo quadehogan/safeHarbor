@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Heart, Globe, Users } from 'lucide-react'
+import { ArrowRight, Handshake, Globe, Users } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 
@@ -16,7 +16,7 @@ const howWeHelp = [
     image: shelterImg,
     title: 'Safe Housing',
     description:
-      'We operate 9 safe homes across the Philippines where survivors find shelter, stability, and the space to begin healing.',
+      'We operate 9 safe homes across the Philippines where girls in our care find shelter, stability, and the space to begin healing.',
   },
   {
     image: educationImg,
@@ -110,9 +110,9 @@ export default function HomePage() {
                 Every girl deserves a safe place to heal
               </h1>
               <p className="mt-5 text-base sm:text-lg leading-relaxed text-white/85">
-                In the Philippines, thousands of young girls are survivors of
-                trafficking and abuse. Safe Harbor gives them a home, an
-                education, and a path back to the life they deserve.
+                In the Philippines, thousands of young girls have experienced
+                abuse, neglect, abandonment, or trafficking. Safe Harbor gives them
+                a home, an education, and a path back to the life they deserve.
               </p>
               <div className="mt-8">
                 <Link
@@ -132,8 +132,8 @@ export default function HomePage() {
           <FadeIn className="mx-auto max-w-3xl px-6 lg:px-8 py-16 sm:py-20 text-center">
             <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-primary" />
             <h2 className="text-xl sm:text-2xl font-semibold text-foreground leading-snug">
-              We walk alongside survivors on their journey from crisis to a
-              confident, independent future.
+              We walk alongside girls in our care on their journey from crisis to
+              a confident, independent future.
             </h2>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
               Safe Harbor operates safe homes across Luzon, Visayas, and Mindanao
@@ -192,7 +192,7 @@ export default function HomePage() {
               <div>
                 <p className="text-4xl font-bold text-primary">60+</p>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  girls on their journey to healing and independence
+                  girls served across our safehouses, past and present
                 </p>
               </div>
               <div>
@@ -210,10 +210,10 @@ export default function HomePage() {
           <FadeIn className="mx-auto max-w-5xl px-6 lg:px-8 py-12 sm:py-14">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
               <div className="flex flex-col items-center gap-2">
-                <Heart className="h-5 w-5 text-primary" />
+                <Handshake className="h-5 w-5 text-primary" />
                 <p className="text-2xl font-bold text-foreground">420+</p>
                 <p className="text-sm text-muted-foreground">
-                  contributions from donors worldwide
+                  donations and contributions across all support types
                 </p>
               </div>
               <div className="flex flex-col items-center gap-2">
@@ -227,7 +227,7 @@ export default function HomePage() {
                 <Users className="h-5 w-5 text-primary" />
                 <p className="text-2xl font-bold text-foreground">60+</p>
                 <p className="text-sm text-muted-foreground">
-                  active supporters and volunteers
+                  donors, volunteers, and partner organizations
                 </p>
               </div>
             </div>

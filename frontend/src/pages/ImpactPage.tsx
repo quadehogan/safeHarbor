@@ -109,7 +109,7 @@ export function ImpactPage() {
       <main className="flex-1">
         <ImpactHeroSection
           headline="The lives behind the numbers"
-          subheadline="Every number on this page is a girl who found safety when she needed it most. Here's a look at the impact your support makes possible."
+          subheadline="Every number on this page represents someone who found safety when they needed it most. Here's a look at the impact your support makes possible."
           stats={heroStats}
           backgroundImage={shelterImg}
         />

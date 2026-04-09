@@ -2,6 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { MetricNumber } from '@/components/analytics/MetricNumber'
 import { TrendChart } from '@/components/analytics/TrendChart'
 
+/** attendance_rate is stored as 0.0–1.0; some aggregates may already be 0–100. */
+export function formatAttendanceRatePercent(value: number): string {
+  const v = Number(value)
+  if (Number.isNaN(v)) return '—'
+  if (v >= 0 && v <= 1) return `${(v * 100).toFixed(0)}%`
+  return `${Math.round(v)}%`
+}
+
 interface EducationProgressSectionProps {
   enrollmentRate: number
   attendanceRate: number
@@ -27,7 +35,11 @@ export function EducationProgressSection({
       <CardContent className="space-y-6">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           <MetricNumber label="Enrollment Rate" value={`${enrollmentRate}%`} loading={loading} />
-          <MetricNumber label="Attendance Rate" value={`${attendanceRate}%`} loading={loading} />
+          <MetricNumber
+            label="Attendance Rate"
+            value={formatAttendanceRatePercent(attendanceRate)}
+            loading={loading}
+          />
           <MetricNumber label="Completion Rate" value={`${completionRate}%`} loading={loading} />
           <MetricNumber label="Vocational Graduates" value={vocationalGraduates} loading={loading} />
         </div>

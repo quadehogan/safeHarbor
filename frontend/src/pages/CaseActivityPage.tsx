@@ -68,7 +68,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import {
   FileText,
   Clock,
-  AlertTriangle,
+  Flag,
   TrendingUp,
   Plus,
   Pencil,
@@ -203,9 +203,17 @@ function RecordingForm({
           <input type="checkbox" checked={form.progressNoted ?? false} onChange={(e) => set('progressNoted', e.target.checked)} />
           Progress Noted
         </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={form.concernsFlagged ?? false} onChange={(e) => set('concernsFlagged', e.target.checked)} />
-          Concerns Flagged
+        <label
+          className="flex items-start gap-2 text-sm"
+          title="Noted by the social worker for follow-up — not an incident report"
+        >
+          <input
+            type="checkbox"
+            className="mt-0.5"
+            checked={form.concernsFlagged ?? false}
+            onChange={(e) => set('concernsFlagged', e.target.checked)}
+          />
+          <span>Flag concerns for follow-up</span>
         </label>
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" checked={form.referralMade ?? false} onChange={(e) => set('referralMade', e.target.checked)} />
@@ -348,10 +356,15 @@ export function CaseActivityPage() {
               </div>
             </CardContent></Card>
             <Card><CardContent className="p-6 flex items-center gap-4">
-              <div className="rounded-lg bg-amber-100 dark:bg-amber-900/30 p-3"><AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400" /></div>
+              <div className="rounded-lg bg-amber-100 dark:bg-amber-900/30 p-3"><Flag className="h-5 w-5 text-amber-600 dark:text-amber-400" /></div>
               <div>
-                <p className="text-sm text-muted-foreground">Concerns Flagged</p>
+                <p className="text-sm text-muted-foreground">Sessions with Flagged Concerns</p>
                 {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-3xl font-bold">{stats.concerns}</p>}
+                {!loading && (
+                  <p className="text-xs text-muted-foreground mt-1 max-w-[14rem] leading-snug">
+                    Noted by the social worker for follow-up — not an incident report
+                  </p>
+                )}
               </div>
             </CardContent></Card>
             <Card><CardContent className="p-6 flex items-center gap-4">
@@ -377,11 +390,11 @@ export function CaseActivityPage() {
               </SelectContent>
             </Select>
             <Select value={concernsFilter} onValueChange={setConcernsFilter}>
-              <SelectTrigger><SelectValue placeholder="Concerns" /></SelectTrigger>
+              <SelectTrigger><SelectValue placeholder="Flagged concerns" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="yes">Concerns Flagged</SelectItem>
-                <SelectItem value="no">No Concerns</SelectItem>
+                <SelectItem value="all">All sessions</SelectItem>
+                <SelectItem value="yes">Sessions with Flagged Concerns</SelectItem>
+                <SelectItem value="no">No flagged concerns</SelectItem>
               </SelectContent>
             </Select>
           </CardContent></Card>
@@ -400,7 +413,7 @@ export function CaseActivityPage() {
                     ['emotionalStateObserved', 'Start State'],
                     ['emotionalStateEnd', 'End State'],
                     ['progressNoted', 'Progress'],
-                    ['concernsFlagged', 'Concerns'],
+                    ['concernsFlagged', 'Flagged concerns'],
                   ] as [keyof ProcessRecording, string][]).map(([key, label]) => (
                     <TableHead key={key} className="text-muted-foreground text-xs uppercase tracking-wide cursor-pointer select-none" onClick={() => toggleSort(key)}>
                       <span className="inline-flex items-center gap-1">{label}<ArrowUpDown className="h-3 w-3" /></span>
@@ -518,7 +531,15 @@ export function CaseActivityPage() {
               <DetailRow label="State (Start)" value={sheetRecord.emotionalStateObserved} />
               <DetailRow label="State (End)" value={sheetRecord.emotionalStateEnd} />
               <DetailRow label="Progress Noted" value={sheetRecord.progressNoted ? 'Yes' : 'No'} />
-              <DetailRow label="Concerns Flagged" value={sheetRecord.concernsFlagged ? 'Yes' : 'No'} />
+              <div className="space-y-1">
+                <DetailRow
+                  label="Flagged for follow-up"
+                  value={sheetRecord.concernsFlagged ? 'Yes' : 'No'}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Noted by the social worker for follow-up — not an incident report
+                </p>
+              </div>
               <DetailRow label="Referral Made" value={sheetRecord.referralMade ? 'Yes' : 'No'} />
               <div className="pt-2 border-t border-border">
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Session Narrative</p>

@@ -536,11 +536,11 @@ function SafehouseDetailReport({ detail: d }: { detail: SafehouseDetailDto }) {
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-bold text-foreground">
-                    {avgHealth != null ? `${Math.round(avgHealth)}%` : '—'}
+                    {avgHealth != null ? `${Math.round(avgHealth)} / 5` : '—'}
                   </span>
                   <TrendIndicator delta={healthDelta} />
                 </div>
-                <ProgressBar pct={avgHealth ?? 0} color="bg-rose-500" />
+                <ProgressBar pct={avgHealth != null ? (avgHealth / 5) * 100 : 0} color="bg-rose-500" />
               </CardContent>
             </Card>
           </div>
@@ -883,7 +883,7 @@ function SafehouseDetailReport({ detail: d }: { detail: SafehouseDetailDto }) {
                             {row.avgEducationProgress != null ? `${Math.round(Number(row.avgEducationProgress))}%` : '—'}
                           </TableCell>
                           <TableCell className="text-center text-xs">
-                            {row.avgHealthScore != null ? `${Math.round(Number(row.avgHealthScore))}%` : '—'}
+                            {row.avgHealthScore != null ? `${Math.round(Number(row.avgHealthScore))} / 5` : '—'}
                           </TableCell>
                         </TableRow>
                       ))}

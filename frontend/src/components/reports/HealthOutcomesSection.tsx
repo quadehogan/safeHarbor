@@ -29,7 +29,7 @@ export function HealthOutcomesSection({
         <div className="flex flex-wrap gap-8 items-start">
           <MetricNumber
             label="Avg Wellbeing Score (1–5)"
-            value={`${avgHealthScore.toFixed(1)} / 5.0`}
+            value={`${avgHealthScore.toFixed(1)} / 5`}
             delta={delta}
             loading={loading}
           />
@@ -49,7 +49,7 @@ export function HealthOutcomesSection({
           data={trendData as Record<string, unknown>[]}
           xKey="month"
           yKey="avgScore"
-          label="Avg Health Score"
+          label="Avg Health Score (1–5)"
           chartType="bar"
           height={200}
         />

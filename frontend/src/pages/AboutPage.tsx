@@ -52,8 +52,8 @@ export default function AboutPage() {
               About Safe Harbor
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              A safe place for every survivor to heal, grow, and build a future
-              on her own terms.
+              A safe place for every girl in our care to heal, grow, and build a
+              future on her own terms.
             </p>
           </div>
         </section>
@@ -66,11 +66,10 @@ export default function AboutPage() {
               Our Story
             </h2>
             <p className="mt-6 text-sm sm:text-base text-muted-foreground leading-relaxed">
-              In the Philippines, thousands of young girls are survivors of
-              trafficking, abuse, abandonment, and neglect. Many have nowhere
-              safe to go. Safe Harbor was founded to change that — to give every
-              girl a home, a community, and the tools she needs to rebuild her
-              life.
+              In the Philippines, thousands of young girls have experienced
+              abuse, neglect, abandonment, or trafficking. Many have nowhere safe
+              to go. Safe Harbor was founded to change that — to give every girl
+              a home, a community, and the tools she needs to rebuild her life.
             </p>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
               Modeled after Lighthouse Sanctuary, a US-based 501(c)(3) that has

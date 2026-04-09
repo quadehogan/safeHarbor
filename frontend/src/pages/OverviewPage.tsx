@@ -220,7 +220,7 @@ export function OverviewPage() {
               icon={Users}
               label="Active Residents"
               value={loading ? '—' : activeResidents.length}
-              sub={loading ? undefined : `${residents.length} total across ${uniqueSafehouseIds.size} homes`}
+              sub={loading ? undefined : `${residents.length} total served · ${uniqueSafehouseIds.size} homes`}
               loading={loading}
             />
             <StatCard
