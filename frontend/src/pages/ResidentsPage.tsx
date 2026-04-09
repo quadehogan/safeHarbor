@@ -401,7 +401,7 @@ export function ResidentsPage() {
                 <div className="rounded-lg bg-primary/10 p-3"><Users className="h-5 w-5 text-primary" /></div>
                 <div>
                   <p className="text-sm text-muted-foreground">Total Residents</p>
-                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-3xl font-bold">{stats.total}</p>}
+                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.total}</p>}
                 </div>
               </CardContent>
             </Card>
@@ -410,7 +410,7 @@ export function ResidentsPage() {
                 <div className="rounded-lg bg-emerald-100 dark:bg-emerald-900/30 p-3"><UserCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /></div>
                 <div>
                   <p className="text-sm text-muted-foreground">Active</p>
-                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-3xl font-bold">{stats.active}</p>}
+                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.active}</p>}
                 </div>
               </CardContent>
             </Card>
@@ -419,7 +419,7 @@ export function ResidentsPage() {
                 <div className="rounded-lg bg-red-100 dark:bg-red-900/30 p-3"><ShieldAlert className="h-5 w-5 text-red-600 dark:text-red-400" /></div>
                 <div>
                   <p className="text-sm text-muted-foreground">High / Critical Risk</p>
-                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-3xl font-bold">{stats.highRisk}</p>}
+                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.highRisk}</p>}
                 </div>
               </CardContent>
             </Card>
@@ -636,7 +636,7 @@ export function ResidentsPage() {
 
       {/* ===== Detail Sheet ===== */}
       <Sheet open={!!sheetResident} onOpenChange={() => setSheetResident(null)}>
-        <SheetContent className="w-[420px] sm:w-[560px] overflow-y-auto">
+        <SheetContent className="w-full sm:w-[420px] overflow-y-auto">
           <SheetHeader className="pb-4">
             <SheetTitle>
               {sheetResident?.internalCode

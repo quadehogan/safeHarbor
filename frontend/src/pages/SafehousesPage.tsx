@@ -227,7 +227,7 @@ export function SafehousesPage() {
           </div>
 
           {/* ── Stat cards ──────────────────────────────────────── */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((s) =>
               loading ? (
                 <Skeleton key={s.label} className="h-24 rounded-xl" />
@@ -396,7 +396,7 @@ export function SafehousesPage() {
 
       {/* ── Detail Sheet ────────────────────────────────────────── */}
       <Sheet open={!!selectedDetail || detailLoading} onOpenChange={() => setSelectedDetail(null)}>
-        <SheetContent className="w-[92vw] sm:w-[38vw] sm:min-w-[520px] overflow-y-auto px-8">
+        <SheetContent className="w-full sm:w-[520px] overflow-y-auto px-8">
           {detailLoading ? (
             <div className="space-y-4 pt-6">
               <Skeleton className="h-8 w-48" />

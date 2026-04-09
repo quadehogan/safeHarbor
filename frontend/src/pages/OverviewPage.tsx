@@ -85,7 +85,7 @@ function StatCard({ icon: Icon, label, value, sub, loading, iconClass = 'text-pr
             <p className="text-sm text-muted-foreground">{label}</p>
             {loading
               ? <Skeleton className="h-8 w-20 mt-1" />
-              : <p className="text-3xl font-bold text-foreground mt-1">{value}</p>
+              : <p className="text-xl sm:text-3xl font-bold text-foreground mt-1">{value}</p>
             }
             {sub && !loading && (
               <p className="text-xs text-muted-foreground mt-1">{sub}</p>

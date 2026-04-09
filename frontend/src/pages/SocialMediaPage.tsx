@@ -126,25 +126,25 @@ export function SocialMediaPage() {
 
           {/* Stat cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card><CardContent className="p-6 flex items-center gap-4">
+            <Card><CardContent className="p-4 sm:p-6 flex items-center gap-4">
               <div className="rounded-lg bg-primary/10 p-3"><TrendingUp className="h-5 w-5 text-primary" /></div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Posts</p>
-                {postsLoading ? <Skeleton className="h-8 w-16" /> : <p className="text-3xl font-bold">{stats?.total ?? 0}</p>}
+                {postsLoading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats?.total ?? 0}</p>}
               </div>
             </CardContent></Card>
             <Card><CardContent className="p-6 flex items-center gap-4">
               <div className="rounded-lg bg-pink-100 dark:bg-pink-900/30 p-3"><ThumbsUp className="h-5 w-5 text-pink-600 dark:text-pink-400" /></div>
               <div>
                 <p className="text-sm text-muted-foreground">Avg Engagement</p>
-                {postsLoading ? <Skeleton className="h-8 w-16" /> : <p className="text-3xl font-bold">{stats ? `${(stats.avgEngagement * 100).toFixed(1)}%` : '—'}</p>}
+                {postsLoading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats ? `${(stats.avgEngagement * 100).toFixed(1)}%` : '—'}</p>}
               </div>
             </CardContent></Card>
             <Card><CardContent className="p-6 flex items-center gap-4">
               <div className="rounded-lg bg-emerald-100 dark:bg-emerald-900/30 p-3"><Share2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /></div>
               <div>
                 <p className="text-sm text-muted-foreground">Donation Referrals</p>
-                {postsLoading ? <Skeleton className="h-8 w-16" /> : <p className="text-3xl font-bold">{fmtNum(stats?.totalReferrals)}</p>}
+                {postsLoading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{fmtNum(stats?.totalReferrals)}</p>}
               </div>
             </CardContent></Card>
             <Card><CardContent className="p-6 flex items-center gap-4">
@@ -187,7 +187,7 @@ export function SocialMediaPage() {
             </CardContent></Card>
 
             <Card className="overflow-x-auto">
-              <Table className="min-w-[900px]">
+              <Table className="min-w-[700px]">
                 <TableHeader>
                   <TableRow>
                     {[

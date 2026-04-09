@@ -113,7 +113,7 @@ export function DonorImpactPage() {
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           {[
             {
               icon: DollarSign,
@@ -137,7 +137,7 @@ export function DonorImpactPage() {
                 {loading ? (
                   <Skeleton className="h-8 w-24" />
                 ) : (
-                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</p>
                 )}
               </CardContent>
             </Card>
