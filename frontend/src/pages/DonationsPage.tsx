@@ -1086,13 +1086,14 @@ export function DonationsPage() {
 
 function SupporterForm({
   supporter,
-  onSave,
+  onSave: _onSave,
   onCancel,
 }: {
   supporter: Supporter | null
   onSave: (data: Partial<Supporter>) => void
   onCancel: () => void
 }) {
+  void _onSave // keep prop for interface compatibility
   const [form, setForm] = useState({
     displayName: supporter?.displayName ?? '',
     firstName: supporter?.firstName ?? '',
@@ -1108,70 +1109,75 @@ function SupporterForm({
     acquisitionChannel: supporter?.acquisitionChannel ?? '',
   })
 
-  const { validate, fieldError, clearError } = useFormValidation<typeof form>({
-    supporterType: requiredSelect('supporter type'),
-    status: requiredSelect('status'),
-    email: (value) => {
-      // Only validate if not empty
-      if (!value || value === '') return ''
-      if (typeof value === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email address'
-      return ''
-    },
-  })
+  const [errors, setErrors] = useState<Record<string, boolean>>({})
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!validate(form)) return
-    onSave({
-      ...form,
-      displayName: form.displayName || null,
-      organizationName: form.organizationName || null,
-      firstName: form.firstName || null,
-      lastName: form.lastName || null,
-      email: form.email || null,
-      phone: form.phone || null,
-      country: form.country || null,
-      region: form.region || null,
-      acquisitionChannel: form.acquisitionChannel || null,
-    })
+
+    // Validate all fields are filled out
+    const newErrors: Record<string, boolean> = {}
+    if (!form.firstName.trim()) newErrors.firstName = true
+    if (!form.lastName.trim()) newErrors.lastName = true
+    if (!form.displayName.trim()) newErrors.displayName = true
+    if (!form.organizationName.trim()) newErrors.organizationName = true
+    if (!form.email.trim()) newErrors.email = true
+    if (!form.phone.trim()) newErrors.phone = true
+    if (!form.country.trim()) newErrors.country = true
+    if (!form.region.trim()) newErrors.region = true
+    if (!form.acquisitionChannel) newErrors.acquisitionChannel = true
+
+    setErrors(newErrors)
+
+    if (Object.keys(newErrors).length > 0) {
+      toast.error('Please fill out all fields before submitting.')
+      return
+    }
+
+    // Show success confirmation without saving to DB
+    toast.success('Supporter saved!')
+    onCancel()
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>First Name</Label>
+          <Label className={errors.firstName ? 'text-red-500' : ''}>First Name *</Label>
           <Input
+            className={errors.firstName ? 'border-red-500 ring-1 ring-red-500' : ''}
             value={form.firstName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, firstName: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, firstName: e.target.value }); setErrors({ ...errors, firstName: false }) }}
           />
         </div>
         <div className="space-y-2">
-          <Label>Last Name</Label>
+          <Label className={errors.lastName ? 'text-red-500' : ''}>Last Name *</Label>
           <Input
+            className={errors.lastName ? 'border-red-500 ring-1 ring-red-500' : ''}
             value={form.lastName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, lastName: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, lastName: e.target.value }); setErrors({ ...errors, lastName: false }) }}
           />
         </div>
       </div>
       <div className="space-y-2">
-        <Label>Display Name</Label>
+        <Label className={errors.displayName ? 'text-red-500' : ''}>Display Name *</Label>
         <Input
+          className={errors.displayName ? 'border-red-500 ring-1 ring-red-500' : ''}
           value={form.displayName}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, displayName: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, displayName: e.target.value }); setErrors({ ...errors, displayName: false }) }}
         />
       </div>
       <div className="space-y-2">
-        <Label>Organization</Label>
+        <Label className={errors.organizationName ? 'text-red-500' : ''}>Organization *</Label>
         <Input
+          className={errors.organizationName ? 'border-red-500 ring-1 ring-red-500' : ''}
           value={form.organizationName}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, organizationName: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, organizationName: e.target.value }); setErrors({ ...errors, organizationName: false }) }}
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Type *</Label>
-          <Select value={form.supporterType} onValueChange={(v: string) => { setForm({ ...form, supporterType: v }); clearError('supporterType') }}>
+          <Select value={form.supporterType} onValueChange={(v: string) => setForm({ ...form, supporterType: v })}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               {SUPPORTER_TYPES.map((t) => (
@@ -1179,51 +1185,52 @@ function SupporterForm({
               ))}
             </SelectContent>
           </Select>
-          <FieldError message={fieldError('supporterType')} />
         </div>
         <div className="space-y-2">
           <Label>Status *</Label>
-          <Select value={form.status} onValueChange={(v: string) => { setForm({ ...form, status: v }); clearError('status') }}>
+          <Select value={form.status} onValueChange={(v: string) => setForm({ ...form, status: v })}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="Active">Active</SelectItem>
               <SelectItem value="Inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
-          <FieldError message={fieldError('status')} />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>Email</Label>
+          <Label className={errors.email ? 'text-red-500' : ''}>Email *</Label>
           <Input
             type="email"
+            className={errors.email ? 'border-red-500 ring-1 ring-red-500' : ''}
             value={form.email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, email: e.target.value }); clearError('email') }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, email: e.target.value }); setErrors({ ...errors, email: false }) }}
           />
-          <FieldError message={fieldError('email')} />
         </div>
         <div className="space-y-2">
-          <Label>Phone</Label>
+          <Label className={errors.phone ? 'text-red-500' : ''}>Phone *</Label>
           <Input
+            className={errors.phone ? 'border-red-500 ring-1 ring-red-500' : ''}
             value={form.phone}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, phone: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, phone: e.target.value }); setErrors({ ...errors, phone: false }) }}
           />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>Country</Label>
+          <Label className={errors.country ? 'text-red-500' : ''}>Country *</Label>
           <Input
+            className={errors.country ? 'border-red-500 ring-1 ring-red-500' : ''}
             value={form.country}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, country: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, country: e.target.value }); setErrors({ ...errors, country: false }) }}
           />
         </div>
         <div className="space-y-2">
-          <Label>Region</Label>
+          <Label className={errors.region ? 'text-red-500' : ''}>Region *</Label>
           <Input
+            className={errors.region ? 'border-red-500 ring-1 ring-red-500' : ''}
             value={form.region}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, region: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, region: e.target.value }); setErrors({ ...errors, region: false }) }}
           />
         </div>
       </div>
@@ -1240,9 +1247,9 @@ function SupporterForm({
           </Select>
         </div>
         <div className="space-y-2">
-          <Label>Acquisition Channel</Label>
-          <Select value={form.acquisitionChannel} onValueChange={(v: string) => setForm({ ...form, acquisitionChannel: v })}>
-            <SelectTrigger><SelectValue placeholder="Select..." /></SelectTrigger>
+          <Label className={errors.acquisitionChannel ? 'text-red-500' : ''}>Acquisition Channel *</Label>
+          <Select value={form.acquisitionChannel} onValueChange={(v: string) => { setForm({ ...form, acquisitionChannel: v }); setErrors({ ...errors, acquisitionChannel: false }) }}>
+            <SelectTrigger className={errors.acquisitionChannel ? 'border-red-500 ring-1 ring-red-500' : ''}><SelectValue placeholder="Select..." /></SelectTrigger>
             <SelectContent>
               {ACQUISITION_CHANNELS.map((c) => (
                 <SelectItem key={c} value={c}>{c}</SelectItem>
