@@ -1,36 +1,36 @@
+using System.Security.Claims;
 using SafeHarbor.API.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace SafeHarbor.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Admin,SocialWorker")]
+[Authorize]
 public class SupportersController : ControllerBase
 {
     private readonly SafeHarborDbContext _db;
 
     public SupportersController(SafeHarborDbContext db) => _db = db;
 
-    // GET /api/Supporters/me — returns the current donor's supporter record by JWT email.
-    // If no supporter record exists, auto-creates one so Google-authenticated donors can donate immediately.
+    /// <summary>
+    /// Current donor's supporter row (JWT email). If none exists, creates one so authenticated donors can donate immediately.
+    /// </summary>
     [HttpGet("me")]
-    [Authorize(Roles = "Admin,SocialWorker,DonorPortal")]
+    [Authorize(Roles = "DonorPortal")]
     public async Task<ActionResult<Supporter>> GetMe(CancellationToken ct)
     {
-        var email = User.FindFirst(ClaimTypes.Email)?.Value
-                    ?? User.FindFirst("email")?.Value;
-        if (email == null) return Unauthorized();
+        var email = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst("email")?.Value;
+        if (string.IsNullOrWhiteSpace(email))
+            return NotFound();
 
         var supporter = await _db.Supporters
             .FirstOrDefaultAsync(s => s.Email == email, ct);
 
         if (supporter == null)
         {
-            // Auto-create a supporter record for this user
             var name = User.FindFirst(ClaimTypes.Name)?.Value
                        ?? User.FindFirst("name")?.Value
                        ?? email.Split('@')[0];
@@ -54,6 +54,7 @@ public class SupportersController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<ActionResult<IEnumerable<Supporter>>> Get(
         [FromQuery] string? status,
         [FromQuery] string? type,
@@ -70,7 +71,8 @@ public class SupportersController : ControllerBase
         return Ok(await query.OrderByDescending(s => s.CreatedAt).ToListAsync(ct));
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<ActionResult<Supporter>> Get(int id, CancellationToken ct)
     {
         var supporter = await _db.Supporters
@@ -83,6 +85,7 @@ public class SupportersController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<ActionResult<Supporter>> Post(Supporter supporter, CancellationToken ct)
     {
         var maxId = await _db.Supporters.MaxAsync(s => (int?)s.SupporterId, ct) ?? 0;
@@ -93,7 +96,8 @@ public class SupportersController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = supporter.SupporterId }, supporter);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
+    [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<IActionResult> Put(int id, Supporter supporter, CancellationToken ct)
     {
         if (id != supporter.SupporterId) return BadRequest();
@@ -106,7 +110,8 @@ public class SupportersController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Admin,SocialWorker")]
     public async Task<IActionResult> Delete(int id, CancellationToken ct)
     {
         var supporter = await _db.Supporters.FindAsync([id], ct);

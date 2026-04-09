@@ -126,7 +126,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-<Route
+        <Route
           path="/reports"
           element={
             <ProtectedRoute roles={STAFF}>

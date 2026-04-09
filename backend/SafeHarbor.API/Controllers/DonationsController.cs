@@ -73,6 +73,21 @@ public class DonationsController : ControllerBase
     [Authorize(Roles = "Admin,SocialWorker,DonorPortal")]
     public async Task<ActionResult<Donation>> Post(Donation donation, CancellationToken ct)
     {
+        if (User.IsInRole("DonorPortal") && !User.IsInRole("Admin") && !User.IsInRole("SocialWorker"))
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst("email")?.Value;
+            if (string.IsNullOrWhiteSpace(email))
+                return BadRequest("Email claim is missing.");
+
+            var supporter = await _db.Supporters.AsNoTracking()
+                .FirstOrDefaultAsync(s => s.Email == email, ct);
+            if (supporter is null)
+                return NotFound("No supporter record is linked to this account.");
+
+            donation.SupporterId = supporter.SupporterId;
+            donation.DonationDate = DateTime.UtcNow;
+        }
+
         var maxId = await _db.Donations.MaxAsync(d => (int?)d.DonationId, ct) ?? 0;
         donation.DonationId = maxId + 1;
         if (donation.DonationDate.Kind == DateTimeKind.Unspecified)

@@ -255,7 +255,7 @@ export function OverviewPage() {
               <CardHeader className="flex flex-row items-center justify-between pb-3">
                 <CardTitle className="text-base font-semibold">Recent Donations</CardTitle>
                 <Link
-                  to="/donor"
+                  to="/donors"
                   className="text-xs text-primary hover:underline flex items-center gap-1"
                 >
                   View all <ArrowRight className="h-3 w-3" />
@@ -436,7 +436,7 @@ export function OverviewPage() {
                   { icon: Users, label: 'View All Residents', to: '/residents', color: 'text-violet-500' },
                   { icon: ClipboardList, label: 'Home Visitation', to: '/home-visitation', color: 'text-teal-500' },
                   { icon: Home, label: 'Manage Safehouses', to: '/safehouses', color: 'text-blue-500' },
-                  { icon: Heart, label: 'Donors & Giving', to: '/donor', color: 'text-pink-500' },
+                  { icon: Heart, label: 'Donors & Giving', to: '/donors', color: 'text-pink-500' },
                   { icon: Handshake, label: 'Partner Organizations', to: '/partners', color: 'text-amber-500' },
                   { icon: FileText, label: 'Social Media', to: '/social-media', color: 'text-emerald-500' },
                   { icon: TrendingUp, label: 'Public Impact Page', to: '/impact', color: 'text-primary' },

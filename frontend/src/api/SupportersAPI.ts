@@ -35,6 +35,14 @@ export async function fetchSupporter(token: string | null, id: number): Promise<
   return res.json()
 }
 
+/** DonorPortal: supporter row for the JWT email, or null if 404 (not linked). */
+export async function fetchCurrentDonorSupporter(token: string | null): Promise<Supporter | null> {
+  const res = await fetch(`${API_BASE_URL}/me`, { headers: headers(token) })
+  if (res.status === 404) return null
+  if (!res.ok) throw new Error(await res.text())
+  return res.json()
+}
+
 export async function createSupporter(token: string | null, data: Partial<Supporter>): Promise<Supporter> {
   const res = await fetch(API_BASE_URL, {
     method: 'POST',
