@@ -134,7 +134,7 @@ function RecordingForm({
         if (!validate(form)) return
         onSave(form)
       }}
-      className="space-y-4 max-h-[70vh] overflow-y-auto pr-2"
+      className="space-y-5 max-h-[70vh] overflow-y-auto pr-2"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1">
@@ -468,7 +468,7 @@ export function CaseActivityPage() {
                             <Button variant="ghost" size="icon" aria-label="Edit session" onClick={() => { setEditing(r); setDialogOpen(true) }}><Pencil className="h-4 w-4" /></Button>
                             <AlertDialog>
                               <AlertDialogTrigger asChild><Button variant="ghost" size="icon" aria-label="Delete session"><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
-                              <AlertDialogContent>
+                              <AlertDialogContent className="p-8 gap-6">
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>Delete recording?</AlertDialogTitle>
                                   <AlertDialogDescription>This action cannot be undone. This will permanently remove the session recording.</AlertDialogDescription>
@@ -528,7 +528,7 @@ export function CaseActivityPage() {
 
       {/* Create / Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl p-8 sm:p-10 gap-6">
           <DialogHeader><DialogTitle>{editing ? 'Edit Session' : 'New Session'}</DialogTitle></DialogHeader>
           <RecordingForm initial={editing ?? {}} onSave={handleSave} onCancel={() => setDialogOpen(false)} />
         </DialogContent>
@@ -536,10 +536,10 @@ export function CaseActivityPage() {
 
       {/* Detail Sheet */}
       <Sheet open={!!sheetRecord} onOpenChange={() => setSheetRecord(null)}>
-        <SheetContent className="w-full sm:w-[400px] overflow-y-auto">
-          <SheetHeader><SheetTitle>Session Detail</SheetTitle></SheetHeader>
+        <SheetContent className="w-full sm:w-[480px] overflow-y-auto px-8 py-8">
+          <SheetHeader className="px-0 pb-4 border-b"><SheetTitle className="text-xl">Session Detail</SheetTitle></SheetHeader>
           {sheetRecord && (
-            <div className="mt-6 space-y-4 text-sm">
+            <div className="mt-6 space-y-5 text-sm">
               <DetailRow label="Resident" value={`R-${sheetRecord.residentId}`} />
               <DetailRow label="Session Date" value={sheetRecord.sessionDate} />
               <DetailRow label="Social Worker" value={sheetRecord.socialWorker} />
