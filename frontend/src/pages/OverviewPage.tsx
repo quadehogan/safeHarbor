@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAnimatedCounter } from '@/lib/useAnimatedCounter'
+import { staggerDelay } from '@/lib/useStaggeredFadeIn'
 import {
   Users,
   Heart,
@@ -84,7 +85,7 @@ function StatCard({ icon: Icon, label, value, sub, loading, iconClass = 'text-pr
   const animated = useAnimatedCounter(loading ? 0 : numericValue)
 
   return (
-    <Card>
+    <Card className="hover-lift">
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div>
@@ -222,42 +223,50 @@ export function OverviewPage() {
 
           {/* ── Stat Cards ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <StatCard
-              icon={Users}
-              label="Active Residents"
-              value={loading ? '—' : activeResidents.length}
-              sub={loading ? undefined : `${residents.length} total served · ${uniqueSafehouseIds.size} homes`}
-              loading={loading}
-            />
-            <StatCard
-              icon={AlertTriangle}
-              label="High / Critical Risk"
-              value={loading ? '—' : criticalResidents.length + highRiskResidents.length}
-              sub={loading ? undefined : `${criticalResidents.length} critical · ${highRiskResidents.length} high`}
-              loading={loading}
-              iconClass="text-orange-500"
-            />
-            <StatCard
-              icon={DollarSign}
-              label="Raised This Month"
-              value={loading ? '—' : fmtCurrency(monthlyRaised)}
-              sub={loading ? undefined : `${monthlyDonations.length} donations`}
-              loading={loading}
-            />
-            <StatCard
-              icon={Heart}
-              label="Total Supporters"
-              value={loading ? '—' : supporters.length}
-              sub={loading ? undefined : `${fmtCurrency(totalRaised)} raised overall`}
-              loading={loading}
-            />
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(0)}>
+              <StatCard
+                icon={Users}
+                label="Active Residents"
+                value={loading ? '—' : activeResidents.length}
+                sub={loading ? undefined : `${residents.length} total served · ${uniqueSafehouseIds.size} homes`}
+                loading={loading}
+              />
+            </div>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(1)}>
+              <StatCard
+                icon={AlertTriangle}
+                label="High / Critical Risk"
+                value={loading ? '—' : criticalResidents.length + highRiskResidents.length}
+                sub={loading ? undefined : `${criticalResidents.length} critical · ${highRiskResidents.length} high`}
+                loading={loading}
+                iconClass="text-orange-500"
+              />
+            </div>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(2)}>
+              <StatCard
+                icon={DollarSign}
+                label="Raised This Month"
+                value={loading ? '—' : fmtCurrency(monthlyRaised)}
+                sub={loading ? undefined : `${monthlyDonations.length} donations`}
+                loading={loading}
+              />
+            </div>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(3)}>
+              <StatCard
+                icon={Heart}
+                label="Total Supporters"
+                value={loading ? '—' : supporters.length}
+                sub={loading ? undefined : `${fmtCurrency(totalRaised)} raised overall`}
+                loading={loading}
+              />
+            </div>
           </div>
 
           {/* ── Middle row ── */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
             {/* Recent Donations */}
-            <Card className="lg:col-span-2">
+            <Card className="lg:col-span-2 animate-card-in" style={staggerDelay(4)}>
               <CardHeader className="flex flex-row items-center justify-between pb-3">
                 <CardTitle className="text-base font-semibold">Recent Donations</CardTitle>
                 <Link
@@ -289,8 +298,8 @@ export function OverviewPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {recentDonations.map(d => (
-                        <TableRow key={d.donationId}>
+                      {recentDonations.map((d, i) => (
+                        <TableRow key={d.donationId} className="animate-row-in" style={staggerDelay(i, 50)}>
                           <TableCell className="text-muted-foreground whitespace-nowrap">
                             {fmtDate(d.donationDate)}
                           </TableCell>
@@ -319,8 +328,8 @@ export function OverviewPage() {
             </Card>
 
             {/* Resident Status Breakdown */}
-            <div className="space-y-4">
-              <Card>
+            <div className="space-y-4 animate-card-in" style={staggerDelay(5)}>
+              <Card className="hover-lift">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base font-semibold">Resident Status</CardTitle>
                 </CardHeader>
@@ -350,7 +359,7 @@ export function OverviewPage() {
               </Card>
 
               {/* Risk Level Breakdown */}
-              <Card>
+              <Card className="hover-lift">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base font-semibold">Current Risk Levels</CardTitle>
                 </CardHeader>
@@ -375,7 +384,7 @@ export function OverviewPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
             {/* High / Critical residents */}
-            <Card className="lg:col-span-2">
+            <Card className="lg:col-span-2 animate-card-in" style={staggerDelay(6)}>
               <CardHeader className="flex flex-row items-center justify-between pb-3">
                 <CardTitle className="text-base font-semibold">
                   Residents Needing Attention
@@ -403,8 +412,8 @@ export function OverviewPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {[...criticalResidents, ...highRiskResidents].slice(0, 8).map(r => (
-                        <TableRow key={r.residentId}>
+                      {[...criticalResidents, ...highRiskResidents].slice(0, 8).map((r, i) => (
+                        <TableRow key={r.residentId} className="animate-row-in" style={staggerDelay(i, 50)}>
                           <TableCell className="font-mono text-xs text-muted-foreground">
                             {r.caseControlNo ?? r.internalCode ?? `#${r.residentId}`}
                           </TableCell>
@@ -433,7 +442,7 @@ export function OverviewPage() {
             </Card>
 
             {/* Quick Actions */}
-            <Card>
+            <Card className="animate-card-in" style={staggerDelay(7)}>
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-semibold">Quick Actions</CardTitle>
               </CardHeader>

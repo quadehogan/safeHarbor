@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
+import { staggerDelay } from '@/lib/useStaggeredFadeIn'
 import { Sidebar } from '@/components/Sidebar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -125,22 +126,24 @@ export function DonorImpactPage() {
               label: 'Total Gifts',
               value: loading ? '—' : totalGifts,
             },
-          ].map((stat) => (
-            <Card key={stat.label}>
-              <CardContent className="pt-5">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="rounded-lg bg-primary/10 p-1.5">
-                    <stat.icon className="h-4 w-4 text-primary" />
+          ].map((stat, i) => (
+            <div key={stat.label} className={loading ? '' : 'animate-card-in'} style={staggerDelay(i)}>
+              <Card className="hover-lift h-full">
+                <CardContent className="pt-5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="rounded-lg bg-primary/10 p-1.5">
+                      <stat.icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="text-xs text-muted-foreground">{stat.label}</span>
                   </div>
-                  <span className="text-xs text-muted-foreground">{stat.label}</span>
-                </div>
-                {loading ? (
-                  <Skeleton className="h-8 w-24" />
-                ) : (
-                  <p className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</p>
-                )}
-              </CardContent>
-            </Card>
+                  {loading ? (
+                    <Skeleton className="h-8 w-24" />
+                  ) : (
+                    <p className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</p>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           ))}
         </div>
 

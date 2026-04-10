@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatedNumber } from '@/components/AnimatedNumber'
+import { staggerDelay } from '@/lib/useStaggeredFadeIn'
 import { Sidebar } from '@/components/Sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent } from '@/components/ui/card'
@@ -303,38 +304,46 @@ export function ReportsPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <PillarCard
-                  icon={Heart}
-                  label="Caring"
-                  value={aarData?.caringCount ?? 0}
-                  description="Residents under care"
-                  accent="rose"
-                  loading={loading}
-                />
-                <PillarCard
-                  icon={HeartPulse}
-                  label="Healing"
-                  value={aarData?.healingCount ?? 0}
-                  description="Receiving treatment"
-                  accent="blue"
-                  loading={loading}
-                />
-                <PillarCard
-                  icon={BookOpen}
-                  label="Teaching"
-                  value={aarData?.teachingCount ?? 0}
-                  description="In education programs"
-                  accent="violet"
-                  loading={loading}
-                />
-                <PillarCard
-                  icon={Users}
-                  label="Total Beneficiaries"
-                  value={aarData?.totalBeneficiaries ?? 0}
-                  description="Served this year"
-                  accent="emerald"
-                  loading={loading}
-                />
+                <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(0)}>
+                  <PillarCard
+                    icon={Heart}
+                    label="Caring"
+                    value={aarData?.caringCount ?? 0}
+                    description="Residents under care"
+                    accent="rose"
+                    loading={loading}
+                  />
+                </div>
+                <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(1)}>
+                  <PillarCard
+                    icon={HeartPulse}
+                    label="Healing"
+                    value={aarData?.healingCount ?? 0}
+                    description="Receiving treatment"
+                    accent="blue"
+                    loading={loading}
+                  />
+                </div>
+                <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(2)}>
+                  <PillarCard
+                    icon={BookOpen}
+                    label="Teaching"
+                    value={aarData?.teachingCount ?? 0}
+                    description="In education programs"
+                    accent="violet"
+                    loading={loading}
+                  />
+                </div>
+                <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(3)}>
+                  <PillarCard
+                    icon={Users}
+                    label="Total Beneficiaries"
+                    value={aarData?.totalBeneficiaries ?? 0}
+                    description="Served this year"
+                    accent="emerald"
+                    loading={loading}
+                  />
+                </div>
               </div>
 
               {/* Reintegration highlight row */}
@@ -521,7 +530,7 @@ function PillarCard({
 }) {
   const styles = ACCENT_STYLES[accent]
   return (
-    <Card className={`${styles.border} ${styles.gradient} transition-shadow hover:shadow-md`}>
+    <Card className={`${styles.border} ${styles.gradient} hover-lift`}>
       <CardContent className="py-5">
         <div className="flex items-start justify-between mb-3">
           <div className={`h-10 w-10 rounded-lg ${styles.iconBg} flex items-center justify-center`}>

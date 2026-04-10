@@ -13,6 +13,7 @@ import {
 import { fetchInterventionPlans } from '@/api/InterventionPlansAPI'
 import { fetchResidents } from '@/api/ResidentsAPI'
 import { toast } from 'sonner'
+import { staggerDelay } from '@/lib/useStaggeredFadeIn'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent } from '@/components/ui/card'
@@ -514,8 +515,8 @@ export function HomeVisitationPage() {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      paged.map(v => (
-                        <TableRow key={v.homeVisitationId} className="hover:bg-muted/30">
+                      paged.map((v, i) => (
+                        <TableRow key={v.homeVisitationId} className="hover:bg-muted/30 animate-row-in" style={staggerDelay(i, 40)}>
                           <TableCell className="px-4 py-3 text-sm whitespace-nowrap">{fmtDate(v.visitDate)}</TableCell>
                           <TableCell className="px-4 py-3 text-sm font-medium">{residentLabel(v)}</TableCell>
                           <TableCell className="px-4 py-3 text-sm text-muted-foreground">{v.socialWorker ?? '—'}</TableCell>

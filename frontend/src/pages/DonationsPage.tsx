@@ -17,6 +17,7 @@ import {
   deleteDonation,
 } from '../api/DonationsAPI'
 import { toast } from 'sonner'
+import { staggerDelay } from '@/lib/useStaggeredFadeIn'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent } from '@/components/ui/card'
@@ -454,30 +455,38 @@ export function DonationsPage() {
                   ))
                 ) : (
                   <>
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-xl sm:text-3xl font-bold">{suppStats.total}</p>
-                        <p className="text-sm text-muted-foreground">Total Supporters</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-xl sm:text-3xl font-bold">{suppStats.active}</p>
-                        <p className="text-sm text-muted-foreground">Active</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-xl sm:text-3xl font-bold">{suppStats.inactive}</p>
-                        <p className="text-sm text-muted-foreground">Inactive</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-xl sm:text-3xl font-bold">{suppStats.topChannel}</p>
-                        <p className="text-sm text-muted-foreground">Top Acquisition</p>
-                      </CardContent>
-                    </Card>
+                    <div className="animate-card-in" style={staggerDelay(0)}>
+                      <Card className="hover-lift h-full">
+                        <CardContent className="p-6">
+                          <p className="text-xl sm:text-3xl font-bold">{suppStats.total}</p>
+                          <p className="text-sm text-muted-foreground">Total Supporters</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                    <div className="animate-card-in" style={staggerDelay(1)}>
+                      <Card className="hover-lift h-full">
+                        <CardContent className="p-6">
+                          <p className="text-xl sm:text-3xl font-bold">{suppStats.active}</p>
+                          <p className="text-sm text-muted-foreground">Active</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                    <div className="animate-card-in" style={staggerDelay(2)}>
+                      <Card className="hover-lift h-full">
+                        <CardContent className="p-6">
+                          <p className="text-xl sm:text-3xl font-bold">{suppStats.inactive}</p>
+                          <p className="text-sm text-muted-foreground">Inactive</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                    <div className="animate-card-in" style={staggerDelay(3)}>
+                      <Card className="hover-lift h-full">
+                        <CardContent className="p-6">
+                          <p className="text-xl sm:text-3xl font-bold">{suppStats.topChannel}</p>
+                          <p className="text-sm text-muted-foreground">Top Acquisition</p>
+                        </CardContent>
+                      </Card>
+                    </div>
                   </>
                 )}
               </div>
@@ -615,10 +624,11 @@ export function DonationsPage() {
                           </TableCell>
                         </TableRow>
                       ) : (
-                        pagedSupporters.map((s) => (
+                        pagedSupporters.map((s, i) => (
                           <TableRow
                             key={s.supporterId}
-                            className="cursor-pointer hover:bg-muted"
+                            className="cursor-pointer hover:bg-muted animate-row-in"
+                            style={staggerDelay(i, 40)}
                             onClick={() => openSupporterSheet(s.supporterId)}
                           >
                             <TableCell className="px-4 py-3 font-medium text-sm">
@@ -703,34 +713,42 @@ export function DonationsPage() {
                   ))
                 ) : (
                   <>
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-xl sm:text-3xl font-bold">{donStats.total}</p>
-                        <p className="text-sm text-muted-foreground">Total Donations</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-xl sm:text-3xl font-bold">
-                          ${donStats.totalUsd.toLocaleString()}
-                        </p>
-                        <p className="text-sm text-muted-foreground">Total USD</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-xl sm:text-3xl font-bold">
-                          ${Math.round(donStats.avgGift).toLocaleString()}
-                        </p>
-                        <p className="text-sm text-muted-foreground">Avg Gift</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="p-6">
-                        <p className="text-xl sm:text-3xl font-bold">{donStats.recurringPct}%</p>
-                        <p className="text-sm text-muted-foreground">Recurring</p>
-                      </CardContent>
-                    </Card>
+                    <div className="animate-card-in" style={staggerDelay(0)}>
+                      <Card className="hover-lift h-full">
+                        <CardContent className="p-6">
+                          <p className="text-xl sm:text-3xl font-bold">{donStats.total}</p>
+                          <p className="text-sm text-muted-foreground">Total Donations</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                    <div className="animate-card-in" style={staggerDelay(1)}>
+                      <Card className="hover-lift h-full">
+                        <CardContent className="p-6">
+                          <p className="text-xl sm:text-3xl font-bold">
+                            ${donStats.totalUsd.toLocaleString()}
+                          </p>
+                          <p className="text-sm text-muted-foreground">Total USD</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                    <div className="animate-card-in" style={staggerDelay(2)}>
+                      <Card className="hover-lift h-full">
+                        <CardContent className="p-6">
+                          <p className="text-xl sm:text-3xl font-bold">
+                            ${Math.round(donStats.avgGift).toLocaleString()}
+                          </p>
+                          <p className="text-sm text-muted-foreground">Avg Gift</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                    <div className="animate-card-in" style={staggerDelay(3)}>
+                      <Card className="hover-lift h-full">
+                        <CardContent className="p-6">
+                          <p className="text-xl sm:text-3xl font-bold">{donStats.recurringPct}%</p>
+                          <p className="text-sm text-muted-foreground">Recurring</p>
+                        </CardContent>
+                      </Card>
+                    </div>
                   </>
                 )}
               </div>
@@ -892,8 +910,8 @@ export function DonationsPage() {
                           </TableCell>
                         </TableRow>
                       ) : (
-                        pagedDonations.map((d) => (
-                          <TableRow key={d.donationId}>
+                        pagedDonations.map((d, i) => (
+                          <TableRow key={d.donationId} className="animate-row-in" style={staggerDelay(i, 40)}>
                             <TableCell className="px-4 py-3 text-sm">
                               {new Date(d.donationDate).toLocaleDateString()}
                             </TableCell>
