@@ -4,6 +4,7 @@ import { Mail, MapPin, Clock, ArrowRight, Heart } from 'lucide-react'
 import { toast } from 'sonner'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+import { DonateBanner } from '@/components/DonateBanner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -239,6 +240,7 @@ export function ContactPage() {
       </main>
 
       <Footer />
+      <DonateBanner />
     </div>
   )
 }

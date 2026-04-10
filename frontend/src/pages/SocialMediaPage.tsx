@@ -212,8 +212,8 @@ export function SocialMediaPage() {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    paged.map((p) => (
-                      <TableRow key={p.socialMediaPostId}>
+                    paged.map((p, i) => (
+                      <TableRow key={p.socialMediaPostId} className="animate-row-in" style={{ animationDelay: `${i * 40}ms`, animationFillMode: 'both' }}>
                         <TableCell className="px-4 py-3">{platformBadge(p.platform)}</TableCell>
                         <TableCell className="px-4 py-3 text-xs">{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '—'}</TableCell>
                         <TableCell className="px-4 py-3 text-sm">{p.postType ?? '—'}</TableCell>

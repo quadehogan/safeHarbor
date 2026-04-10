@@ -76,6 +76,7 @@ import {
   ArrowUpDown,
 } from 'lucide-react'
 import { InterventionRecommendationCard } from '@/components/residents/InterventionRecommendationCard'
+import { staggerDelay } from '@/lib/useStaggeredFadeIn'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -396,33 +397,39 @@ export function ResidentsPage() {
 
           {/* Stat cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <Card>
-              <CardContent className="p-6 flex items-center gap-4">
-                <div className="rounded-lg bg-primary/10 p-3"><Users className="h-5 w-5 text-primary" /></div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Residents</p>
-                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.total}</p>}
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 flex items-center gap-4">
-                <div className="rounded-lg bg-emerald-100 dark:bg-emerald-900/30 p-3"><UserCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /></div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Active</p>
-                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.active}</p>}
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 flex items-center gap-4">
-                <div className="rounded-lg bg-red-100 dark:bg-red-900/30 p-3"><ShieldAlert className="h-5 w-5 text-red-600 dark:text-red-400" /></div>
-                <div>
-                  <p className="text-sm text-muted-foreground">High / Critical Risk</p>
-                  {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.highRisk}</p>}
-                </div>
-              </CardContent>
-            </Card>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(0)}>
+              <Card className="hover-lift h-full">
+                <CardContent className="p-6 flex items-center gap-4">
+                  <div className="rounded-lg bg-primary/10 p-3"><Users className="h-5 w-5 text-primary" /></div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Total Residents</p>
+                    {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.total}</p>}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(1)}>
+              <Card className="hover-lift h-full">
+                <CardContent className="p-6 flex items-center gap-4">
+                  <div className="rounded-lg bg-emerald-100 dark:bg-emerald-900/30 p-3"><UserCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /></div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Active</p>
+                    {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.active}</p>}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(2)}>
+              <Card className="hover-lift h-full">
+                <CardContent className="p-6 flex items-center gap-4">
+                  <div className="rounded-lg bg-red-100 dark:bg-red-900/30 p-3"><ShieldAlert className="h-5 w-5 text-red-600 dark:text-red-400" /></div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">High / Critical Risk</p>
+                    {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-xl sm:text-3xl font-bold">{stats.highRisk}</p>}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
           {/* Filters */}
@@ -511,10 +518,11 @@ export function ResidentsPage() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  paged.map((r) => (
+                  paged.map((r, i) => (
                     <TableRow
                       key={r.residentId}
-                      className="cursor-pointer hover:bg-muted/50"
+                      className="cursor-pointer hover:bg-muted/50 animate-row-in"
+                      style={staggerDelay(i, 40)}
                       onClick={() => setSheetResident(r)}
                     >
                       <TableCell className="px-4 py-3 font-medium">{r.internalCode ?? '--'}</TableCell>

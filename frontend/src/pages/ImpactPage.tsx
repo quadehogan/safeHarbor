@@ -3,6 +3,7 @@ import { Heart, Home, Handshake, DollarSign } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { FadeIn } from '@/components/FadeIn'
+import { DonateBanner } from '@/components/DonateBanner'
 import { ImpactHeroSection } from '@/components/impact/ImpactHeroSection'
 import { SafehouseLocationsGrid } from '@/components/impact/SafehouseLocationsGrid'
 import { ResidentOutcomesPublic } from '@/components/impact/ResidentOutcomesPublic'
@@ -171,6 +172,7 @@ export function ImpactPage() {
       </main>
 
       <Footer />
+      <DonateBanner />
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Home, BookOpen, HeartPulse, Users } from 'lucide-react'
+import { ArrowRight, Home, BookOpen, HeartPulse, Users, Heart } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+import { DonateBanner } from '@/components/DonateBanner'
 
 import shelterImg from '@/assets/photos/shelter.jpg'
 import educationImg from '@/assets/photos/education.jpg'
@@ -140,6 +141,13 @@ export default function AboutPage() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link
+                to="/register"
+                className="inline-flex items-center gap-2 rounded-md bg-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-pink-700 transition-colors"
+              >
+                <Heart className="h-4 w-4" />
+                Donate Now
+              </Link>
+              <Link
                 to="/contact"
                 className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
               >
@@ -158,6 +166,7 @@ export default function AboutPage() {
       </main>
 
       <Footer />
+      <DonateBanner />
     </div>
   )
 }

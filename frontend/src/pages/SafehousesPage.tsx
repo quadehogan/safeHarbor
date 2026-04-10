@@ -5,6 +5,7 @@ import { fetchSafehouses, fetchSafehouseDetail } from '@/api/SafehousesAPI'
 import { fetchSafehouseMetrics, type SafehouseMetricRowDto } from '@/api/ReportsAPI'
 import type { Safehouse, SafehouseDetailDto } from '@/types/Safehouse'
 import { toast } from 'sonner'
+import { staggerDelay } from '@/lib/useStaggeredFadeIn'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -232,22 +233,24 @@ export function SafehousesPage() {
               loading ? (
                 <Skeleton key={s.label} className="h-24 rounded-xl" />
               ) : (
-                <Card key={s.label}>
-                  <CardContent className="pt-5 pb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="rounded-lg bg-muted p-2.5">
-                        <s.icon className={`h-5 w-5 ${s.color}`} />
+                <div key={s.label} className="animate-card-in" style={staggerDelay(stats.indexOf(s))}>
+                  <Card className="hover-lift h-full">
+                    <CardContent className="pt-5 pb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="rounded-lg bg-muted p-2.5">
+                          <s.icon className={`h-5 w-5 ${s.color}`} />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-foreground">{s.value}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {s.label}
+                            {s.sub && <span className="ml-1 text-muted-foreground/70">· {s.sub}</span>}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-2xl font-bold text-foreground">{s.value}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {s.label}
-                          {s.sub && <span className="ml-1 text-muted-foreground/70">· {s.sub}</span>}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </div>
               ),
             )}
           </div>
@@ -336,10 +339,11 @@ export function SafehousesPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {pageRows.map((r) => (
+                      {pageRows.map((r, i) => (
                         <TableRow
                           key={r.safehouseId}
-                          className="cursor-pointer hover:bg-muted/30 transition-colors"
+                          className="cursor-pointer hover:bg-muted/30 transition-colors animate-row-in"
+                          style={staggerDelay(i, 40)}
                           onClick={() => openDetail(r.safehouseId)}
                         >
                           <TableCell className="font-mono text-xs text-muted-foreground">

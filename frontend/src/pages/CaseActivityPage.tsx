@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import { AnimatedNumber } from '@/components/AnimatedNumber'
+import { staggerDelay } from '@/lib/useStaggeredFadeIn'
 import { useAuth } from '@/context/AuthContext'
 import { Sidebar } from '@/components/Sidebar'
 import type { ProcessRecording } from '@/types/ProcessRecording'
@@ -342,46 +343,54 @@ export function CaseActivityPage() {
 
           {/* Stat cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <Card className="transition-shadow hover:shadow-md">
-              <CardContent className="p-6 flex flex-col items-center text-center h-full">
-                <div className="rounded-lg bg-primary/10 p-3 mb-3"><FileText className="h-5 w-5 text-primary" /></div>
-                <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Total Sessions</p>
-                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.total} /></p>}
-                <p className="text-xs text-muted-foreground mt-2 leading-snug">
-                  All process recordings logged
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="transition-shadow hover:shadow-md">
-              <CardContent className="p-6 flex flex-col items-center text-center h-full">
-                <div className="rounded-lg bg-violet-100 dark:bg-violet-900/30 p-3 mb-3"><Clock className="h-5 w-5 text-violet-600 dark:text-violet-400" /></div>
-                <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Avg Session Length</p>
-                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.avgDur} suffix="m" /></p>}
-                <p className="text-xs text-muted-foreground mt-2 leading-snug">
-                  Average minutes per session
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="transition-shadow hover:shadow-md">
-              <CardContent className="p-6 flex flex-col items-center text-center h-full">
-                <div className="rounded-lg bg-amber-100 dark:bg-amber-900/30 p-3 mb-3"><Flag className="h-5 w-5 text-amber-600 dark:text-amber-400" /></div>
-                <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Sessions with Flagged Concerns</p>
-                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.concerns} /></p>}
-                <p className="text-xs text-muted-foreground mt-2 leading-snug">
-                  Noted by the social worker for follow-up
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="transition-shadow hover:shadow-md">
-              <CardContent className="p-6 flex flex-col items-center text-center h-full">
-                <div className="rounded-lg bg-emerald-100 dark:bg-emerald-900/30 p-3 mb-3"><TrendingUp className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /></div>
-                <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Progress Noted</p>
-                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.progress} /></p>}
-                <p className="text-xs text-muted-foreground mt-2 leading-snug">
-                  Positive outcomes recorded
-                </p>
-              </CardContent>
-            </Card>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(0)}>
+              <Card className="hover-lift h-full">
+                <CardContent className="p-6 flex flex-col items-center text-center h-full">
+                  <div className="rounded-lg bg-primary/10 p-3 mb-3"><FileText className="h-5 w-5 text-primary" /></div>
+                  <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Total Sessions</p>
+                  {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.total} /></p>}
+                  <p className="text-xs text-muted-foreground mt-2 leading-snug">
+                    All process recordings logged
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(1)}>
+              <Card className="hover-lift h-full">
+                <CardContent className="p-6 flex flex-col items-center text-center h-full">
+                  <div className="rounded-lg bg-violet-100 dark:bg-violet-900/30 p-3 mb-3"><Clock className="h-5 w-5 text-violet-600 dark:text-violet-400" /></div>
+                  <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Avg Session Length</p>
+                  {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.avgDur} suffix="m" /></p>}
+                  <p className="text-xs text-muted-foreground mt-2 leading-snug">
+                    Average minutes per session
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(2)}>
+              <Card className="hover-lift h-full">
+                <CardContent className="p-6 flex flex-col items-center text-center h-full">
+                  <div className="rounded-lg bg-amber-100 dark:bg-amber-900/30 p-3 mb-3"><Flag className="h-5 w-5 text-amber-600 dark:text-amber-400" /></div>
+                  <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Sessions with Flagged Concerns</p>
+                  {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.concerns} /></p>}
+                  <p className="text-xs text-muted-foreground mt-2 leading-snug">
+                    Noted by the social worker for follow-up
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+            <div className={loading ? '' : 'animate-card-in'} style={staggerDelay(3)}>
+              <Card className="hover-lift h-full">
+                <CardContent className="p-6 flex flex-col items-center text-center h-full">
+                  <div className="rounded-lg bg-emerald-100 dark:bg-emerald-900/30 p-3 mb-3"><TrendingUp className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /></div>
+                  <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Progress Noted</p>
+                  {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.progress} /></p>}
+                  <p className="text-xs text-muted-foreground mt-2 leading-snug">
+                    Positive outcomes recorded
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
           {/* Filters */}
@@ -440,8 +449,8 @@ export function CaseActivityPage() {
                 ) : paged.length === 0 ? (
                   <TableRow><TableCell colSpan={10} className="text-center py-12 text-muted-foreground">No process recordings found.</TableCell></TableRow>
                 ) : (
-                  paged.map((r) => (
-                    <TableRow key={r.processRecordingId} className="cursor-pointer hover:bg-muted/50" onClick={() => { setSelectedResidentId(r.residentId ?? null) }}>
+                  paged.map((r, i) => (
+                    <TableRow key={r.processRecordingId} className="cursor-pointer hover:bg-muted/50 animate-row-in" style={staggerDelay(i, 40)} onClick={() => { setSelectedResidentId(r.residentId ?? null) }}>
                       <TableCell className="px-4 py-3 font-medium">R-{r.residentId}</TableCell>
                       <TableCell className="px-4 py-3">{r.sessionDate ?? '--'}</TableCell>
                       <TableCell className="px-4 py-3">{r.socialWorker ?? '--'}</TableCell>
