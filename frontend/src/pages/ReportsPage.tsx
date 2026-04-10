@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { AnimatedNumber } from '@/components/AnimatedNumber'
 import { Sidebar } from '@/components/Sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Select,
@@ -20,6 +22,7 @@ import {
   Home,
   HandHeart,
   DollarSign,
+  Download,
 } from 'lucide-react'
 import { ResidentRiskWidget } from '@/components/reports/ResidentRiskWidget'
 import { ReintegrationFunnel } from '@/components/reports/ReintegrationFunnel'
@@ -43,6 +46,36 @@ import { fetchDonations } from '@/api/DonationsAPI'
 import { fetchResidents } from '@/api/ResidentsAPI'
 import type { Donation } from '@/types/Donation'
 import type { Resident } from '@/types/Resident'
+
+/**
+ * Converts an array of objects to a CSV string and triggers a browser download.
+ */
+function downloadCsv(rows: Record<string, unknown>[], filename: string) {
+  if (rows.length === 0) return
+  const headers = Object.keys(rows[0])
+  const csvRows = [
+    headers.join(','),
+    ...rows.map((row) =>
+      headers
+        .map((h) => {
+          const val = row[h]
+          const str = val == null ? '' : String(val)
+          // Escape quotes and wrap in quotes if it contains commas/quotes/newlines
+          return str.includes(',') || str.includes('"') || str.includes('\n')
+            ? `"${str.replace(/"/g, '""')}"`
+            : str
+        })
+        .join(','),
+    ),
+  ]
+  const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  link.click()
+  URL.revokeObjectURL(url)
+}
 
 const CURRENT_YEAR = new Date().getFullYear()
 const YEARS = [CURRENT_YEAR, CURRENT_YEAR - 1, CURRENT_YEAR - 2, CURRENT_YEAR - 3]
@@ -129,6 +162,89 @@ export function ReportsPage() {
         )
       : 0
 
+  // Export report data as CSV
+  function handleExportCsv() {
+    // Build a comprehensive report combining all available data
+    const reportRows: Record<string, unknown>[] = []
+
+    // AAR summary
+    if (aarData) {
+      reportRows.push({
+        section: 'AAR Summary',
+        metric: 'Caring Count',
+        value: aarData.caringCount,
+        year: aarData.year,
+      })
+      reportRows.push({
+        section: 'AAR Summary',
+        metric: 'Healing Count',
+        value: aarData.healingCount,
+        year: aarData.year,
+      })
+      reportRows.push({
+        section: 'AAR Summary',
+        metric: 'Teaching Count',
+        value: aarData.teachingCount,
+        year: aarData.year,
+      })
+      reportRows.push({
+        section: 'AAR Summary',
+        metric: 'Total Beneficiaries',
+        value: aarData.totalBeneficiaries,
+        year: aarData.year,
+      })
+      reportRows.push({
+        section: 'AAR Summary',
+        metric: 'Reintegrated Count',
+        value: aarData.reintegratedCount,
+        year: aarData.year,
+      })
+      reportRows.push({
+        section: 'AAR Summary',
+        metric: 'Reintegration Rate (%)',
+        value: aarData.totalBeneficiaries > 0
+          ? Math.round((aarData.reintegratedCount / aarData.totalBeneficiaries) * 100)
+          : 0,
+        year: aarData.year,
+      })
+    }
+
+    // Key metrics
+    reportRows.push({ section: 'Key Metrics', metric: 'Active Residents', value: activeResidents, year: selectedYear })
+    reportRows.push({ section: 'Key Metrics', metric: 'Total Safehouses', value: totalSafehouses, year: selectedYear })
+    reportRows.push({ section: 'Key Metrics', metric: 'Active Donors', value: totalDonors, year: selectedYear })
+    reportRows.push({ section: 'Key Metrics', metric: 'Total Raised (USD)', value: Math.round(totalRaised), year: selectedYear })
+    reportRows.push({ section: 'Key Metrics', metric: 'Avg Education Progress (%)', value: avgEduProgress, year: selectedYear })
+    reportRows.push({ section: 'Key Metrics', metric: 'Avg Health Score', value: avgHealthScore, year: selectedYear })
+
+    // Safehouse metrics
+    safehouses.forEach((s) => {
+      reportRows.push({
+        section: 'Safehouse Metrics',
+        metric: s.name,
+        value: s.activeResidents,
+        year: selectedYear,
+        avgEducation: s.avgEducationProgress,
+        avgHealth: s.avgHealthScore,
+      })
+    })
+
+    // Donation summary
+    donations.forEach((d) => {
+      reportRows.push({
+        section: 'Donations',
+        metric: d.donationType,
+        value: d.amount ?? d.estimatedValue ?? 0,
+        year: new Date(d.donationDate).getFullYear(),
+        campaign: d.campaignName ?? '',
+        channel: d.channelSource ?? '',
+        recurring: d.isRecurring ? 'Yes' : 'No',
+      })
+    })
+
+    downloadCsv(reportRows, `safeharbor-report-${selectedYear}.csv`)
+  }
+
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
@@ -143,6 +259,9 @@ export function ReportsPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <Button variant="outline" className="gap-2" onClick={handleExportCsv} disabled={loading}>
+              <Download className="h-4 w-4" /> Export CSV
+            </Button>
             <Select
               value={String(selectedYear)}
               onValueChange={(v) => setSelectedYear(Number(v))}
@@ -233,7 +352,7 @@ export function ReportsPage() {
                         <Skeleton className="h-8 w-16 mt-1" />
                       ) : (
                         <p className="text-xl sm:text-3xl font-bold text-foreground tabular-nums">
-                          {aarData?.reintegratedCount ?? 0}
+                          <AnimatedNumber value={aarData?.reintegratedCount ?? 0} />
                         </p>
                       )}
                     </div>
@@ -252,9 +371,11 @@ export function ReportsPage() {
                         <Skeleton className="h-8 w-16 mt-1" />
                       ) : (
                         <p className="text-xl sm:text-3xl font-bold text-foreground tabular-nums">
-                          {(aarData?.totalBeneficiaries ?? 0) > 0
-                            ? Math.round(((aarData?.reintegratedCount ?? 0) / (aarData?.totalBeneficiaries ?? 1)) * 100)
-                            : 0}
+                          <AnimatedNumber
+                            value={(aarData?.totalBeneficiaries ?? 0) > 0
+                              ? Math.round(((aarData?.reintegratedCount ?? 0) / (aarData?.totalBeneficiaries ?? 1)) * 100)
+                              : 0}
+                          />
                           <span className="text-xl text-muted-foreground">%</span>
                         </p>
                       )}
@@ -413,7 +534,7 @@ function PillarCard({
         {loading ? (
           <Skeleton className="h-9 w-20 mt-1" />
         ) : (
-          <p className="text-xl sm:text-3xl font-bold text-foreground tabular-nums mt-1">{value}</p>
+          <p className="text-xl sm:text-3xl font-bold text-foreground tabular-nums mt-1"><AnimatedNumber value={value} /></p>
         )}
         <p className="text-xs text-muted-foreground mt-1">{description}</p>
       </CardContent>

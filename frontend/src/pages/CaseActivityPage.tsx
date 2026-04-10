@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
+import { AnimatedNumber } from '@/components/AnimatedNumber'
 import { useAuth } from '@/context/AuthContext'
 import { Sidebar } from '@/components/Sidebar'
 import type { ProcessRecording } from '@/types/ProcessRecording'
@@ -345,7 +346,7 @@ export function CaseActivityPage() {
               <CardContent className="p-6 flex flex-col items-center text-center h-full">
                 <div className="rounded-lg bg-primary/10 p-3 mb-3"><FileText className="h-5 w-5 text-primary" /></div>
                 <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Total Sessions</p>
-                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1">{stats.total}</p>}
+                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.total} /></p>}
                 <p className="text-xs text-muted-foreground mt-2 leading-snug">
                   All process recordings logged
                 </p>
@@ -355,7 +356,7 @@ export function CaseActivityPage() {
               <CardContent className="p-6 flex flex-col items-center text-center h-full">
                 <div className="rounded-lg bg-violet-100 dark:bg-violet-900/30 p-3 mb-3"><Clock className="h-5 w-5 text-violet-600 dark:text-violet-400" /></div>
                 <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Avg Session Length</p>
-                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1">{stats.avgDur}m</p>}
+                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.avgDur} suffix="m" /></p>}
                 <p className="text-xs text-muted-foreground mt-2 leading-snug">
                   Average minutes per session
                 </p>
@@ -365,7 +366,7 @@ export function CaseActivityPage() {
               <CardContent className="p-6 flex flex-col items-center text-center h-full">
                 <div className="rounded-lg bg-amber-100 dark:bg-amber-900/30 p-3 mb-3"><Flag className="h-5 w-5 text-amber-600 dark:text-amber-400" /></div>
                 <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Sessions with Flagged Concerns</p>
-                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1">{stats.concerns}</p>}
+                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.concerns} /></p>}
                 <p className="text-xs text-muted-foreground mt-2 leading-snug">
                   Noted by the social worker for follow-up
                 </p>
@@ -375,7 +376,7 @@ export function CaseActivityPage() {
               <CardContent className="p-6 flex flex-col items-center text-center h-full">
                 <div className="rounded-lg bg-emerald-100 dark:bg-emerald-900/30 p-3 mb-3"><TrendingUp className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /></div>
                 <p className="text-sm text-muted-foreground min-h-[2.5rem] flex items-center justify-center leading-tight">Progress Noted</p>
-                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1">{stats.progress}</p>}
+                {loading ? <Skeleton className="h-9 w-20 mt-1" /> : <p className="text-xl sm:text-3xl font-bold mt-1"><AnimatedNumber value={stats.progress} /></p>}
                 <p className="text-xs text-muted-foreground mt-2 leading-snug">
                   Positive outcomes recorded
                 </p>
