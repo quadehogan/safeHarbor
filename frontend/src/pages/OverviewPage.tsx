@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAnimatedCounter } from '@/lib/useAnimatedCounter'
 import {
   Users,
   Heart,
@@ -77,6 +78,11 @@ interface StatCardProps {
 }
 
 function StatCard({ icon: Icon, label, value, sub, loading, iconClass = 'text-primary' }: StatCardProps) {
+  // Extract numeric part for animation
+  const numericValue = typeof value === 'number' ? value : parseInt(String(value).replace(/[^0-9]/g, ''), 10) || 0
+  const prefix = typeof value === 'string' ? (value.match(/^[^0-9]*/)?.[0] ?? '') : ''
+  const animated = useAnimatedCounter(loading ? 0 : numericValue)
+
   return (
     <Card>
       <CardContent className="p-6">
@@ -85,7 +91,7 @@ function StatCard({ icon: Icon, label, value, sub, loading, iconClass = 'text-pr
             <p className="text-sm text-muted-foreground">{label}</p>
             {loading
               ? <Skeleton className="h-8 w-20 mt-1" />
-              : <p className="text-xl sm:text-3xl font-bold text-foreground mt-1">{value}</p>
+              : <p className="text-xl sm:text-3xl font-bold text-foreground mt-1">{prefix}{animated.toLocaleString()}</p>
             }
             {sub && !loading && (
               <p className="text-xs text-muted-foreground mt-1">{sub}</p>
