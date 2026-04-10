@@ -145,7 +145,7 @@ export function DonorDonationForm({ submitting = false, onSubmit }: DonorDonatio
       </div>
       <div className="flex justify-end pt-4">
         <Button type="submit" disabled={submitting}>
-          {submitting ? 'Saving…' : 'Record donation'}
+          {submitting ? 'Saving…' : 'Submit'}
         </Button>
       </div>
     </form>
