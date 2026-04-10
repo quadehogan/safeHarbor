@@ -222,7 +222,7 @@ export function ReportsPage() {
       reportRows.push({
         section: 'Safehouse Metrics',
         metric: s.name,
-        value: s.activeResidents,
+        value: s.currentOccupancy,
         year: selectedYear,
         avgEducation: s.avgEducationProgress,
         avgHealth: s.avgHealthScore,
