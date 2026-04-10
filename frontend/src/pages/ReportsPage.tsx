@@ -38,10 +38,12 @@ import {
   fetchSafehouseMetrics,
   fetchResidentRiskSummary,
   fetchDonorChurnSummary,
+  fetchAtRiskDonors,
   type AARSummaryDto,
   type SafehouseMetricRowDto,
   type ResidentRiskSummaryDto,
   type DonorChurnSummaryDto,
+  type AtRiskDonorDto,
 } from '@/api/ReportsAPI'
 import { fetchDonations } from '@/api/DonationsAPI'
 import { fetchResidents } from '@/api/ResidentsAPI'
@@ -89,6 +91,7 @@ export function ReportsPage() {
   const [safehouses, setSafehouses] = useState<SafehouseMetricRowDto[]>([])
   const [riskSummary, setRiskSummary] = useState<ResidentRiskSummaryDto | null>(null)
   const [churnSummary, setChurnSummary] = useState<DonorChurnSummaryDto | null>(null)
+  const [atRiskDonors, setAtRiskDonors] = useState<AtRiskDonorDto[]>([])
   const [donations, setDonations] = useState<Donation[]>([])
   const [residents, setResidents] = useState<Resident[]>([])
   const [loading, setLoading] = useState(true)
@@ -105,11 +108,11 @@ export function ReportsPage() {
     ] as const
 
     const allRequests = isAdmin
-      ? [...baseRequests, fetchDonorChurnSummary(token)]
-      : [...baseRequests, Promise.resolve(null)]
+      ? [...baseRequests, fetchDonorChurnSummary(token), fetchAtRiskDonors(token)]
+      : [...baseRequests, Promise.resolve(null), Promise.resolve([] as AtRiskDonorDto[])]
 
     Promise.allSettled(allRequests).then((results) => {
-      const [aar, sf, risk, dons, res, churn] = results
+      const [aar, sf, risk, dons, res, churn, atRisk] = results
       if (aar.status === 'fulfilled') setAarData(aar.value as AARSummaryDto)
       if (sf.status === 'fulfilled') setSafehouses(sf.value as SafehouseMetricRowDto[])
       if (risk.status === 'fulfilled') setRiskSummary(risk.value as ResidentRiskSummaryDto)
@@ -117,6 +120,8 @@ export function ReportsPage() {
       if (res.status === 'fulfilled') setResidents(res.value as Resident[])
       if (churn.status === 'fulfilled' && churn.value)
         setChurnSummary(churn.value as DonorChurnSummaryDto)
+      if (atRisk.status === 'fulfilled' && atRisk.value)
+        setAtRiskDonors(atRisk.value as AtRiskDonorDto[])
       setLoading(false)
     })
   }, [token, isAdmin, selectedYear])
@@ -468,7 +473,7 @@ export function ReportsPage() {
           {/* ── DONATIONS & DONORS ── */}
           <TabsContent value="donations" className="space-y-6">
             <DonationTrendChart donations={donations} loading={loading} />
-            {isAdmin && <DonorChurnWidget data={churnSummary} loading={loading} />}
+            {isAdmin && <DonorChurnWidget data={churnSummary} atRiskDonors={atRiskDonors} loading={loading} />}
           </TabsContent>
 
         </Tabs>

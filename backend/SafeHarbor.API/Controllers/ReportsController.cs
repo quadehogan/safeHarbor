@@ -55,6 +55,15 @@ public record DonorChurnSummaryDto(
     DateTime? LastScoredAt
 );
 
+public record AtRiskDonorDto(
+    int SupporterId,
+    string DisplayName,
+    string SupporterType,
+    double ChurnProbability,
+    string RiskTier,
+    IEnumerable<string> TopRiskFactors
+);
+
 // ─── CONTROLLER ──────────────────────────────────────────────────────────────
 
 [ApiController]
@@ -209,6 +218,52 @@ public class ReportsController : ControllerBase
             ParseAndRankFactors(scores.Select(s => s.TopChurnFactors), 10),
             scores.Max(s => s.ScoredAt)
         ));
+    }
+
+    // GET /api/Reports/at-risk-donors
+    [HttpGet("at-risk-donors")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<IEnumerable<AtRiskDonorDto>>> GetAtRiskDonors(CancellationToken ct)
+    {
+        // Join churn scores with supporters, return high and medium risk sorted by probability desc
+        var atRisk = await _db.DonorChurnScores
+            .AsNoTracking()
+            .Where(s => s.ChurnTier == "high" || s.ChurnTier == "medium")
+            .Join(
+                _db.Supporters.AsNoTracking(),
+                score => score.SupporterId,
+                supporter => supporter.SupporterId,
+                (score, supporter) => new { score, supporter })
+            .OrderByDescending(x => x.score.ChurnScore)
+            .Select(x => new AtRiskDonorDto(
+                x.supporter.SupporterId,
+                x.supporter.DisplayName ?? x.supporter.OrganizationName ?? $"{x.supporter.FirstName} {x.supporter.LastName}",
+                x.supporter.SupporterType,
+                Math.Round(x.score.ChurnScore, 2),
+                x.score.ChurnTier,
+                new List<string>() // EF can't parse JSON inline, we'll fill below
+            ))
+            .ToListAsync(ct);
+
+        // Now fill in the risk factors from the raw scores
+        var supporterIds = atRisk.Select(a => a.SupporterId).ToHashSet();
+        var rawScores = await _db.DonorChurnScores
+            .AsNoTracking()
+            .Where(s => supporterIds.Contains(s.SupporterId))
+            .ToDictionaryAsync(s => s.SupporterId, ct);
+
+        var result = atRisk.Select(a =>
+        {
+            var factors = new List<string>();
+            if (rawScores.TryGetValue(a.SupporterId, out var raw) && !string.IsNullOrWhiteSpace(raw.TopChurnFactors))
+            {
+                try { factors = JsonSerializer.Deserialize<List<string>>(raw.TopChurnFactors) ?? []; }
+                catch { /* skip malformed */ }
+            }
+            return a with { TopRiskFactors = factors };
+        }).ToList();
+
+        return Ok(result);
     }
 
     private static IEnumerable<string> ParseAndRankFactors(IEnumerable<string?> jsonStrings, int topN)

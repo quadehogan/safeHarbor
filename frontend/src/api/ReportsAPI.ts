@@ -76,3 +76,19 @@ export async function fetchDonorChurnSummary(token: string | null): Promise<Dono
   if (!res.ok) throw new Error(await res.text())
   return res.json()
 }
+
+// Individual at-risk donors (high + medium churn)
+export interface AtRiskDonorDto {
+  supporterId: number
+  displayName: string
+  supporterType: string
+  churnProbability: number
+  riskTier: string
+  topRiskFactors: string[]
+}
+
+export async function fetchAtRiskDonors(token: string | null): Promise<AtRiskDonorDto[]> {
+  const res = await fetch(`${BASE}/at-risk-donors`, { headers: headers(token) })
+  if (!res.ok) throw new Error(await res.text())
+  return res.json()
+}

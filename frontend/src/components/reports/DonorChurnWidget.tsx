@@ -2,14 +2,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { RiskTierPills } from '@/components/analytics/RiskTierPills'
-import type { DonorChurnSummaryDto } from '@/api/ReportsAPI'
+import type { DonorChurnSummaryDto, AtRiskDonorDto } from '@/api/ReportsAPI'
 
 interface DonorChurnWidgetProps {
   data: DonorChurnSummaryDto | null
+  atRiskDonors: AtRiskDonorDto[]
   loading?: boolean
 }
 
-export function DonorChurnWidget({ data, loading = false }: DonorChurnWidgetProps) {
+export function DonorChurnWidget({ data, atRiskDonors, loading = false }: DonorChurnWidgetProps) {
   const isEmpty = !loading && data && data.totalScored === 0
 
   return (
@@ -50,6 +51,53 @@ export function DonorChurnWidget({ data, loading = false }: DonorChurnWidgetProp
               <div className="rounded-md bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800">
                 {data.highChurn} donor{data.highChurn !== 1 ? 's are' : ' is'} at high risk of
                 lapsing. Consider a re-engagement campaign.
+              </div>
+            )}
+
+            {/* At-risk donors table */}
+            {atRiskDonors.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-muted-foreground mb-2">
+                  Most at-risk donors
+                </p>
+                <div className="rounded-md border overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-muted/50 border-b">
+                        <th className="text-left px-3 py-2 font-medium text-muted-foreground">Donor</th>
+                        <th className="text-left px-3 py-2 font-medium text-muted-foreground">Type</th>
+                        <th className="text-left px-3 py-2 font-medium text-muted-foreground">Risk</th>
+                        <th className="text-right px-3 py-2 font-medium text-muted-foreground">Churn Prob.</th>
+                        <th className="text-left px-3 py-2 font-medium text-muted-foreground">Top Factors</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {atRiskDonors.map((donor) => (
+                        <tr key={donor.supporterId} className="border-b last:border-b-0 hover:bg-muted/30">
+                          <td className="px-3 py-2 font-medium">{donor.displayName}</td>
+                          <td className="px-3 py-2 text-muted-foreground">{donor.supporterType}</td>
+                          <td className="px-3 py-2">
+                            <span
+                              className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                                donor.riskTier === 'high'
+                                  ? 'bg-red-100 text-red-700'
+                                  : 'bg-amber-100 text-amber-700'
+                              }`}
+                            >
+                              {donor.riskTier === 'high' ? 'High' : 'Medium'}
+                            </span>
+                          </td>
+                          <td className="px-3 py-2 text-right tabular-nums">
+                            {Math.round(donor.churnProbability * 100)}%
+                          </td>
+                          <td className="px-3 py-2 text-muted-foreground text-xs">
+                            {donor.topRiskFactors.slice(0, 2).join(', ')}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
 
