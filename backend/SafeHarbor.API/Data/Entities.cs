@@ -976,13 +976,13 @@ public class DonorChurnScore
     [Column("supporter_id")]
     public int SupporterId { get; set; }
 
-    [Column("churn_score")]
+    [Column("churn_probability")]
     public float ChurnScore { get; set; }
 
-    [Column("churn_tier")]
+    [Column("risk_tier")]
     public string ChurnTier { get; set; } = "";
 
-    [Column("top_churn_factors")]
+    [Column("top_risk_factors")]
     public string? TopChurnFactors { get; set; }
 
     [Column("scored_at")]
