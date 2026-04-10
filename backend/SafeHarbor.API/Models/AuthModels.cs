@@ -19,3 +19,15 @@ public class AuthResponse
     public string Email { get; set; } = "";
     public IList<string> Roles { get; set; } = [];
 }
+
+// MFA: request body for /api/auth/mfa-verify (completes login with a TOTP code)
+public class MfaVerifyRequest
+{
+    public string Code { get; set; } = "";
+}
+
+// MFA: request body for POST /api/auth/mfa-setup (confirms setup and enables 2FA)
+public class MfaSetupRequest
+{
+    public string Code { get; set; } = "";
+}

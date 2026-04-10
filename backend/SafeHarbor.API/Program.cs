@@ -101,7 +101,10 @@ builder.Services.AddCors(options => options.AddPolicy(
             "https://localhost:3002",
             "https://icy-sky-01a399a1e.2.azurestaticapps.net")
         .AllowAnyHeader()
-        .AllowAnyMethod()));
+        .AllowAnyMethod()
+        // AllowCredentials is required so the browser sends the httpOnly mfa_pending
+        // cookie cross-origin between the login and mfa-verify requests.
+        .AllowCredentials()));
 
 var app = builder.Build();
 

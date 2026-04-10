@@ -46,6 +46,9 @@ export function LoginPage() {
       const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        // credentials:'include' is required so the browser stores the httpOnly
+        // mfa_pending cookie that the server sets when 2FA is enabled.
+        credentials: 'include',
         body: JSON.stringify({ email, password }),
       })
 
@@ -54,7 +57,16 @@ export function LoginPage() {
         return
       }
 
-      const data = await res.json() as { token: string; email: string; roles: string[] }
+      const data = await res.json() as { token: string; email: string; roles: string[]; requiresMfa?: boolean }
+
+      // MFA gate: if the server requires a TOTP code, redirect to the verify page.
+      // The mfa_pending cookie is already set; sessionStorage carries the email across.
+      if (data.requiresMfa) {
+        sessionStorage.setItem('mfa_email', email)
+        navigate('/mfa-verify', { replace: true })
+        return
+      }
+
       setAuth(data.token, data.email, data.roles)
 
       // Route based on role

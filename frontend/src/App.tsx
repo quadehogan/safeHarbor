@@ -6,6 +6,8 @@ import HomePage from '@/pages/HomePage'
 import AboutPage from '@/pages/AboutPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { RegisterPage } from '@/pages/RegisterPage'
+import { MfaVerifyPage } from '@/pages/MfaVerifyPage'
+import { MfaSetupPage } from '@/pages/MfaSetupPage'
 import { ImpactPage } from '@/pages/ImpactPage'
 import { ContactPage } from '@/pages/ContactPage'
 import { PrivacyPage } from '@/pages/PrivacyPage'
@@ -39,6 +41,15 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/mfa-verify" element={<MfaVerifyPage />} />
+        <Route
+          path="/account/mfa"
+          element={
+            <ProtectedRoute roles={['Admin', 'SocialWorker', 'DonorPortal']}>
+              <MfaSetupPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/impact" element={<ImpactPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
