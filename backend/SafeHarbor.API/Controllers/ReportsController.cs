@@ -52,7 +52,8 @@ public record DonorChurnSummaryDto(
     int LowChurn,
     int TotalScored,
     IEnumerable<string> TopChurnFactors,
-    DateTime? LastScoredAt
+    DateTime? LastScoredAt,
+    IEnumerable<AtRiskDonorDto> AtRiskDonors
 );
 
 public record AtRiskDonorDto(
@@ -208,7 +209,36 @@ public class ReportsController : ControllerBase
         var scores = await _db.DonorChurnScores.AsNoTracking().ToListAsync(ct);
 
         if (scores.Count == 0)
-            return Ok(new DonorChurnSummaryDto(0, 0, 0, 0, [], null));
+            return Ok(new DonorChurnSummaryDto(0, 0, 0, 0, [], null, []));
+
+        // Build at-risk donor list (high + medium) joined with supporter names
+        var atRiskScores = scores
+            .Where(s => s.ChurnTier == "high" || s.ChurnTier == "medium")
+            .OrderByDescending(s => s.ChurnScore)
+            .ToList();
+
+        var atRiskIds = atRiskScores.Select(s => s.SupporterId).ToHashSet();
+        var supporters = await _db.Supporters
+            .AsNoTracking()
+            .Where(s => atRiskIds.Contains(s.SupporterId))
+            .ToDictionaryAsync(s => s.SupporterId, ct);
+
+        var atRiskDonors = atRiskScores.Select(s =>
+        {
+            var name = supporters.TryGetValue(s.SupporterId, out var sup)
+                ? (sup.DisplayName ?? sup.OrganizationName ?? $"{sup.FirstName} {sup.LastName}")
+                : $"Supporter #{s.SupporterId}";
+            var type = supporters.TryGetValue(s.SupporterId, out var sup2)
+                ? sup2.SupporterType : "";
+            var factors = new List<string>();
+            if (!string.IsNullOrWhiteSpace(s.TopChurnFactors))
+            {
+                try { factors = JsonSerializer.Deserialize<List<string>>(s.TopChurnFactors) ?? []; }
+                catch { /* skip */ }
+            }
+            return new AtRiskDonorDto(s.SupporterId, name, type,
+                Math.Round(s.ChurnScore, 2), s.ChurnTier, factors);
+        }).ToList();
 
         return Ok(new DonorChurnSummaryDto(
             scores.Count(s => s.ChurnTier == "high"),
@@ -216,7 +246,8 @@ public class ReportsController : ControllerBase
             scores.Count(s => s.ChurnTier == "low"),
             scores.Count,
             ParseAndRankFactors(scores.Select(s => s.TopChurnFactors), 10),
-            scores.Max(s => s.ScoredAt)
+            scores.Max(s => s.ScoredAt),
+            atRiskDonors
         ));
     }
 

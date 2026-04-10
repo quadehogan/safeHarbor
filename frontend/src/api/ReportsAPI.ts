@@ -44,6 +44,15 @@ export interface ResidentRiskSummaryDto {
   lastScoredAt: string | null
 }
 
+export interface AtRiskDonorDto {
+  supporterId: number
+  displayName: string
+  supporterType: string
+  churnProbability: number
+  riskTier: string
+  topRiskFactors: string[]
+}
+
 export interface DonorChurnSummaryDto {
   highChurn: number
   mediumChurn: number
@@ -51,6 +60,7 @@ export interface DonorChurnSummaryDto {
   totalScored: number
   topChurnFactors: string[]
   lastScoredAt: string | null
+  atRiskDonors: AtRiskDonorDto[]
 }
 
 export async function fetchAARSummary(token: string | null, year: number): Promise<AARSummaryDto> {
@@ -77,18 +87,3 @@ export async function fetchDonorChurnSummary(token: string | null): Promise<Dono
   return res.json()
 }
 
-// Individual at-risk donors (high + medium churn)
-export interface AtRiskDonorDto {
-  supporterId: number
-  displayName: string
-  supporterType: string
-  churnProbability: number
-  riskTier: string
-  topRiskFactors: string[]
-}
-
-export async function fetchAtRiskDonors(token: string | null): Promise<AtRiskDonorDto[]> {
-  const res = await fetch(`${BASE}/at-risk-donors`, { headers: headers(token) })
-  if (!res.ok) throw new Error(await res.text())
-  return res.json()
-}
