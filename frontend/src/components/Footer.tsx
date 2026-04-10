@@ -41,6 +41,11 @@ export function Footer() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link to="/register" className="text-pink-400 hover:text-pink-300 font-medium transition-colors">
+                  Donate
+                </Link>
+              </li>
             </ul>
           </div>
 

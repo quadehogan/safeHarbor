@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Handshake, Globe, Users } from 'lucide-react'
+import { ArrowRight, Handshake, Globe, Users, Heart } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+import { DonateBanner } from '@/components/DonateBanner'
 
 // Photos (Unsplash, royalty-free)
 import heroImg from '@/assets/photos/hero.jpg'
@@ -114,10 +115,17 @@ export default function HomePage() {
                 abuse, neglect, abandonment, or trafficking. Safe Harbor gives them
                 a home, an education, and a path toward the future they deserve.
               </p>
-              <div className="mt-8">
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/register"
+                  className="inline-flex items-center gap-2 rounded-md bg-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-md hover:bg-pink-700 transition-colors"
+                >
+                  <Heart className="h-4 w-4" />
+                  Donate Now
+                </Link>
                 <Link
                   to="/impact"
-                  className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-md hover:bg-primary/90 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-md bg-white/15 backdrop-blur-sm border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/25 transition-colors"
                 >
                   See How We Help
                   <ArrowRight className="h-4 w-4" />
@@ -283,6 +291,13 @@ export default function HomePage() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link
+                to="/register"
+                className="inline-flex items-center gap-2 rounded-md bg-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-pink-700 transition-colors"
+              >
+                <Heart className="h-4 w-4" />
+                Donate Now
+              </Link>
+              <Link
                 to="/contact"
                 className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
               >
@@ -301,6 +316,7 @@ export default function HomePage() {
       </main>
 
       <Footer />
+      <DonateBanner />
     </div>
   )
 }

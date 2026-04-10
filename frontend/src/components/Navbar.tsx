@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Menu, X, Sun, Moon } from 'lucide-react'
+import { Menu, X, Sun, Moon, Heart } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useTheme } from '@/context/ThemeContext'
 import { useAuth } from '@/context/AuthContext'
@@ -60,7 +60,7 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Desktop: theme toggle + login */}
+          {/* Desktop: theme toggle + donate + login */}
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={toggleTheme}
@@ -69,6 +69,13 @@ export function Navbar() {
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
+            <Link
+              to="/register"
+              className="inline-flex items-center gap-1.5 rounded-md bg-pink-600 px-4 py-2 text-sm font-semibold text-white hover:bg-pink-700 transition-colors shadow-sm"
+            >
+              <Heart className="h-3.5 w-3.5" />
+              Donate
+            </Link>
             {token !== null ? (
               <Button type="button" variant="ghost" onClick={handleLogout}>
                 Log out
@@ -76,7 +83,7 @@ export function Navbar() {
             ) : (
               <Link
                 to="/login"
-                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                className="rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors"
               >
                 Log In
               </Link>
@@ -126,6 +133,14 @@ export function Navbar() {
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
             </button>
+            <Link
+              to="/register"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center gap-1.5 mt-2 rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white hover:bg-pink-700 transition-colors"
+            >
+              <Heart className="h-3.5 w-3.5" />
+              Donate Now
+            </Link>
             {token !== null ? (
               <Button
                 type="button"
@@ -142,7 +157,7 @@ export function Navbar() {
               <Link
                 to="/login"
                 onClick={() => setMobileOpen(false)}
-                className="block mt-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground text-center hover:bg-primary/90"
+                className="block mt-2 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground text-center hover:bg-muted transition-colors"
               >
                 Log In
               </Link>
